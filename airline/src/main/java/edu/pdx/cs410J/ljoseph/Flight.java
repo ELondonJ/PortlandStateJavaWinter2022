@@ -4,56 +4,42 @@ import edu.pdx.cs410J.AbstractFlight;
 
 public class Flight extends AbstractFlight {
 
-  private String flightNumber;
-  private String src;
-  private String depart;
-  private String dtime;
-  private String dest;
+  private int flightNumber;
   private String arrive;
   private String atime;
 
-  public Flight(String flightNumber, String src, String depart, String dtime, String dest,
-                String arrive, String atime) {
+  public Flight(int flightNumber, String arrive, String atime) throws IllegalArgumentException {
+    if(flightNumber < 0)
+      throw new IllegalArgumentException("Flight number must be greater than zero");
     this.flightNumber = flightNumber;
-    this.src = src;
-    this.depart = depart;
-    this.dtime = dtime;
-    this.dest = dest;
-    this.arrive = arrive;
-    this.atime = atime;
+    this.arrive = getArrive(arrive);
+    if(atime != null)
+      this.atime = atime.trim();
+
   }
 
-  public void setFlightNumber(String flightNumber) {
-    this.flightNumber = flightNumber;
+  private String getArrive(String arrive) throws IllegalArgumentException{
+    String Message;
+   if(arrive.charAt(2) != '/' || arrive.charAt(5) != '/')
+     throw new IllegalArgumentException("Incorrect Date Format. dd/mm/yyyy");
+   if(Character.getNumericValue(arrive.charAt(0)) < 2 ||Character.getNumericValue(arrive.charAt(0))  > 0) {
+     if (Character.getNumericValue(arrive.charAt(0)) == 1 && Character.getNumericValue(arrive.charAt(1)) > 2)
+       throw new IllegalArgumentException("Incorrect Date Format. dd/mm/yyyy");
+   }else{
+     throw new IllegalArgumentException("Incorrect Date Format. dd/mm/yyyy");
+
+   }
+
+//     if(Character.getNumericValue(arrive.charAt(1))> 9 ||Character.getNumericValue(arrive.charAt(1))< 0)
+
+
+    return arrive;
   }
 
-  public void setSrc(String src) {
-    this.src = src;
-  }
-
-  public void setDepart(String depart) {
-    this.depart = depart;
-  }
-
-  public void setDtime(String dtime) {
-    this.dtime = dtime;
-  }
-
-  public void setDest(String dest) {
-    this.dest = dest;
-  }
-
-  public void setArrive(String arrive) {
-    this.arrive = arrive;
-  }
-
-  public void setAtime(String atime) {
-    this.atime = atime;
-  }
 
   @Override
   public int getNumber() {
-    return 42;
+    return flightNumber;
   }
 
   @Override
@@ -73,6 +59,6 @@ public class Flight extends AbstractFlight {
 
   @Override
   public String getArrivalString() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return arrive + " " + atime;
   }
 }
