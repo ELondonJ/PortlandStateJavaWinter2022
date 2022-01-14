@@ -2,6 +2,9 @@ package edu.pdx.cs410J.ljoseph;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -46,11 +49,36 @@ public class FlightTest {
 
       }
   }
- /*
+  @Test
+  void numRepresentationOfDateCreated(){
+    Flight flight = new Flight(42, "12/24/1989", "09:10");
+    int[] array = new int[]{1,2,-1,2,4,-1,1,9,8,9};
+    int[] check = flight.getNumDate("12/24/1989");
+    assertThat(String.valueOf(Arrays.equals(array,check)), true);
+
+  }
+  @Test
+  void incorrectFormatDateIllegalCharactersThrowsNotUsingException(){
+    try {
+      Flight flight = new Flight(42, "aa/01/1998", "09:10");
+      fail("Illegal Argument Exception should have been thrown");
+    } catch(IllegalArgumentException ex){
+
+    }
+  }
+  @Test
+  void incorrectFormatDateTooLongOrShortThrowsNotUsingException(){
+    try {
+      Flight flight = new Flight(42, "12/01/199", "09:10");
+      fail("Illegal Argument Exception should have been thrown");
+    } catch(IllegalArgumentException ex){
+
+    }
+  }
   @Test
   void incorrectFormatOfDateNumericValuesThrowsNotUsingException(){
     try {
-      Flight flight = new Flight(42, "24/24/1989", "09:10");
+      Flight flight = new Flight(42, "12/34/1989", "09:10");
       fail("Illegal Argument Exception should have been thrown");
     } catch(IllegalArgumentException ex){
 
