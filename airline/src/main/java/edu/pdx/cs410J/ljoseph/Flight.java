@@ -8,22 +8,34 @@ public class Flight extends AbstractFlight {
   public static final String TIME_FORMAT_MM_HH = "Time format must be mm:hh";
   private int flightNumber;
   private String arrive;
-
-
   private String atime;
+  private String depart;
+  private String dtime;
 
-  public Flight(int flightNumber, String arrive, String atime) throws IllegalArgumentException {
+  public Flight(int flightNumber,String depart, String dtime, String arrive, String atime) throws IllegalArgumentException {
     if(flightNumber < 0)
       throw new IllegalArgumentException("Flight number must be greater than zero");
     this.flightNumber = flightNumber;
+    if(depart != null)
+      this.arrive = validDate(depart.trim());
+    else
+      this.arrive = null;
+    if(dtime != null)
+      this.atime = getValidTime(dtime);
+    else
+      this.atime = null;
     if(arrive != null)
-      this.arrive = validArrive(arrive.trim());
+      this.arrive = validDate(arrive.trim());
+    else
+      this.arrive = null;
     if(atime != null)
-      this.atime = getValidAtime(atime);
+      this.atime = getValidTime(atime);
+    else
+      this.atime = null;
 
   }
 
-  public String getValidAtime(String time) {
+  public String getValidTime(String time) {
     if(time.length() != 5 || time.charAt(2) != ':')
       throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
 
@@ -42,9 +54,7 @@ public class Flight extends AbstractFlight {
       throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
     if(numTime[0] == 2 && numTime[1] > 4)
       throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
-    if(numTime[3] > 1)
-      throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
-    if (numTime[3] == 1 && numTime[4] > 2)
+    if(numTime[3] > 5)
       throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
     return time;
   }
@@ -58,7 +68,7 @@ public class Flight extends AbstractFlight {
 
   }
 
-  private String validArrive(String arrive) throws IllegalArgumentException{
+  private String validDate(String arrive) throws IllegalArgumentException{
 
     if(arrive.length() != 10)
       throw new IllegalArgumentException(FORMAT_DD_MM_YYYY);
@@ -96,7 +106,7 @@ public class Flight extends AbstractFlight {
 
   @Override
   public String getDepartureString() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return depart + " " + dtime;
   }
 
   @Override
