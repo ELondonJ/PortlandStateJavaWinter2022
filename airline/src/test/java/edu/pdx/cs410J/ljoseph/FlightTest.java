@@ -1,8 +1,6 @@
 package edu.pdx.cs410J.ljoseph;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
 import java.util.Arrays;
 
@@ -41,7 +39,7 @@ public class FlightTest {
     assertThat(String.valueOf(flight.getArrivalString().equals(("10/24/1989 09:10"))),true);
   }
   @Test
-  void incorrectFormatOfDateBackslashThrowsNotUsingException(){
+  void incorrectFormatOfDateBackslashThrowsException(){
     try {
       Flight flight = new Flight(42, "01-24-1989", "09:10");
       fail("Illegal Argument Exception should have been thrown");
@@ -53,12 +51,12 @@ public class FlightTest {
   void numRepresentationOfDateCreated(){
     Flight flight = new Flight(42, "12/24/1989", "09:10");
     int[] array = new int[]{1,2,-1,2,4,-1,1,9,8,9};
-    int[] check = flight.getNumDate("12/24/1989");
+    int[] check = flight.getIntRepArray("12/24/1989");
     assertThat(String.valueOf(Arrays.equals(array,check)), true);
 
   }
   @Test
-  void incorrectFormatDateIllegalCharactersThrowsNotUsingException(){
+  void incorrectFormatDateIllegalCharactersThrowsException(){
     try {
       Flight flight = new Flight(42, "aa/01/1998", "09:10");
       fail("Illegal Argument Exception should have been thrown");
@@ -67,7 +65,7 @@ public class FlightTest {
     }
   }
   @Test
-  void incorrectFormatDateTooLongOrShortThrowsNotUsingException(){
+  void incorrectFormatDateTooLongOrShortThrowsException(){
     try {
       Flight flight = new Flight(42, "12/01/199", "09:10");
       fail("Illegal Argument Exception should have been thrown");
@@ -76,7 +74,7 @@ public class FlightTest {
     }
   }
   @Test
-  void incorrectFormatOfDateNumericValuesThrowsNotUsingException(){
+  void incorrectFormatOfDateNumericValuesThrowsException(){
     try {
       Flight flight = new Flight(42, "12/34/1989", "09:10");
       fail("Illegal Argument Exception should have been thrown");
@@ -84,6 +82,29 @@ public class FlightTest {
 
     }
   }
+  @Test
+  void implementGetAtime(){
+    Flight flight = new Flight(42, "12/01/1989", "09:10");
+    assertEquals(flight.getAtime(), "09:10");
+  }
+  @Test
+  void incorrectFormatOfTimeWrongSymbol() {
+    try {
+      Flight flight = new Flight(42, "12/01/1989", "09/10");
+      fail("Illegal Argument Exception should have been thrown");
+    } catch (IllegalArgumentException ex) {
+
+    }
+  }
+    @Test
+    void incorrectFormatOfNumbersOutOfBounds() {
+      try {
+        Flight flight = new Flight(42, "12/01/1989", "aa:10");
+        fail("Illegal Argument Exception should have been thrown");
+      } catch (IllegalArgumentException ex) {
+      }
+    }
+
 
 
  /*
