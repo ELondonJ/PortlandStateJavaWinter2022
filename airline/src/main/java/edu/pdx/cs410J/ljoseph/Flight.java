@@ -4,58 +4,57 @@ import edu.pdx.cs410J.AbstractFlight;
 
 public class Flight extends AbstractFlight {
 
-  public static final String FORMAT_DD_MM_YYYY = "Incorrect Date Format. dd/mm/yyyy";
-  public static final String TIME_FORMAT_MM_HH = "Time format must be mm:hh";
+  public static final String INVALID_DATE = "Incorrect Date Format. dd/mm/yyyy";
+  public static final String INVALID_TIME = "Time format must be mm:hh";
   private int flightNumber;
+  private String src;
   private String arrive;
   private String atime;
   private String depart;
   private String dtime;
+  private String dest;
 
-  public Flight(int flightNumber,String depart, String dtime, String arrive, String atime) throws IllegalArgumentException {
+  public Flight(int flightNumber,String src,String depart, String dtime, String dest, String arrive, String atime) throws IllegalArgumentException {
     if(flightNumber < 0)
       throw new IllegalArgumentException("Flight number must be greater than zero");
     this.flightNumber = flightNumber;
-    if(depart != null)
-      this.arrive = validDate(depart.trim());
-    else
-      this.arrive = null;
-    if(dtime != null)
-      this.atime = getValidTime(dtime);
-    else
-      this.atime = null;
-    if(arrive != null)
-      this.arrive = validDate(arrive.trim());
-    else
-      this.arrive = null;
-    if(atime != null)
-      this.atime = getValidTime(atime);
-    else
-      this.atime = null;
+    this.src = validSrcDest(src);
+    this.depart = validDate(depart.trim());
+    this.dtime = getValidTime(dtime);
+    this.dest = validSrcDest(dest);
+    this.arrive = validDate(arrive.trim());
+    this.atime = getValidTime(atime);
 
   }
 
+  public String validSrcDest(String toValid) {
+    if (!toValid.matches("\\b\\w{3}[a-z][A-Z]\\b"))
+      throw new IllegalArgumentException("Source and Destination represented by three-letter code. ie pdx;");
+    return toValid;
+
+  }
   public String getValidTime(String time) {
-    if(time.length() != 5 || time.charAt(2) != ':')
-      throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
+
+    if (!time.matches("^\\d{2}:\\d{2}$"))
+      throw new IllegalArgumentException(INVALID_DATE);
 
     for(int i = 0; i < time.length(); i++){
       if(i != 2)
         if(Character.getNumericValue(time.charAt(i)) > 9
                 || Character.getNumericValue(time.charAt(i)) < 0)
-          throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
+          throw new IllegalArgumentException(INVALID_TIME);
     }
     int[] numTime = getIntRepArray(time);
     for(int i = 0; i < time.length(); i++) {
       if (i != 2 && numTime[i] < 0 || numTime[i] > 9) //filters out everything but nums between 0-9,
-        throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
+        throw new IllegalArgumentException(INVALID_TIME);
     }
     if(numTime[0] > 2)
-      throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
+      throw new IllegalArgumentException(INVALID_TIME);
     if(numTime[0] == 2 && numTime[1] > 4)
-      throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
+      throw new IllegalArgumentException(INVALID_TIME);
     if(numTime[3] > 5)
-      throw new IllegalArgumentException(TIME_FORMAT_MM_HH);
+      throw new IllegalArgumentException(INVALID_TIME);
     return time;
   }
 
@@ -68,31 +67,27 @@ public class Flight extends AbstractFlight {
 
   }
 
-  private String validDate(String arrive) throws IllegalArgumentException{
+  private String validDate(String date) throws IllegalArgumentException{
 
-    if(arrive.length() != 10)
-      throw new IllegalArgumentException(FORMAT_DD_MM_YYYY);
-    if (arrive.charAt(2) != '/'|| arrive.charAt(5) != '/')
-      throw new IllegalArgumentException(FORMAT_DD_MM_YYYY);
+    if (!date.matches("^\\d{2}/\\d{2}/\\d{4}$"))
+      throw new IllegalArgumentException(INVALID_DATE);
 
-    int[] numDate = getIntRepArray(arrive);
-    for(int i = 0; i < arrive.length(); i++){
+    int[] numDate = getIntRepArray(date);
+    for(int i = 0; i < date.length(); i++){
       if(i != 5 && i != 2 && numDate[i] < 0 || numDate[i]>9) //filters out everything but nums between 0-9,
-        throw new IllegalArgumentException(FORMAT_DD_MM_YYYY);
+        throw new IllegalArgumentException(INVALID_DATE);
     }
     if (numDate[0] > 1 || numDate[3] > 3)
-      throw new IllegalArgumentException(FORMAT_DD_MM_YYYY);
+      throw new IllegalArgumentException(INVALID_DATE);
     if (numDate[0] == 1 && numDate[1] > 2)
-      throw new IllegalArgumentException(FORMAT_DD_MM_YYYY);
+      throw new IllegalArgumentException(INVALID_DATE);
     if(numDate[3] == 3 && numDate[4] > 1)
-      throw new IllegalArgumentException(FORMAT_DD_MM_YYYY);
-    return arrive;
+      throw new IllegalArgumentException(INVALID_DATE);
+    if (numDate[0]== 0 && numDate[1]== 2)
+      if(numDate[3] > 2 || (numDate[3] == 2 && numDate[4] > 8))
+        throw new IllegalArgumentException(INVALID_DATE);
+    return date;
   }
-
-  public String getAtime() {
-    return atime;
-  }
-
 
   @Override
   public int getNumber() {
@@ -101,7 +96,7 @@ public class Flight extends AbstractFlight {
 
   @Override
   public String getSource() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return src;
   }
 
   @Override
@@ -111,7 +106,7 @@ public class Flight extends AbstractFlight {
 
   @Override
   public String getDestination() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    return dest;
   }
 
   @Override

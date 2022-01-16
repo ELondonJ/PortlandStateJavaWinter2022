@@ -6,26 +6,53 @@ package edu.pdx.cs410J.ljoseph;
 public class Project1 {
 
   public static void main(String[] args) {
+    if(args.length < 5){
+      System.err.println("Missing command line Arguments ");
+      System.exit(1);
+    }
+  /*  Flight flight = null;
     int flightNumber = -1;
     String src = null;
-    String depart = "01/02/1989";
-    String dtime = "01:59";
+    String depart = null;
+    String dtime = null;
     String dest = null;
-    String arrive = "01/02/1989";
-    String atime = "01:59";
+    String arrive = null;
+    String atime = null;
     boolean print = false;
     boolean readme = false;
 
-
-
-    System.err.println("Missing command line arguments");
-
-  try {
-    Flight flight = new Flight(flightNumber, depart, dtime, arrive, atime);  // Refer to one of Dave's cglasses so that we can be sure it is on the classpath
-  }catch(IllegalArgumentException ex){
+    for(int i = 0; i < args.length; i++ ) {
+      if (args[i].charAt(0) == '-') {
+        if (args[i].equalsIgnoreCase("-print"))
+          print = true;
+        else if (args[i].equalsIgnoreCase("-readme"))
+          readme = true;
+        else
+          System.err.println("Unknown flag " + args[i]);
+      } else if (flightNumber == -1) {
+        try {
+          flightNumber = Integer.parseInt(args[i]);
+        } catch (NumberFormatException e) {
+          System.err.println("Incorrect flight number format");
+          System.exit(1);
+        }
+      } else if (depart == null)
+        depart = args[i];
+      else if (dtime == null)
+        dtime = args[i];
+      else if (arrive == null)
+        depart = args[i];
+      else if (atime == null)
+        dtime = args[i];
+    }
+    try {
+      flight = new Flight(flightNumber, depart, dtime, arrive, atime);
+    } catch(IllegalArgumentException ex){
     System.err.println(ex);
     System.exit(1);
-  }
+    }
+    System.out.println(flight.toString());*/
+
     System.exit(0);
   }
 
