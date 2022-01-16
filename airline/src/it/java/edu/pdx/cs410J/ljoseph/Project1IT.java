@@ -33,9 +33,9 @@ class Project1IT extends InvokeMainTestCase {
     @Test
     @Disabled
     void testCorrectCommandLineArguments() {
-        MainMethodResult result = invokeMain();
-        assertThat(result.getExitCode(), equalTo(1));
-        assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
+        MainMethodResult result = invokeMain("1234", "pdx", "12/12/2002","12:13","slc","12/12/2002", "14:20");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Flight 1234 departs pdx at 12/12/2002 12:13 arrives at slc 12/12/2002 14:20 "));
     }
 
 }

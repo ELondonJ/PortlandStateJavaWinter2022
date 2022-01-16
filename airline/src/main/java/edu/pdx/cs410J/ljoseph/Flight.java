@@ -7,28 +7,34 @@ public class Flight extends AbstractFlight {
   public static final String INVALID_DATE = "Incorrect Date Format. dd/mm/yyyy";
   public static final String INVALID_TIME = "Time format must be mm:hh";
   private int flightNumber;
-  private String src;
-  private String arrive;
-  private String atime;
-  private String depart;
-  private String dtime;
-  private String dest;
+  private String src; //three letter code
+  private String arrive;  //date
+  private String atime; //time
+  private String depart; //date
+  private String dtime;  // time
+  private String dest; //three letter code
 
   public Flight(int flightNumber,String src,String depart, String dtime, String dest, String arrive, String atime) throws IllegalArgumentException {
     if(flightNumber < 0)
       throw new IllegalArgumentException("Flight number must be greater than zero");
     this.flightNumber = flightNumber;
-    this.src = validSrcDest(src);
-    this.depart = validDate(depart.trim());
-    this.dtime = getValidTime(dtime);
-    this.dest = validSrcDest(dest);
-    this.arrive = validDate(arrive.trim());
-    this.atime = getValidTime(atime);
+    if(src != null)
+      this.src = validSrcDest(src.trim());
+    if(depart != null)
+      this.depart = validDate(depart.trim());
+    if(dtime != null)
+      this.dtime = getValidTime(dtime.trim());
+    if(dest != null)
+      this.dest = validSrcDest(dest.trim());
+    if(arrive != null)
+      this.arrive = validDate(arrive.trim());
+    if(atime != null)
+      this.atime = getValidTime(atime.trim());
 
   }
 
   public String validSrcDest(String toValid) {
-    if (!toValid.matches("\\b\\w{3}[a-z][A-Z]\\b"))
+    if (!toValid.matches("^[a-zA-Z]{3}$"))
       throw new IllegalArgumentException("Source and Destination represented by three-letter code. ie pdx;");
     return toValid;
 
@@ -36,7 +42,7 @@ public class Flight extends AbstractFlight {
   public String getValidTime(String time) {
 
     if (!time.matches("^\\d{2}:\\d{2}$"))
-      throw new IllegalArgumentException(INVALID_DATE);
+      throw new IllegalArgumentException(INVALID_TIME);
 
     for(int i = 0; i < time.length(); i++){
       if(i != 2)
@@ -70,22 +76,22 @@ public class Flight extends AbstractFlight {
   private String validDate(String date) throws IllegalArgumentException{
 
     if (!date.matches("^\\d{2}/\\d{2}/\\d{4}$"))
-      throw new IllegalArgumentException(INVALID_DATE);
+      throw new IllegalArgumentException(INVALID_DATE + " " + date);
 
     int[] numDate = getIntRepArray(date);
     for(int i = 0; i < date.length(); i++){
       if(i != 5 && i != 2 && numDate[i] < 0 || numDate[i]>9) //filters out everything but nums between 0-9,
-        throw new IllegalArgumentException(INVALID_DATE);
+        throw new IllegalArgumentException(INVALID_DATE+ "2");
     }
     if (numDate[0] > 1 || numDate[3] > 3)
-      throw new IllegalArgumentException(INVALID_DATE);
+      throw new IllegalArgumentException(INVALID_DATE + "3");
     if (numDate[0] == 1 && numDate[1] > 2)
-      throw new IllegalArgumentException(INVALID_DATE);
+      throw new IllegalArgumentException(INVALID_DATE+ "4");
     if(numDate[3] == 3 && numDate[4] > 1)
-      throw new IllegalArgumentException(INVALID_DATE);
+      throw new IllegalArgumentException(INVALID_DATE+ "5");
     if (numDate[0]== 0 && numDate[1]== 2)
       if(numDate[3] > 2 || (numDate[3] == 2 && numDate[4] > 8))
-        throw new IllegalArgumentException(INVALID_DATE);
+        throw new IllegalArgumentException(INVALID_DATE+ "6");
     return date;
   }
 

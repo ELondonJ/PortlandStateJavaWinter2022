@@ -129,7 +129,7 @@ public class FlightTest {
   @Test
   void validDestinationIsThreeLetters() {
     try {
-      Flight flight = new Flight(42,"pdxx" ,  "12/01/1989", "12:10","124" ,"12/01/1989", "12:10");
+      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","124" ,"12/01/1989", "12:10");
       fail("Illegal Argument Exception should have been thrown");
     } catch (IllegalArgumentException ex) {
     }

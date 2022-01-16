@@ -10,7 +10,7 @@ public class Project1 {
       System.err.println("Missing command line Arguments ");
       System.exit(1);
     }
-  /*  Flight flight = null;
+    Flight flight = null;
     int flightNumber = -1;
     String src = null;
     String depart = null;
@@ -29,29 +29,36 @@ public class Project1 {
           readme = true;
         else
           System.err.println("Unknown flag " + args[i]);
-      } else if (flightNumber == -1) {
+      }
+      else if (flightNumber == -1) {
         try {
           flightNumber = Integer.parseInt(args[i]);
         } catch (NumberFormatException e) {
           System.err.println("Incorrect flight number format");
           System.exit(1);
         }
-      } else if (depart == null)
+      }
+      else if (src == null)
+        src = args[i];
+      else if (depart == null)
         depart = args[i];
       else if (dtime == null)
         dtime = args[i];
+      else if (dest == null)
+        dest = args[i];
       else if (arrive == null)
-        depart = args[i];
+        arrive = args[i];
       else if (atime == null)
-        dtime = args[i];
+        atime = args[i];
     }
     try {
-      flight = new Flight(flightNumber, depart, dtime, arrive, atime);
+      flight = new Flight(flightNumber,src, depart, dtime, dest, arrive, atime);
     } catch(IllegalArgumentException ex){
     System.err.println(ex);
     System.exit(1);
     }
-    System.out.println(flight.toString());*/
+    if(print)
+      System.out.println(flight);
 
     System.exit(0);
   }
