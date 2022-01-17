@@ -7,7 +7,7 @@ public class Project1 {
 
   public static void main(String[] args) {
     if(args.length < 5){
-      System.err.println("Missing command line Arguments ");
+      System.err.println("Missing command line arguments");
       System.exit(1);
     }
     Flight flight = null;
@@ -28,7 +28,7 @@ public class Project1 {
         else if (args[i].equalsIgnoreCase("-readme"))
           readme = true;
         else
-          System.err.println("Unknown flag " + args[i]);
+          System.err.println("Error! Unknown flag " + args[i]);
       }
       else if (flightNumber == -1) {
         try {
@@ -54,8 +54,8 @@ public class Project1 {
     try {
       flight = new Flight(flightNumber,src, depart, dtime, dest, arrive, atime);
     } catch(IllegalArgumentException ex){
-    System.err.println(ex);
-    System.exit(1);
+      System.err.println(ex);
+      System.exit(1);
     }
     if(print)
       System.out.println(flight);

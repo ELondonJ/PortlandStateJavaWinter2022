@@ -24,18 +24,16 @@ class Project1IT extends InvokeMainTestCase {
    * Tests that invoking the main method with no arguments issues an error
    */
   @Test
-  @Disabled
   void testNoCommandLineArguments() {
     MainMethodResult result = invokeMain();
     assertThat(result.getExitCode(), equalTo(1));
     assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
   }
     @Test
-    @Disabled
     void testCorrectCommandLineArguments() {
-        MainMethodResult result = invokeMain("1234", "pdx", "12/12/2002","12:13","slc","12/12/2002", "14:20");
+        MainMethodResult result = invokeMain("-print","1234", "pdx", "12/12/2002","12:13","slc","12/12/2002", "14:20");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Flight 1234 departs pdx at 12/12/2002 12:13 arrives at slc 12/12/2002 14:20 "));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Flight 1234 departs pdx at 12/12/2002 12:13 arrives slc at 12/12/2002 14:20"));
     }
 
 }
