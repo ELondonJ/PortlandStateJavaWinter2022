@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.ljoseph;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -64,6 +65,7 @@ public class FlightTest {
       }
   }
   @Test
+  @Disabled
   void numRepresentationOfDateCreated(){
     Flight flight = new Flight(42,null , "12/24/1989", "09:10",null , "12/24/1989", "09:10");
     int[] array = new int[]{1,2,-1,2,4,-1,1,9,8,9};

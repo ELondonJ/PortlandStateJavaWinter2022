@@ -1,16 +1,25 @@
 package edu.pdx.cs410J.ljoseph;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 /**
  * The main class for the CS410J airline Project
  */
 public class Project1 {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     if(args.length < 5){
       System.err.println("Missing command line arguments");
       System.exit(1);
     }
+
+
+    Airline airline = null;
     Flight flight = null;
+    String airlineName = null;
     int flightNumber = -1;
     String src = null;
     String depart = null;
@@ -19,37 +28,42 @@ public class Project1 {
     String arrive = null;
     String atime = null;
     boolean print = false;
-    boolean readme = false;
 
-    for(int i = 0; i < args.length; i++ ) {
-      if (args[i].charAt(0) == '-') {
-        if (args[i].equalsIgnoreCase("-print"))
+    for (String arg : args) {
+      if (arg.charAt(0) == '-') {
+        if (arg.equalsIgnoreCase("-print"))
           print = true;
-        else if (args[i].equalsIgnoreCase("-readme"))
-          readme = true;
-        else
-          System.err.println("Error! Unknown flag " + args[i]);
-      }
+        else if (arg.equalsIgnoreCase("-readme")) {
+          InputStream readme = Project1.class.getResourceAsStream("README.txt");
+          BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
+          String line = reader.readLine();
+          do{
+            System.out.println(line);
+            line = reader.readLine();
+          }while(line != null);
+        } else
+          System.err.println("Error! Unknown flag " + arg);
+      } else if (airlineName == null)
+        airlineName = arg;
       else if (flightNumber == -1) {
         try {
-          flightNumber = Integer.parseInt(args[i]);
+          flightNumber = Integer.parseInt(arg);
         } catch (NumberFormatException e) {
           System.err.println("Incorrect flight number format");
           System.exit(1);
         }
-      }
-      else if (src == null)
-        src = args[i];
+      } else if (src == null)
+        src = arg;
       else if (depart == null)
-        depart = args[i];
+        depart = arg;
       else if (dtime == null)
-        dtime = args[i];
+        dtime = arg;
       else if (dest == null)
-        dest = args[i];
+        dest = arg;
       else if (arrive == null)
-        arrive = args[i];
+        arrive = arg;
       else if (atime == null)
-        atime = args[i];
+        atime = arg;
     }
     try {
       flight = new Flight(flightNumber,src, depart, dtime, dest, arrive, atime);
@@ -57,8 +71,16 @@ public class Project1 {
       System.err.println(ex);
       System.exit(1);
     }
-    if(print)
+    try {
+      airline = new Airline(airlineName);
+    }catch(IllegalArgumentException ex){
+      System.err.println(ex);
+      System.exit(1);
+    }
+    airline.addFlight(flight);
+    if(print){
       System.out.println(flight);
+    }
 
     System.exit(0);
   }
