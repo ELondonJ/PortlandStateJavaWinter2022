@@ -24,7 +24,8 @@ public class Flight extends AbstractFlight {
 /**
  * Creates a new flight
  */
-  public Flight(int flightNumber,String src,String depart, String dtime, String dest, String arrive, String atime) throws IllegalArgumentException {
+  public Flight(int flightNumber,String src,String depart, String dtime, String dest, String arrive, String atime)
+          throws IllegalArgumentException {
     if(flightNumber < 0)
       throw new IllegalArgumentException(INVALID_FLIGHT_NUM);
     this.flightNumber = flightNumber;

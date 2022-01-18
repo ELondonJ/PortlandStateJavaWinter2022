@@ -9,13 +9,16 @@ import java.io.InputStreamReader;
  * The main class for the CS410J airline Project
  */
 public class Project1 {
-
+  /**
+   * Main program that parses the command line and creates a flight object
+   * and airline object.
+   */
   public static void main(String[] args) throws IOException {
-    if(args.length < 5){
-      System.err.println("Missing command line arguments");
+    if(args.length < 8 ){
+      System.err.println("Missing command line arguments.");
+      System.err.println("Enter \"-readme\" at the command prompt for argument requirements.");
       System.exit(1);
     }
-
 
     Airline airline = null;
     Flight flight = null;
@@ -29,6 +32,7 @@ public class Project1 {
     String atime = null;
     boolean print = false;
 
+    //loop parses saves each arg in appropriate variable
     for (String arg : args) {
       if (arg.charAt(0) == '-') {
         if (arg.equalsIgnoreCase("-print"))
@@ -65,6 +69,7 @@ public class Project1 {
       else if (atime == null)
         atime = arg;
     }
+    //creates flight object with parsed arguments
     try {
       flight = new Flight(flightNumber,src, depart, dtime, dest, arrive, atime);
     } catch(IllegalArgumentException ex){
@@ -78,11 +83,10 @@ public class Project1 {
       System.exit(1);
     }
     airline.addFlight(flight);
+    //print flight info if print flags present
     if(print){
       System.out.println(flight);
     }
-
     System.exit(0);
   }
-
 }
