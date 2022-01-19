@@ -14,7 +14,7 @@ public class Project1 {
    * and airline object.
    */
   public static void main(String[] args) throws IOException {
-    if(args.length < 8 ){
+    if(args.length < 1 ){
       System.err.println("Missing command line arguments.");
       System.err.println("Enter \"-readme\" at the command prompt for argument requirements.");
       System.exit(1);
