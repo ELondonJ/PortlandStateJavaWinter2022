@@ -45,6 +45,7 @@ public class Project1 {
             System.out.println(line);
             line = reader.readLine();
           }while(line != null);
+          System.exit(0);
         } else
           System.err.println("Error! Unknown flag " + arg);
       } else if (airlineName == null)

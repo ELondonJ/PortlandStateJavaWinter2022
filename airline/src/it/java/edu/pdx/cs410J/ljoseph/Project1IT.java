@@ -53,5 +53,11 @@ class Project1IT extends InvokeMainTestCase {
         assertThat(result.getExitCode(), equalTo(1));
         assertThat(result.getTextWrittenToStandardError(), containsString("Incorrect flight number format"));
     }
+    @Test
+    void testReadMeCommandLineArgument() {
+        MainMethodResult result = invokeMain("-readme");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("README"));
+    }
 
 }
