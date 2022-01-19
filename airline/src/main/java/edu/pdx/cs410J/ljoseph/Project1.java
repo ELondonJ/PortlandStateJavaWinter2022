@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
  * The main class for the CS410J airline Project
  */
 public class Project1 {
+  public static final String ARGS_INFO = "Enter \"-readme\" at the command prompt for argument requirements.";
+
   /**
    * Main program that parses the command line and creates a flight object
    * and airline object.
@@ -16,7 +18,7 @@ public class Project1 {
   public static void main(String[] args) throws IOException {
     if(args.length < 1 ){
       System.err.println("Missing command line arguments.");
-      System.err.println("Enter \"-readme\" at the command prompt for argument requirements.");
+      System.err.println(ARGS_INFO);
       System.exit(1);
     }
 
@@ -46,8 +48,10 @@ public class Project1 {
             line = reader.readLine();
           }while(line != null);
           System.exit(0);
-        } else
-          System.err.println("Error! Unknown flag " + arg);
+        } else {
+          System.err.println("Error! Unknown flag ");
+          System.exit(1);
+        }
       } else if (airlineName == null)
         airlineName = arg;
       else if (flightNumber == -1) {
