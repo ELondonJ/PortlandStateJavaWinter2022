@@ -13,7 +13,7 @@ public class Flight extends AbstractFlight {
 
   public static final String INVALID_DATE = "Incorrect Date Format. dd/mm/yyyy";
   public static final String INVALID_TIME = "Time format must be mm:hh";
-  public static final String INVALID_FLIGHT_NUM = "Flight number must be greater than zero";
+  public static final String INVALID_FLIGHT_NUM = "Flight number must be an integer greater than zero";
   private int flightNumber; //unique flight number
   private String src;       //three-letter source code
   private String arrive;    //arrival date

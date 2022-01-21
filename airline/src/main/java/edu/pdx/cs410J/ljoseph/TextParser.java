@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class TextParser implements AirlineParser<Airline> {
   private final Reader reader;
@@ -17,17 +19,28 @@ public class TextParser implements AirlineParser<Airline> {
 
   @Override
   public Airline parse() throws ParserException {
-    try (
-      BufferedReader br = new BufferedReader(this.reader)
-    ) {
-
+    try (BufferedReader br = new BufferedReader(this.reader)) {
+      String[] fArgs = new String[7];
       String airlineName = br.readLine();
-
+      String line;
+      Flight flight = null;
       if (airlineName == null) {
         throw new ParserException("Missing airline name");
       }
-
-      return new Airline(airlineName);
+      Airline airline = new Airline(airlineName);
+      while((line = br.readLine()) != null){
+        String[] splitLine = line.split("\\s+");
+        for(int i = 0; i < fArgs.length; i++){
+          fArgs[i] = splitLine[i];
+        }
+        try {
+          flight = new Flight(Integer.parseInt(fArgs[0]), fArgs[1], fArgs[2], fArgs[3], fArgs[4], fArgs[5], fArgs[6]);
+          airline.addFlight(flight);
+        }catch(IllegalArgumentException e){
+          throw new ParserException("While parsing airline text", e);
+        }
+      }
+      return airline;
 
     } catch (IOException e) {
       throw new ParserException("While parsing airline text", e);

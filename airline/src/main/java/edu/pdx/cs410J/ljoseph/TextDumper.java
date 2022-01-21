@@ -5,6 +5,7 @@ import edu.pdx.cs410J.AirlineDumper;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Collection;
 
 public class TextDumper implements AirlineDumper<Airline> {
   private final Writer writer;
@@ -19,6 +20,14 @@ public class TextDumper implements AirlineDumper<Airline> {
       PrintWriter pw = new PrintWriter(this.writer)
       ) {
       pw.println(airline.getName());
+      Collection<Flight> flights = airline.getFlights();
+      for(Flight flight: flights){
+        pw.print((flight.getNumber()) + " ");
+        pw.print(flight.getSource() + " ");
+        pw.print(flight.getDepartureString() + " ");
+        pw.print(flight.getDestination() + " ");
+        pw.print(flight.getArrivalString() + " ");
+      }
 
       pw.flush();
     }

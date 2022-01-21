@@ -1,9 +1,6 @@
 package edu.pdx.cs410J.ljoseph;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * The main class for the CS410J airline Project
@@ -16,12 +13,11 @@ public class Project1 {
    * and airline object.
    */
   public static void main(String[] args) throws IOException {
-    if(args.length < 1 ){
+    if(args.length < 0){
       System.err.println("Missing command line arguments.");
       System.err.println(ARGS_INFO);
       System.exit(1);
     }
-
     Airline airline = null;
     Flight flight = null;
     String airlineName = null;
@@ -33,46 +29,60 @@ public class Project1 {
     String arrive = null;
     String atime = null;
     boolean print = false;
+    boolean fileFlag = false;
+    TextDumper dumper = null;
 
     //loop parses saves each arg in appropriate variable
-    for (String arg : args) {
-      if (arg.charAt(0) == '-') {
-        if (arg.equalsIgnoreCase("-print"))
+    for (int i = 0; i<args.length; i++) {
+      if (args[i].charAt(0) == '-') {
+        if (args[i].equalsIgnoreCase("-print"))
           print = true;
-        else if (arg.equalsIgnoreCase("-readme")) {
+        else if (args[i].equalsIgnoreCase("-readme")) {
           InputStream readme = Project1.class.getResourceAsStream("README.txt");
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
           String line = reader.readLine();
-          do{
+          do {
             System.out.println(line);
             line = reader.readLine();
-          }while(line != null);
+          } while (line != null);
           System.exit(0);
-        } else {
+        } else if (args[i].equalsIgnoreCase("-textFile")) {
+          if(++i> args.length){
+            System.out.println("A file name is required with -textFile flag");
+            System.err.println(1);
+          }
+          fileFlag = true;
+          File textFile = new File(args[i]);
+          dumper = new TextDumper(new FileWriter(textFile));
+
+
+      }
+        else {
           System.err.println("Error! Unknown flag ");
           System.exit(1);
         }
-      } else if (airlineName == null)
-        airlineName = arg;
+      } else if (airlineName == null) {
+        airlineName = args[i];
+      }
       else if (flightNumber == -1) {
         try {
-          flightNumber = Integer.parseInt(arg);
+          flightNumber = Integer.parseInt(args[i]);
         } catch (NumberFormatException e) {
-          System.err.println("Incorrect flight number format");
+          System.err.println( e + "Incorrect flight number format");
           System.exit(1);
         }
       } else if (src == null)
-        src = arg;
+        src = args[i];
       else if (depart == null)
-        depart = arg;
+        depart = args[i];
       else if (dtime == null)
-        dtime = arg;
+        dtime = args[i];
       else if (dest == null)
-        dest = arg;
+        dest = args[i];
       else if (arrive == null)
-        arrive = arg;
+        arrive = args[i];
       else if (atime == null)
-        atime = arg;
+        atime = args[i];
     }
     //creates flight object with parsed arguments
     try {
@@ -88,7 +98,10 @@ public class Project1 {
       System.exit(1);
     }
     airline.addFlight(flight);
-    //print flight info if print flags present
+    if(fileFlag)
+      dumper.dump(airline);
+
+      //print flight info if print flags present
     if(print){
       System.out.println(flight);
     }
