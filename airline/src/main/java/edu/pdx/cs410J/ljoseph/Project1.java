@@ -1,5 +1,8 @@
 package edu.pdx.cs410J.ljoseph;
 
+import edu.pdx.cs410J.ParserException;
+//import jdk.incubator.vector.VectorOperators;
+
 import java.io.*;
 
 /**
@@ -8,17 +11,18 @@ import java.io.*;
 public class Project1 {
   public static final String ARGS_INFO = "Enter \"-readme\" at the command prompt for argument requirements.";
 
+
   /**
    * Main program that parses the command line and creates a flight object
    * and airline object.
    */
   public static void main(String[] args) throws IOException {
-    if(args.length < 0){
+    if(args.length < 1){
       System.err.println("Missing command line arguments.");
       System.err.println(ARGS_INFO);
       System.exit(1);
     }
-    Airline airline = null;
+    Airline airline;
     Flight flight = null;
     String airlineName = null;
     int flightNumber = -1;
@@ -30,7 +34,10 @@ public class Project1 {
     String atime = null;
     boolean print = false;
     boolean fileFlag = false;
-    TextDumper dumper = null;
+    TextDumper dumper;
+    TextParser parser;
+    String fileName = null;
+
 
     //loop parses saves each arg in appropriate variable
     for (int i = 0; i<args.length; i++) {
@@ -47,14 +54,12 @@ public class Project1 {
           } while (line != null);
           System.exit(0);
         } else if (args[i].equalsIgnoreCase("-textFile")) {
-          if(++i> args.length){
+          if(++i> args.length) {
             System.out.println("A file name is required with -textFile flag");
             System.err.println(1);
           }
           fileFlag = true;
-          File textFile = new File(args[i]);
-          dumper = new TextDumper(new FileWriter(textFile));
-
+          fileName = args[i];
 
       }
         else {
@@ -91,15 +96,36 @@ public class Project1 {
       System.err.println(ex);
       System.exit(1);
     }
-    try {
-      airline = new Airline(airlineName);
-    }catch(IllegalArgumentException ex){
-      System.err.println(ex);
-      System.exit(1);
+    if(fileFlag) {
+      File textFile = new File(fileName);
+      try {
+        if (textFile.exists()) {
+          parser = new TextParser(new FileReader(textFile));
+          airline = parser.parse();
+          if(!airline.getName().equals(airlineName)){
+            System.err.println("Airline can not be updated. Airline name entered " +
+                    "at the commandline does not match airline name in the file: " + fileName);
+            System.exit(1);
+          }
+        } else {
+          airline = new Airline(airlineName);
+        }
+        dumper = new TextDumper(new FileWriter(textFile));
+        airline.addFlight(flight);
+        dumper.dump(airline);
+
+      } catch (IllegalArgumentException ex) {
+        System.err.println(ex);
+        System.exit(1);
+      } catch (ParserException e) {
+        e.printStackTrace();
+        System.exit(1);
+      }
     }
-    airline.addFlight(flight);
-    if(fileFlag)
-      dumper.dump(airline);
+    else {
+      airline = new Airline(airlineName);
+      airline.addFlight(flight);
+    }
 
       //print flight info if print flags present
     if(print){

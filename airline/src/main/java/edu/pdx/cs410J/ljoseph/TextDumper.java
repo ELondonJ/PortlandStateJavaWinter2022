@@ -26,7 +26,7 @@ public class TextDumper implements AirlineDumper<Airline> {
         pw.print(flight.getSource() + " ");
         pw.print(flight.getDepartureString() + " ");
         pw.print(flight.getDestination() + " ");
-        pw.print(flight.getArrivalString() + " ");
+        pw.println(flight.getArrivalString() + " ");
       }
 
       pw.flush();

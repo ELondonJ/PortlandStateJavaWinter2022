@@ -56,7 +56,7 @@ public class Flight extends AbstractFlight {
    * Validates that aTime and dTime have the format mm:hh
    * Invalid inputs throw exception
    */
-  public String getValidTime(String time) {
+  public String getValidTime(String time)throws IllegalArgumentException {
 
     if (!time.matches("^\\d{2}:\\d{2}$")) //pattern matching mm:hh
       throw new IllegalArgumentException(INVALID_TIME);
