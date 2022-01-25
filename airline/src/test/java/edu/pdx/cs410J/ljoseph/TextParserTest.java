@@ -11,8 +11,7 @@ import java.util.Collection;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TextParserTest {
 
@@ -43,10 +42,14 @@ public class TextParserTest {
     pw.println("portland int");
     pw.println("2344 pdx 12/12/1212 12:12 slc 12/12/1212 12:aa");
     pw.close();
+    try {
+      TextParser parser = new TextParser(new FileReader(testFile));
+      Airline read = parser.parse();
+    } catch (IllegalArgumentException e){
+      assertTrue(e.getMessage().contains("mm:hh"));
+    } catch (ParserException p){
+      //pass
 
-    TextParser parser = new TextParser(new FileReader(testFile));
-    Airline read = parser.parse();
-    assertThrows(IllegalArgumentException.class, parser::parse);
-    assertThrows(ParserException.class, parser::parse);
+    };
   }
 }

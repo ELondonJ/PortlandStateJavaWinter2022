@@ -88,12 +88,17 @@ public class Project1 {
         arrive = args[i];
       else if (atime == null)
         atime = args[i];
+      else{
+        System.err.println("Too many command line arguments\n" + ARGS_INFO);
+        System.exit(1);
+      }
     }
+
     //creates flight object with parsed arguments
     try {
       flight = new Flight(flightNumber,src, depart, dtime, dest, arrive, atime);
     } catch(IllegalArgumentException ex){
-      System.err.println(ex);
+      System.err.println(ex.getMessage());
       System.exit(1);
     }
     if(fileFlag) {
@@ -115,10 +120,10 @@ public class Project1 {
         dumper.dump(airline);
 
       } catch (IllegalArgumentException ex) {
-        System.err.println(ex);
+        System.err.println(ex.getMessage());
         System.exit(1);
       } catch (ParserException e) {
-        e.printStackTrace();
+        System.err.println(e.getMessage());
         System.exit(1);
       }
     }

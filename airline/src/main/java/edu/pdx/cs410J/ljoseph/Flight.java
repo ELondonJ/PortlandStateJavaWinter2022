@@ -29,18 +29,15 @@ public class Flight extends AbstractFlight {
     if(flightNumber < 0)
       throw new IllegalArgumentException(INVALID_FLIGHT_NUM);
     this.flightNumber = flightNumber;
-    if(src != null)
-      this.src = validSrcDest(src.trim());
-    if(depart != null)
-      this.depart = validDate(depart.trim());
-    if(dtime != null)
-      this.dtime = getValidTime(dtime.trim());
-    if(dest != null)
-      this.dest = validSrcDest(dest.trim());
-    if(arrive != null)
-      this.arrive = validDate(arrive.trim());
-    if(atime != null)
-      this.atime = getValidTime(atime.trim());
+    if(src == null ||depart == null  ||dtime == null || dest == null|| arrive == null ||
+            atime == null)
+      throw new IllegalArgumentException("Missing Flight argument");
+    this.src = validSrcDest(src.trim());
+    this.depart = validDate(depart.trim());
+    this.dtime = getValidTime(dtime.trim());
+    this.dest = validSrcDest(dest.trim());
+    this.arrive = validDate(arrive.trim());
+    this.atime = getValidTime(atime.trim());
   }
   /**
    * Validates that Src and Dest are three-letter strings

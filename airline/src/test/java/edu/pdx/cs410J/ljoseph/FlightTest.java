@@ -23,13 +23,13 @@ public class FlightTest {
    */
   @Test
   void getNumberNeedsToBeImplemented(){
-    Flight flight = new Flight(42,null , "02/12/1989", null,null ,"02/12/1989", null);
+    Flight flight = new Flight(42,"slc" , "02/12/1989", "09:10","slc" ,"02/12/1989", "09:10");
     assertThat(flight.getNumber(), equalTo(42));
   }
   @Test
   void flightNumberCanNotBeNegative(){
     try{
-      Flight flight = new Flight(-1,null ,null, null,null ,null, null);
+      Flight flight = new Flight(-1,"slc" ,"02/12/2002", "09:10","pdx" ,"02/12/2002", "09:10");
       fail("Should have caught an illegal argument expression");
     }catch(IllegalArgumentException ex){
       //pass
@@ -37,18 +37,18 @@ public class FlightTest {
   }
   @Test
   void getArrivalStringNeedsToBeImplemented() {
-    Flight flight = new Flight(42,  null ,"01/24/1989","09:10",null ,"01/24/1989","09:10");
+    Flight flight = new Flight(42,  "slc" ,"01/24/1989","09:10","slc" ,"01/24/1989","09:10");
     assertThat(String.valueOf(flight.getArrivalString().equals(("10/24/1989 09:10"))),true);
   }
   @Test
   void getDepartureStringNeedsToBeImplemented() {
-    Flight flight = new Flight(42, null , "01/24/1989","09:10",null ,"01/24/1989","09:10");
+    Flight flight = new Flight(42, "slc" , "01/24/1989","09:10","slc" ,"01/24/1989","09:10");
     assertThat(String.valueOf(flight.getDepartureString().equals(("10/24/1989 09:10"))),true);
   }
   @Test
   void invalidDateThrowsException() {
     try {
-      Flight flight = new Flight(42, null, "02/30/1989", "09:10", "01/24/1989", null, "09:10");
+      Flight flight = new Flight(42, "slc", "02/30/1989", "09:10", "01/24/1989", "slc", "09:10");
       fail("Illegal Argument Exception should have been thrown");
     } catch (IllegalArgumentException ex) {
       //pass
@@ -58,7 +58,7 @@ public class FlightTest {
   @Test
   void incorrectFormatOfDateBackslashThrowsException(){
     try {
-      Flight flight = new Flight(42,null ,  "01-24-1989", "09:10",null ,"01-24-1989", "09:10");
+      Flight flight = new Flight(42,"slc" ,  "01-24-1989", "09:10","slc" ,"01-24-1989", "09:10");
       fail("Illegal Argument Exception should have been thrown");
     } catch(IllegalArgumentException ex){
       //pass
@@ -67,7 +67,7 @@ public class FlightTest {
   @Test
   @Disabled
   void numRepresentationOfDateCreated(){
-    Flight flight = new Flight(42,null , "12/24/1989", "09:10",null , "12/24/1989", "09:10");
+    Flight flight = new Flight(42,"slc" , "12/24/1989", "09:10","slc" , "12/24/1989", "09:10");
     int[] array = new int[]{1,2,-1,2,4,-1,1,9,8,9};
     int[] check = flight.getIntRepArray("12/24/1989");
     assertThat(String.valueOf(Arrays.equals(array,check)), true);
@@ -75,7 +75,7 @@ public class FlightTest {
   @Test
   void incorrectFormatDateIllegalCharactersThrowsException(){
     try {
-      Flight flight = new Flight(42,null ,  "aa/01/1998", "09:10",null ,"aa/01/1998", "09:10");
+      Flight flight = new Flight(42,"slc" ,  "aa/01/1998", "09:10","slc" ,"aa/01/1998", "09:10");
       fail("Illegal Argument Exception should have been thrown");
     } catch(IllegalArgumentException ex){
       //pass
@@ -84,7 +84,7 @@ public class FlightTest {
   @Test
   void incorrectFormatDateTooLongOrShortThrowsException(){
     try {
-      Flight flight = new Flight(42,null ,  "12/01/199", "09:10",null ,"12/01/199", "09:10");
+      Flight flight = new Flight(42,"slc" ,  "12/01/199", "09:10","slc" ,"12/01/199", "09:10");
       fail("Illegal Argument Exception should have been thrown");
     } catch(IllegalArgumentException ex){
       //pass
@@ -93,7 +93,7 @@ public class FlightTest {
   @Test
   void incorrectFormatOfDateNumericValuesThrowsException(){
     try {
-      Flight flight = new Flight(42,null ,  "12/34/1989", "09:10",null ,"12/34/1989", "09:10");
+      Flight flight = new Flight(42,"pdx" ,  "12/34/1989", "09:10","slc" ,"12/34/1989", "09:10");
       fail("Illegal Argument Exception should have been thrown");
     } catch(IllegalArgumentException ex){
       //pass
@@ -103,7 +103,7 @@ public class FlightTest {
   @Test
   void invalidInputForTimeNegatives() {
     try {
-      Flight flight = new Flight(42,null ,  "12/01/1989", "-10:30",null ,"12/01/1989", "09/10");
+      Flight flight = new Flight(42,"slc" ,  "12/01/1989", "-10:30","slc" ,"12/01/1989", "09/10");
       fail("Illegal Argument Exception should have been thrown");
     } catch (IllegalArgumentException ex) {
       //pass
@@ -112,7 +112,7 @@ public class FlightTest {
   @Test
   void incorrectFormatOfTimeWrongSymbol() {
     try {
-      Flight flight = new Flight(42,null ,  "12/01/1989", "09/10",null ,"12/01/1989", "09/10");
+      Flight flight = new Flight(42,"slc" ,  "12/01/1989", "09/10","slc" ,"12/01/1989", "09/10");
       fail("Illegal Argument Exception should have been thrown");
     } catch (IllegalArgumentException ex) {
       //pass
@@ -121,7 +121,7 @@ public class FlightTest {
     @Test
     void incorrectFormatOfNumbersOutOfBounds() {
       try {
-        Flight flight = new Flight(42,null ,  "12/01/1989", "aa:10",null ,"12/01/1989", "aa:10");
+        Flight flight = new Flight(42,"slc" ,  "12/01/1989", "aa:10","slc" ,"12/01/1989", "aa:10");
         fail("Illegal Argument Exception should have been thrown");
       } catch (IllegalArgumentException ex) {
         //pass
@@ -129,7 +129,7 @@ public class FlightTest {
     }
     @Test
     void implementGetSource() {
-      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10",null ,"12/01/1989", "12:10");
+      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","slc" ,"12/01/1989", "12:10");
       String src = flight.getSource();
       assertEquals(src,"pdx");
   }
