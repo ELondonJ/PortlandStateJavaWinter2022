@@ -34,13 +34,30 @@ public class TextParserTest {
     assertThrows(ParserException.class, parser::parse);
   }
   @Test
-  @Disabled
   void invalidIllegalArgumentsInFileThrowsException(@TempDir File tempDir) throws IllegalArgumentException, ParserException, IOException {
 
     File testFile = new File("airtest3.txt");
     PrintWriter pw = new PrintWriter(testFile);
     pw.println("portland int");
     pw.println("2344 pdx 12/12/1212 12:12 slc 12/12/1212 12:aa");
+    pw.close();
+    try {
+      TextParser parser = new TextParser(new FileReader(testFile));
+      Airline read = parser.parse();
+    } catch (IllegalArgumentException e){
+      assertTrue(e.getMessage().contains("mm:hh"));
+    } catch (ParserException p){
+      //pass
+
+    };
+  }
+  @Test
+  void airlineNamesInFileAndCommandLineDontMatch() throws IllegalArgumentException, ParserException, IOException {
+
+    File testFile = new File("airtest3.txt");
+    PrintWriter pw = new PrintWriter(testFile);
+    pw.println("portland int");
+    pw.println("2344 pdx 12/12/1212 12:12 slc 12/12/1212 12:33");
     pw.close();
     try {
       TextParser parser = new TextParser(new FileReader(testFile));

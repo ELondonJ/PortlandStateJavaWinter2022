@@ -54,9 +54,9 @@ public class Project1 {
           } while (line != null);
           System.exit(0);
         } else if (args[i].equalsIgnoreCase("-textFile")) {
-          if(++i> args.length) {
-            System.out.println("A file name is required with -textFile flag");
-            System.err.println(1);
+          if(++i>= args.length) {
+            System.err.println("A file name is required with -textFile flag");
+            System.exit(1);
           }
           fileFlag = true;
           fileName = args[i];
@@ -73,7 +73,7 @@ public class Project1 {
         try {
           flightNumber = Integer.parseInt(args[i]);
         } catch (NumberFormatException e) {
-          System.err.println( e + "Incorrect flight number format");
+          System.err.println( e.getMessage() + " Incorrect flight number format");
           System.exit(1);
         }
       } else if (src == null)
@@ -108,8 +108,10 @@ public class Project1 {
           parser = new TextParser(new FileReader(textFile));
           airline = parser.parse();
           if(!airline.getName().equals(airlineName)){
-            System.err.println("Airline can not be updated. Airline name entered " +
-                    "at the commandline does not match airline name in the file: " + fileName);
+            System.err.println("Airline can not be updated. Airline Name in " + fileName + " does not match airline name" +
+                    " entered at the command line." );
+            System.err.println( "Airline name on command line: \"" + airlineName
+                    + "\"\nAirline name in file: \"" + airline.getName());
             System.exit(1);
           }
         } else {
@@ -119,11 +121,8 @@ public class Project1 {
         airline.addFlight(flight);
         dumper.dump(airline);
 
-      } catch (IllegalArgumentException ex) {
+      } catch (IllegalArgumentException | ParserException ex) {
         System.err.println(ex.getMessage());
-        System.exit(1);
-      } catch (ParserException e) {
-        System.err.println(e.getMessage());
         System.exit(1);
       }
     }

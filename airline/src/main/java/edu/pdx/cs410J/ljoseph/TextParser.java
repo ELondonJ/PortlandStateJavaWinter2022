@@ -34,7 +34,7 @@ public class TextParser implements AirlineParser<Airline> {
           flight = new Flight(Integer.parseInt(fArgs[0]), fArgs[1], fArgs[2], fArgs[3], fArgs[4], fArgs[5], fArgs[6]);
           airline.addFlight(flight);
         }catch(IllegalArgumentException e){
-          throw new ParserException("While parsing airline text", e);
+          throw new ParserException("Illegal FLight argument while parsing airline text: " + e.getMessage());
         }
       }
       br.close();

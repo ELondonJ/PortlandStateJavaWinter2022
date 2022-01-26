@@ -31,5 +31,6 @@ public class TextDumper implements AirlineDumper<Airline> {
 
       pw.flush();
     }
+
   }
 }

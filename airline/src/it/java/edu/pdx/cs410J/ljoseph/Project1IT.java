@@ -4,6 +4,9 @@ import edu.pdx.cs410J.InvokeMainTestCase;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -59,5 +62,50 @@ class Project1IT extends InvokeMainTestCase {
         assertThat(result.getExitCode(), equalTo(0));
         assertThat(result.getTextWrittenToStandardOut(), containsString("410J Project 1: Airline"));
     }
+    @Test
+    void testTextFileFlagWithNoFileCommandLineArgument() {
+        MainMethodResult result = invokeMain("-textFile");
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), containsString("A file name"));
+    }
+    @Test
+    void toManyCommandLineArgsCommandLineArgument() {
+        MainMethodResult result = invokeMain("Portland International","345", "pdx", "12/12/2002","12:13","slc","12/12/2002", "14:20", "extra");
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Too many command"));
+    }
+    @Test
+    void airlineNamesDontMatchFileAndCommandLineArgument() throws FileNotFoundException {
+        File testFile = new File("airtest3.txt");
+        PrintWriter pw = new PrintWriter(testFile);
+        pw.println("portland int");
+        pw.println("2344 pdx 12/12/1212 12:12 slc 12/12/1212 12:33");
+        pw.close();
+        MainMethodResult result = invokeMain("-textFile", "airtest3.txt","Salt Lake","345", "pdx", "12/12/2002","12:13","slc","12/12/2002", "14:20");
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Airline can not be updated"));
+        pw.close();
+        testFile.delete();
+    }
+    @Test
+    void dumperCreatesFileCommandLineArgument() throws FileNotFoundException {
+        File testFile = new File("testFile");
+        assertFalse(testFile.exists());
+        MainMethodResult result = invokeMain("-textFile", "testFile","Salt Lake","345", "pdx", "12/12/2002","12:13","slc","12/12/2002", "14:20");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertTrue(testFile.exists());
+        testFile.delete();
+    }
+    @Test
+    void dumperInvokedInMain() throws IOException {
+        MainMethodResult result = invokeMain("-textFile", "airtest4.txt", "Salt Lake", "345", "pdx", "12/12/2002", "12:13", "slc", "12/12/2002", "14:20");
+        File testFile = new File("airtest4.txt");
+        BufferedReader br = new BufferedReader(new FileReader(testFile));
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(br.readLine(), containsString("Salt Lake"));
+        br.close();
+        testFile.deleteOnExit();
+    }
+
 
 }
