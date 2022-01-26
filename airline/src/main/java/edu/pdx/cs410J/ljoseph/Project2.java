@@ -8,7 +8,7 @@ import java.io.*;
 /**
  * The main class for the CS410J airline Project
  */
-public class Project1 {
+public class Project2 {
   public static final String ARGS_INFO = "Enter \"-readme\" at the command prompt for argument requirements.";
 
 
@@ -46,7 +46,7 @@ public class Project1 {
         if (args[i].equalsIgnoreCase("-print"))
           print = true;
         else if (args[i].equalsIgnoreCase("-readme")) {
-          InputStream readme = Project1.class.getResourceAsStream("README.txt");
+          InputStream readme = Project2.class.getResourceAsStream("README.txt");
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
           String line = reader.readLine();
           do {
