@@ -1,13 +1,11 @@
 package edu.pdx.cs410J.ljoseph;
 
 import edu.pdx.cs410J.InvokeMainTestCase;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -60,7 +58,7 @@ class Project1IT extends InvokeMainTestCase {
     void testReadMeCommandLineArgument() {
         MainMethodResult result = invokeMain("-readme");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("410J Project 1: Airline"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("410J Project 2: Airline"));
     }
     @Test
     void testTextFileFlagWithNoFileCommandLineArgument() {

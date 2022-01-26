@@ -15,6 +15,7 @@ public class Project1 {
   /**
    * Main program that parses the command line and creates a flight object
    * and airline object.
+   * @param args command line arguments
    */
   public static void main(String[] args) throws IOException {
     if(args.length < 1){

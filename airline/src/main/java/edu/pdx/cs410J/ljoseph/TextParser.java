@@ -7,27 +7,41 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Reads from a specified text file containing airline information
+ * creats a new airline object from the file
+ */
 public class TextParser implements AirlineParser<Airline> {
   private final Reader reader;
 
+  /**
+   * Creates a TextParser with a <code>File Reader</code>
+   * @param reader File Reader containing the name of the text file to be parsed
+   */
   public TextParser(Reader reader) {
     this.reader = reader;
   }
 
+  /**
+   * Creates a new <code>Airline</code> object from the information in
+   * the text file specified in the File Reader
+   * @return <code>airline</code>
+   * @throws ParserException
+   */
   @Override
   public Airline parse() throws ParserException {
     try (BufferedReader br = new BufferedReader(this.reader)) {
-      String[] fArgs = new String[7];
+      String[] fArgs = new String[7];       //Holds the parsed args to create a flight
       String airlineName = br.readLine();
       String line;
       Flight flight = null;
       if (airlineName == null) {
         throw new ParserException("Missing airline name");
       }
-      Airline airline = new Airline(airlineName);
-      while((line = br.readLine()) != null){
-        String[] splitLine = line.split("\\s+");
-        for(int i = 0; i < fArgs.length; i++){
+      Airline airline = new Airline(airlineName);       //Airline name will be the first line in the text file
+      while((line = br.readLine()) != null){            //Each line after will have all info for one flight
+        String[] splitLine = line.split("\\s+");  //Splits the string in text file into String[] of
+        for(int i = 0; i < fArgs.length; i++){          //args for flight
           fArgs[i] = splitLine[i];
         }
         try {
