@@ -16,7 +16,7 @@ public class TextDumperTest {
 
   private Airline testAirline = new Airline("Test International");
   private Flight testFlight = new Flight(1234, "pdx", "12/12/1212",
-          "12:12", "pdx", "12/12/1212", "12:12");
+          "12:12","am", "pdx", "12/12/1212", "12:12", "am");
 
   private Airline addFlightToTestAirline(int flightsToEnter) {
     for(int i = 0; i < flightsToEnter; i++)

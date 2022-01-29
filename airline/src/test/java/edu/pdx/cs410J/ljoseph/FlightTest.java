@@ -23,13 +23,15 @@ public class FlightTest {
    */
   @Test
   void getNumberNeedsToBeImplemented(){
-    Flight flight = new Flight(42,"slc" , "02/12/1989", "09:10","slc" ,"02/12/1989", "09:10");
+    Flight flight = new Flight(42,"slc" , "02/12/1989", "09:10","am","slc" ,"02/12/1989",
+            "09:10","am");
     assertThat(flight.getNumber(), equalTo(42));
   }
   @Test
   void flightNumberCanNotBeNegative(){
     try{
-      Flight flight = new Flight(-1,"slc" ,"02/12/2002", "09:10","pdx" ,"02/12/2002", "09:10");
+      Flight flight = new Flight(-1,"slc" ,"02/12/2002", "09:10","am","pdx" ,"02/12/2002",
+              "09:10","am");
       fail("Should have caught an illegal argument expression");
     }catch(IllegalArgumentException ex){
       //pass
@@ -37,18 +39,21 @@ public class FlightTest {
   }
   @Test
   void getArrivalStringNeedsToBeImplemented() {
-    Flight flight = new Flight(42,  "slc" ,"01/24/1989","09:10","slc" ,"01/24/1989","09:10");
+    Flight flight = new Flight(42,  "slc" ,"01/24/1989","09:10","am","slc" ,"01/24/1989",
+            "09:10","am");
     assertThat(String.valueOf(flight.getArrivalString().equals(("10/24/1989 09:10"))),true);
   }
   @Test
   void getDepartureStringNeedsToBeImplemented() {
-    Flight flight = new Flight(42, "slc" , "01/24/1989","09:10","slc" ,"01/24/1989","09:10");
+    Flight flight = new Flight(42, "slc" , "01/24/1989","09:10","am","slc" ,"01/24/1989",
+            "09:10","am");
     assertThat(String.valueOf(flight.getDepartureString().equals(("10/24/1989 09:10"))),true);
   }
   @Test
   void invalidDateThrowsException() {
     try {
-      Flight flight = new Flight(42, "slc", "02/30/1989", "09:10", "01/24/1989", "slc", "09:10");
+      Flight flight = new Flight(42, "slc", "02/30/1989", "09:10","am", "01/24/1989", "slc",
+              "09:10","am");
       fail("Illegal Argument Exception should have been thrown");
     } catch (IllegalArgumentException ex) {
       //pass
@@ -58,7 +63,8 @@ public class FlightTest {
   @Test
   void incorrectFormatOfDateBackslashThrowsException(){
     try {
-      Flight flight = new Flight(42,"slc" ,  "01-24-1989", "09:10","slc" ,"01-24-1989", "09:10");
+      Flight flight = new Flight(42,"slc" ,  "01-24-1989", "09:10","am","slc" ,"01-24-1989",
+              "09:10","am");
       fail("Illegal Argument Exception should have been thrown");
     } catch(IllegalArgumentException ex){
       //pass
@@ -67,7 +73,8 @@ public class FlightTest {
   @Test
   @Disabled
   void numRepresentationOfDateCreated(){
-    Flight flight = new Flight(42,"slc" , "12/24/1989", "09:10","slc" , "12/24/1989", "09:10");
+    Flight flight = new Flight(42,"slc" , "12/24/1989", "09:10","am","slc" , "12/24/1989",
+            "09:10","am");
     int[] array = new int[]{1,2,-1,2,4,-1,1,9,8,9};
     int[] check = flight.getIntRepArray("12/24/1989");
     assertThat(String.valueOf(Arrays.equals(array,check)), true);
@@ -75,7 +82,8 @@ public class FlightTest {
   @Test
   void incorrectFormatDateIllegalCharactersThrowsException(){
     try {
-      Flight flight = new Flight(42,"slc" ,  "aa/01/1998", "09:10","slc" ,"aa/01/1998", "09:10");
+      Flight flight = new Flight(42,"slc" ,  "aa/01/1998", "09:10","am","slc" ,"aa/01/1998",
+              "09:10","am");
       fail("Illegal Argument Exception should have been thrown");
     } catch(IllegalArgumentException ex){
       //pass
@@ -84,7 +92,9 @@ public class FlightTest {
   @Test
   void incorrectFormatDateTooLongOrShortThrowsException(){
     try {
-      Flight flight = new Flight(42,"slc" ,  "12/01/199", "09:10","slc" ,"12/01/199", "09:10");
+      Flight flight = new Flight(42,"slc" ,  "12/01/19999", "09:10","am","slc" ,"12/01/199",
+              "09:10","am");
+      System.out.println(flight.toString());
       fail("Illegal Argument Exception should have been thrown");
     } catch(IllegalArgumentException ex){
       //pass
@@ -93,7 +103,8 @@ public class FlightTest {
   @Test
   void incorrectFormatOfDateNumericValuesThrowsException(){
     try {
-      Flight flight = new Flight(42,"pdx" ,  "12/34/1989", "09:10","slc" ,"12/34/1989", "09:10");
+      Flight flight = new Flight(42,"pdx" ,  "12/34/1989", "09:10","am","slc" ,"12/34/1989",
+              "09:10","am");
       fail("Illegal Argument Exception should have been thrown");
     } catch(IllegalArgumentException ex){
       //pass
@@ -103,7 +114,8 @@ public class FlightTest {
   @Test
   void invalidInputForTimeNegatives() {
     try {
-      Flight flight = new Flight(42,"slc" ,  "12/01/1989", "-10:30","slc" ,"12/01/1989", "09/10");
+      Flight flight = new Flight(42,"slc" ,  "12/01/1989", "-10:30","am","slc" ,"12/01/1989",
+              "09/10","am");
       fail("Illegal Argument Exception should have been thrown");
     } catch (IllegalArgumentException ex) {
       //pass
@@ -112,7 +124,8 @@ public class FlightTest {
   @Test
   void incorrectFormatOfTimeWrongSymbol() {
     try {
-      Flight flight = new Flight(42,"slc" ,  "12/01/1989", "09/10","slc" ,"12/01/1989", "09/10");
+      Flight flight = new Flight(42,"slc" ,  "12/01/1989", "09/10","am","slc" ,"12/01/1989",
+              "09/10","am");
       fail("Illegal Argument Exception should have been thrown");
     } catch (IllegalArgumentException ex) {
       //pass
@@ -121,7 +134,8 @@ public class FlightTest {
     @Test
     void incorrectFormatOfNumbersOutOfBounds() {
       try {
-        Flight flight = new Flight(42,"slc" ,  "12/01/1989", "aa:10","slc" ,"12/01/1989", "aa:10");
+        Flight flight = new Flight(42,"slc" ,  "12/01/1989", "aa:10","am","slc" ,"12/01/1989",
+                "aa:10","am");
         fail("Illegal Argument Exception should have been thrown");
       } catch (IllegalArgumentException ex) {
         //pass
@@ -129,20 +143,23 @@ public class FlightTest {
     }
     @Test
     void implementGetSource() {
-      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","slc" ,"12/01/1989", "12:10");
+      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","slc" ,"12/01/1989",
+              "12:10","am");
       String src = flight.getSource();
       assertEquals(src,"pdx");
   }
   @Test
   void implementGetDestination() {
-    Flight flight = new Flight(42, "pdx", "12/01/1989", "12:10", "pdx", "12/01/1989", "12:10");
+    Flight flight = new Flight(42, "pdx", "12/01/1989", "12:10","am", "pdx", "12/01/1989",
+            "12:10","am");
     String dest = flight.getDestination();
     assertEquals(dest, "pdx");
   }
   @Test
   void validDestinationIsThreeLetters() {
     try {
-      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","124" ,"12/01/1989", "12:10");
+      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","124" ,"12/01/1989",
+              "12:10","am");
       fail("Illegal Argument Exception should have been thrown");
     } catch (IllegalArgumentException ex) {
       //pass
@@ -150,14 +167,16 @@ public class FlightTest {
   }
   @Test
   void implementAirlineAddFlight() {
-      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","pdx" ,"12/01/1989", "12:10");
+      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","pdx" ,"12/01/1989",
+              "12:10","am");
       Airline airline = new Airline("portland");
       airline.addFlight(flight);
       assertEquals(airline.getName(),  "portland");
   }
   @Test
   void implementAirlineGetFlight() {
-    Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","pdx" ,"12/01/1989", "12:10");
+    Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","pdx" ,"12/01/1989",
+            "12:10","am");
     Airline airline = new Airline("portland");
     airline.addFlight(flight);
     Collection<Flight> flights = airline.getFlights();
@@ -165,7 +184,8 @@ public class FlightTest {
   }
   @Test
   void implementAirlineGetFlightCorrectInfo() {
-    Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","pdx" ,"12/01/1989", "12:10");
+    Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","pdx" ,"12/01/1989",
+            "12:10","am");
     Airline airline = new Airline("portland");
     airline.addFlight(flight);
     Collection<Flight> flights = airline.getFlights();

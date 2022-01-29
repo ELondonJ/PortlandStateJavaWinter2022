@@ -30,9 +30,11 @@ public class Project2 {
     String src = null;
     String depart = null;
     String dtime = null;
+    String dAmPm = null;
     String dest = null;
     String arrive = null;
     String atime = null;
+    String aAmPm = null;
     boolean print = false;
     boolean fileFlag = false;
     TextDumper dumper;
@@ -83,12 +85,16 @@ public class Project2 {
         depart = args[i];
       else if (dtime == null)
         dtime = args[i];
+      else if (dAmPm == null)
+        dAmPm = args[i];
       else if (dest == null)
         dest = args[i];
       else if (arrive == null)
         arrive = args[i];
       else if (atime == null)
         atime = args[i];
+      else if (aAmPm == null)
+        aAmPm = args[i];
       else{
         System.err.println("Too many command line arguments\n" + ARGS_INFO);
         System.exit(1);
@@ -97,7 +103,7 @@ public class Project2 {
 
     //creates flight object with parsed arguments
     try {
-      flight = new Flight(flightNumber,src, depart, dtime, dest, arrive, atime);
+      flight = new Flight(flightNumber,src, depart, dtime,dAmPm ,dest, arrive, atime,aAmPm);
     } catch(IllegalArgumentException ex){
       System.err.println(ex.getMessage());
       System.exit(1);
