@@ -137,19 +137,39 @@ public class FlightTest {
       Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","slc" ,"12/01/1989",
               "12:10","am");
       String src = flight.getSource();
-      assertEquals(src,"pdx");
+      assertEquals(src,"PDX");
   }
   @Test
   void implementGetDestination() {
     Flight flight = new Flight(42, "pdx", "12/01/1989", "12:10","am", "pdx", "12/01/1989",
             "12:10","am");
     String dest = flight.getDestination();
-    assertEquals(dest, "pdx");
+    assertEquals(dest, "PDX");
   }
   @Test
   void validDestinationIsThreeLetters() {
     try {
       Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","124" ,"12/01/1989",
+              "12:10","am");
+      fail("Illegal Argument Exception should have been thrown");
+    } catch (IllegalArgumentException ex) {
+      //pass
+    }
+  }
+  @Test
+  void validDestinationIsValidAirport() {
+    try {
+      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","LLL" ,"12/01/1989",
+              "12:10","am");
+      fail("Illegal Argument Exception should have been thrown");
+    } catch (IllegalArgumentException ex) {
+      //pass
+    }
+  }
+  @Test
+  void validSourceIsValidAirport() {
+    try {
+      Flight flight = new Flight(42,"lll" ,  "12/01/1989", "12:10","am","pdx" ,"12/01/1989",
               "12:10","am");
       fail("Illegal Argument Exception should have been thrown");
     } catch (IllegalArgumentException ex) {

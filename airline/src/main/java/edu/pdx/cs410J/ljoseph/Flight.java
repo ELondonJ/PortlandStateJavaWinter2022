@@ -1,6 +1,7 @@
 package edu.pdx.cs410J.ljoseph;
 
 import edu.pdx.cs410J.AbstractFlight;
+import edu.pdx.cs410J.AirportNames;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -51,7 +52,10 @@ public class Flight extends AbstractFlight {
   public String validSrcDest(String toValid) {
     if (!toValid.matches("^[a-zA-Z]{3}$"))
       throw new IllegalArgumentException("Source and Destination represented by three-letter code. ie pdx;");
-    return toValid;
+    String airportName = AirportNames.getName(toValid.toUpperCase());
+    if(airportName == null)
+      throw new IllegalArgumentException("The code " + toValid + " does not represent a valid airport" );
+    return toValid.toUpperCase();
 
   }
   /**
