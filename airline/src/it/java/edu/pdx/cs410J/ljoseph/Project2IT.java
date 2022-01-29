@@ -39,8 +39,8 @@ class Project2IT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain("-print","Portland International","1234", "pdx",
                 "12/12/2002","12:13","am", "slc","12/12/2002", "11:20","am");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("Flight 1234 departs pdx at" +
-                " 12/12/2002 12:13 AM arrives slc at 12/12/2002 11:20"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Flight 1234 departs PDX at" +
+                " 12/12/2002 12:13 AM arrives SLC at 12/12/2002 11:20"));
     }
 
 
