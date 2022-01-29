@@ -39,7 +39,7 @@ public class TextParserTest {
     File testFile = new File("airtest3.txt");
     PrintWriter pw = new PrintWriter(testFile);
     pw.println("portland int");
-    pw.println("2344 pdx 12/12/1212 12:12 slc 12/12/1212 12:aa");
+    pw.println("2344 pdx 12/12/1212 12:12 am slc 12/12/1212 12:aa am");
     pw.close();
     try {
       TextParser parser = new TextParser(new FileReader(testFile));
@@ -57,7 +57,7 @@ public class TextParserTest {
     File testFile = new File("airtest3.txt");
     PrintWriter pw = new PrintWriter(testFile);
     pw.println("portland int");
-    pw.println("2344 pdx 12/12/1212 12:12 slc 12/12/1212 12:33");
+    pw.println("2344 pdx 12/12/1212 12:12 am slc 12/12/1212 12:33 am");
     pw.close();
     try {
       TextParser parser = new TextParser(new FileReader(testFile));
