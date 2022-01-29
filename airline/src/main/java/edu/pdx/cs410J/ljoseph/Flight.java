@@ -37,7 +37,7 @@ public class Flight extends AbstractFlight {
       throw new IllegalArgumentException(INVALID_FLIGHT_NUM);
     this.flightNumber = flightNumber;
     if(src == null ||depart == null  ||dtime == null || dest == null|| arrive == null ||
-            atime == null)
+            atime == null || dAmPm == null || aAmPm ==null)
       throw new IllegalArgumentException("Missing Flight argument");
     this.src = validSrcDest(src.trim());
     this.depart = validDate(depart,dtime,dAmPm);
@@ -53,16 +53,6 @@ public class Flight extends AbstractFlight {
       throw new IllegalArgumentException("Source and Destination represented by three-letter code. ie pdx;");
     return toValid;
 
-  }
-  /**
-   * Returns the integer representation of the String stringRep
-   */
-  public int[] getIntRepArray(String stringRep){
-    int[] numRep = new int[stringRep.length()];
-    for(int i = 0; i < stringRep.length(); i++){
-        numRep[i] = Character.getNumericValue(stringRep.charAt(i));
-    }
-    return numRep;
   }
   /**
    * Validates that arrival and departure have the format mm/dd/yyyy
@@ -105,6 +95,10 @@ public class Flight extends AbstractFlight {
    */
   @Override
   public String getDepartureString() {
+    DateFormat outForm = new SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.getDefault());
+    return outForm.format(this.depart);
+  }
+  public String getDepartureStringPretty() {
     DateFormat outForm = new SimpleDateFormat("MM/dd/yy hh:mm a", Locale.getDefault());
     return outForm.format(this.depart);
   }
@@ -122,6 +116,10 @@ public class Flight extends AbstractFlight {
    */
   @Override
   public String getArrivalString() {
+    DateFormat outForm = new SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.getDefault());
+    return outForm.format(this.arrive);
+  }
+  public String getArrivalStringPretty() {
     DateFormat outForm = new SimpleDateFormat("MM/dd/yy hh:mm a", Locale.getDefault());
     return outForm.format(this.arrive);
   }

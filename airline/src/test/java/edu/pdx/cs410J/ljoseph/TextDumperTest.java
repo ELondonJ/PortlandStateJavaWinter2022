@@ -57,7 +57,7 @@ public class TextDumperTest {
   void canParseTextWrittenByTextDumperFlightsHaveBeenWritten(@TempDir File tempDir) throws IOException, ParserException {
     Airline airline = addFlightToTestAirline(3);
 
-    File textFile = new File(tempDir, "airline.txt");
+    File textFile = new File("airline.txt");
     TextDumper dumper = new TextDumper(new FileWriter(textFile));
     dumper.dump(airline);
 

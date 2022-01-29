@@ -71,15 +71,6 @@ public class FlightTest {
       }
   }
   @Test
-  @Disabled
-  void numRepresentationOfDateCreated(){
-    Flight flight = new Flight(42,"slc" , "12/24/1989", "09:10","am","slc" , "12/24/1989",
-            "09:10","am");
-    int[] array = new int[]{1,2,-1,2,4,-1,1,9,8,9};
-    int[] check = flight.getIntRepArray("12/24/1989");
-    assertThat(String.valueOf(Arrays.equals(array,check)), true);
-  }
-  @Test
   void incorrectFormatDateIllegalCharactersThrowsException(){
     try {
       Flight flight = new Flight(42,"slc" ,  "aa/01/1998", "09:10","am","slc" ,"aa/01/1998",

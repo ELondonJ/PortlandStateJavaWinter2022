@@ -31,7 +31,7 @@ public class TextParser implements AirlineParser<Airline> {
   @Override
   public Airline parse() throws ParserException {
     try (BufferedReader br = new BufferedReader(this.reader)) {
-      String[] fArgs = new String[7];       //Holds the parsed args to create a flight
+      String[] fArgs = new String[9];       //Holds the parsed args to create a flight
       String airlineName = br.readLine();
       String line;
       Flight flight = null;
@@ -46,7 +46,7 @@ public class TextParser implements AirlineParser<Airline> {
         }
         try {
           flight = new Flight(Integer.parseInt(fArgs[0]), fArgs[1], fArgs[2], fArgs[3], fArgs[4], fArgs[5],
-                  fArgs[6], fArgs[5], fArgs[6]);
+                  fArgs[6], fArgs[7], fArgs[8]);
           airline.addFlight(flight);
         }catch(IllegalArgumentException e){
           throw new ParserException("Illegal FLight argument while parsing airline text: " + e.getMessage());
