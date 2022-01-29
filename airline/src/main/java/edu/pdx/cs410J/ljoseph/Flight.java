@@ -18,7 +18,7 @@ import java.util.StringJoiner;
  * destination code identifying its arrival airport, and an
  * arrival date and time.
  */
-public class Flight extends AbstractFlight {
+public class Flight extends AbstractFlight implements Comparable<Flight> {
 
   public static final String INVALID_DATE = "Incorrect Date Format. dd/mm/yyyy";
   public static final String INVALID_TIME = "Time format must be mm:hh";
@@ -126,5 +126,13 @@ public class Flight extends AbstractFlight {
   public String getArrivalStringPretty() {
     DateFormat outForm = new SimpleDateFormat("MM/dd/yy hh:mm a", Locale.getDefault());
     return outForm.format(this.arrive);
+  }
+  @Override
+  public int compareTo(Flight o) {
+   // return o.src.compareTo(this.src);
+    if(this.src.compareTo(o.src) == 0){
+     return this.depart.compareTo(o.depart);
+    }
+    return this.src.compareTo(o.src);
   }
 }

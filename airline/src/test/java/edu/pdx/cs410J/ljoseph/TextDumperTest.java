@@ -65,5 +65,6 @@ public class TextDumperTest {
     Airline read = parser.parse();
     Collection<Flight> flights = airline.getFlights();
     assertEquals(flights.size(), airline.getFlights().size());
+    textFile.deleteOnExit();
   }
 }

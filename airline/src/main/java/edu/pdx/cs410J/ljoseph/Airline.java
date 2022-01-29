@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AbstractAirline;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * This class represents an airline and is and extension of
@@ -12,7 +13,7 @@ import java.util.Collection;
  */
 public class Airline extends AbstractAirline<Flight> {
   private final String name;
-  private Collection<Flight> flights;
+  private ArrayList<Flight> flights;
 
   /**
    * Creates a new airline
@@ -35,7 +36,12 @@ public class Airline extends AbstractAirline<Flight> {
    */
   @Override
   public void addFlight(Flight flight) {
-    flights.add(flight);
+    this.flights.add(flight);
+    Collections.sort(flights);
+  }
+
+  private void sortFlights() {
+
   }
 
   /**
