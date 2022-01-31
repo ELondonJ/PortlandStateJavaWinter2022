@@ -66,7 +66,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
             Collection<Flight> flights = airline.getFlights();
             for(Flight flight: flights){
                 Formatter fmt = new Formatter();
-                pw.println(fmt.format("%s%-16s%-10s%-21s%-10s%-22s%-100s", (char)b + " ", flight.getNumber(),
+                pw.println(fmt.format("%s%-17s%-10s%-21s%-10s%-21s%-100s", (char)b + " ", flight.getNumber(),
                         flight.getSource(), flight.getDepartureStringPretty(), flight.getDestination(),
                         flight.getArrivalStringPretty(), (char)b));
 

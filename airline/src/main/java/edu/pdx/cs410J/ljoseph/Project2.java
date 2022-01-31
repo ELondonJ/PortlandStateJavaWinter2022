@@ -4,6 +4,8 @@ import edu.pdx.cs410J.ParserException;
 //import jdk.incubator.vector.VectorOperators;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 
 /**
  * The main class for the CS410J airline Project
@@ -37,9 +39,11 @@ public class Project2 {
     String aAmPm = null;
     boolean print = false;
     boolean fileFlag = false;
+    boolean prettyPrint = false;
     TextDumper dumper;
     TextParser parser;
     String fileName = null;
+    String prettyFile = null;
 
 
     //loop parses saves each arg in appropriate variable
@@ -63,8 +67,16 @@ public class Project2 {
           }
           fileFlag = true;
           fileName = args[i];
+        } else if (args[i].equalsIgnoreCase("-pretty")) {
+          if(++i >= args.length) {
+            System.err.println("A file name is required if you'd like to pretty print to a file" +
+                    "you can also enter \"-\" if you'd like to pretty print to the screen");
+            System.exit(1);
+          }
+          prettyPrint = true;
+          prettyFile = args[i];
 
-      }
+        }
         else {
           System.err.println("Error! Unknown flag ");
           System.exit(1);
@@ -142,6 +154,43 @@ public class Project2 {
     if(print){
       System.out.println(flight);
     }
+    if(prettyPrint){
+
+      File textFile = new File(prettyFile);
+      try {
+          if (textFile.exists()) {
+          parser = new TextParser(new FileReader(textFile));
+          airline = parser.parse();
+          if(!airline.getName().equals(airlineName)){
+            System.err.println("Airline can not be updated. Airline Name in " + fileName + " does not match airline name" +
+                    " entered at the command line." );
+            System.err.println( "Airline name on command line: \"" + airlineName
+                    + "\"\nAirline name in file: \"" + airline.getName());
+            System.exit(1);
+          }
+        } else {
+        airline = new Airline(airlineName);
+       }
+        PrettyPrinter pPrinter;
+        if(prettyFile.equals("-"))
+          pPrinter = new PrettyPrinter(new BufferedWriter(new OutputStreamWriter(System.out)));
+        else {
+          File filePretty = new File("fmt"+prettyFile.substring(0,1).toUpperCase() + prettyFile.substring(1));
+          pPrinter = new PrettyPrinter(new FileWriter(filePretty));
+        }
+        airline.addFlight(flight);
+        pPrinter.dump(airline);
+
+      } catch (IllegalArgumentException | ParserException ex) {
+        System.err.println(ex.getMessage());
+        System.exit(1);
+      }
+    }
+    else {
+      airline = new Airline(airlineName);
+      airline.addFlight(flight);
+    }
+
     System.exit(0);
   }
 }

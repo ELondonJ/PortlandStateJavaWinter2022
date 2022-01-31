@@ -39,11 +39,21 @@ class PrettyPrinterTest {
     }
 
     @Test
-    void canParseTextWrittenByPrettyPrinterFlightsHaveBeenWritten(@TempDir File tempDir) throws IOException, ParserException {
+    void canParseTextWrittenByPrettyPrinterFlightsHaveBeenWrittenToFIle(@TempDir File tempDir) throws IOException, ParserException {
         Airline airline = addFlightToTestAirline(3);
 
         File textFile = new File("airline.txt");
         PrettyPrinter pretty = new PrettyPrinter(new FileWriter(textFile));
+        pretty.dump(airline);
+
+
+    }
+    @Test
+    void canParseTextWrittenByPrettyPrinterFlightsHaveBeenWrittenToSTDout(@TempDir File tempDir) throws IOException, ParserException {
+        Airline airline = addFlightToTestAirline(8);
+
+        File textFile = new File("airline.txt");
+        PrettyPrinter pretty = new PrettyPrinter(new BufferedWriter(new OutputStreamWriter(System.out)));
         pretty.dump(airline);
 
 
