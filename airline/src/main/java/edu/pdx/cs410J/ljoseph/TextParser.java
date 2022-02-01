@@ -3,6 +3,7 @@ package edu.pdx.cs410J.ljoseph;
 import edu.pdx.cs410J.AirlineParser;
 import edu.pdx.cs410J.ParserException;
 
+import javax.swing.text.html.parser.Parser;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +42,9 @@ public class TextParser implements AirlineParser<Airline> {
       Airline airline = new Airline(airlineName);       //Airline name will be the first line in the text file
       while((line = br.readLine()) != null){            //Each line after will have all info for one flight
         String[] splitLine = line.split("\\s+");  //Splits the string in text file into String[] of
-        for(int i = 0; i < fArgs.length; i++){          //args for flight
+        if(splitLine.length != fArgs.length)            //args for flight
+          throw new ParserException("Incorrect file format while parsing airline text" );
+        for(int i = 0; i < fArgs.length; i++){
           fArgs[i] = splitLine[i];
         }
         try {

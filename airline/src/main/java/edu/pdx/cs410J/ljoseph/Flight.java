@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.StringJoiner;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class represents a flight and is and extension of
@@ -44,7 +45,23 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     this.depart = validDate(depart,dtime,dAmPm);
     this.dest = validSrcDest(dest.trim());
     this.arrive = validDate(arrive, atime,aAmPm);
+    validDatesDepartBeforeArrive();
+
   }
+
+  private void validDatesDepartBeforeArrive() {
+    if(this.depart.after(this.arrive))
+      throw new IllegalArgumentException("Flights arrival time can not be before the flights departure time");
+
+  }
+  public String getFlightDuration(){
+    long duration = this.arrive.getTime() - this.depart.getTime();//as given
+
+    long minutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+    return String.valueOf(minutes) + " min";
+
+  }
+
   /**
    * Validates that Src and Dest are three-letter strings
    * Incorrect inputs throws exception

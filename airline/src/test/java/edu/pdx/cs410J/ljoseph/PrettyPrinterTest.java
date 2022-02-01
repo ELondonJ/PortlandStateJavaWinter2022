@@ -16,11 +16,15 @@ class PrettyPrinterTest {
 
     private Airline testAirline = new Airline("Testssss ");
     private Flight testFlight = new Flight(1234444, "pdx", "12/12/1212",
-            "12:12","am", "slc", "12/12/1212", "10:12", "am");
+            "12:12","am", "slc", "12/12/1212", "2:12", "am");
 
     private Airline addFlightToTestAirline(int flightsToEnter) {
-        for (int i = 0; i < flightsToEnter; i++)
-            this.testAirline.addFlight(testFlight);
+        try {
+            for (int i = 0; i < flightsToEnter; i++)
+                this.testAirline.addFlight(testFlight);
+        } catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+        }
         return this.testAirline;
     }
 
