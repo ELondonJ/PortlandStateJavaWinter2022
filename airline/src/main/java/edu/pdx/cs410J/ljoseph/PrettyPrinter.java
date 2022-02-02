@@ -99,7 +99,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
         try (
                 PrintWriter pw = new PrintWriter(this.writer)
         ) {
-            heading(airline.getName(), pw);
+            heading(airline.getName().toUpperCase(), pw);
 
             Collection<Flight> flights = airline.getFlights();
             for(Flight flight: flights){
