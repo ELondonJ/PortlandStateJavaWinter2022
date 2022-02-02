@@ -12,17 +12,17 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * An integration test for the {@link Project2} main class.
+ * An integration test for the {@link Project3} main class.
  */
-class Project2IT extends InvokeMainTestCase {
+class Project3IT extends InvokeMainTestCase {
 
     public static final String STRINGS = "-print Portland International 1234 pdx 12/12/2002 12:13 slc 12/12/2002 14:20";
 
     /**
-     * Invokes the main method of {@link Project2} with the given arguments.
+     * Invokes the main method of {@link Project3} with the given arguments.
      */
     private MainMethodResult invokeMain(String... args) {
-        return invokeMain( Project2.class, args );
+        return invokeMain( Project3.class, args );
     }
 
   /**
@@ -112,6 +112,34 @@ class Project2IT extends InvokeMainTestCase {
         assertThat(br.readLine(), containsString("Salt Lake"));
         br.close();
         testFile.deleteOnExit();
+    }
+    @Test
+    void testPrettyFlagNoFileThrowsError() {
+        MainMethodResult result = invokeMain("-textfile","abc.txt","-pretty");
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), containsString("A file name is required"));
+    }
+    @Test
+    void testUnknownFlagThrowsError() {
+        MainMethodResult result = invokeMain("-textfile","abc.txt","-fred");
+        assertThat(result.getExitCode(), equalTo(1));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Error! Unknown flag "));
+    }
+    @Test
+    void prettyPrintStdOutCommandLineArgument() throws FileNotFoundException {
+        MainMethodResult result = invokeMain("-pretty", "-", "Salt Lake", "345", "pdx", "12/12/2002",
+                "12:13", "am", "slc", "12/12/2002", "11:20", "am");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Salt Lake"));
+    }   @Test
+    void prettyPrintCreatesFileCommandLineArgument() throws FileNotFoundException {
+        File testFile = new File("testFile");
+        assertFalse(testFile.exists());
+        MainMethodResult result = invokeMain("-pretty", "testFile", "Salt Lake", "345", "pdx", "12/12/2002",
+                "12:13", "am", "slc", "12/12/2002", "11:20", "am");
+        assertThat(result.getExitCode(), equalTo(0));
+        assertTrue(testFile.exists());
+        testFile.delete();
     }
 
 

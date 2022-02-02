@@ -4,15 +4,27 @@ import edu.pdx.cs410J.ParserException;
 //import jdk.incubator.vector.VectorOperators;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Locale;
 
 /**
  * The main class for the CS410J airline Project
  */
-public class Project2 {
-  public static final String ARGS_INFO = "Enter \"-readme\" at the command prompt for argument requirements.";
+public class Project3 {
 
+  /**
+   * Print usages from the ReadMe resource file
+   * @throws IOException
+   */
+  private static void getUsage() throws IOException {
+    InputStream readme = Project3.class.getResourceAsStream("README.txt");
+    BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
+    String line = reader.readLine();
+    while(!line.contains("usage"))
+      line = reader.readLine();
+    do {
+      System.err.println(line);
+      line = reader.readLine();
+    } while (line != null);
+  }
 
   /**
    * Main program that parses the command line and creates a flight object
@@ -23,7 +35,10 @@ public class Project2 {
   public static void main(String[] args) throws IOException {
     if (args.length < 1) {
       System.err.println("Missing command line arguments.");
-      System.err.println(ARGS_INFO);
+      try {getUsage();}
+      catch (IOException e) {
+        System.err.println("While reading usage from readme file: " + e.getMessage());
+      }
       System.exit(1);
     }
     Airline airline = null;
@@ -43,17 +58,17 @@ public class Project2 {
     boolean prettyPrint = false;
     TextDumper dumper;
     TextParser parser;
-    String fileName = null;
+    String textFileName = null;
     String prettyFile = null;
 
 
-    //loop parses saves each arg in appropriate variable
+    //loop parses saves each arg in appropriate variable, sets option flags as needed
     for (int i = 0; i < args.length; i++) {
       if (args[i].charAt(0) == '-') {
         if (args[i].equalsIgnoreCase("-print"))
           print = true;
         else if (args[i].equalsIgnoreCase("-readme")) {
-          InputStream readme = Project2.class.getResourceAsStream("README.txt");
+          InputStream readme = Project3.class.getResourceAsStream("README.txt");
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
           String line = reader.readLine();
           do {
@@ -67,7 +82,7 @@ public class Project2 {
             System.exit(1);
           }
           fileFlag = true;
-          fileName = args[i];
+          textFileName = args[i];
         } else if (args[i].equalsIgnoreCase("-pretty")) {
           if (++i >= args.length) {
             System.err.println("A file name is required if you'd like to pretty print to a file" +
@@ -107,7 +122,11 @@ public class Project2 {
       else if (aAmPm == null)
         aAmPm = args[i];
       else {
-        System.err.println("Too many command line arguments\n" + ARGS_INFO);
+        System.err.println("Too many command line arguments");
+        try {getUsage();}
+        catch (IOException e) {
+          System.err.println("While reading usage: " + e.getMessage());
+        }
         System.exit(1);
       }
     }
@@ -119,22 +138,26 @@ public class Project2 {
       System.err.println(ex.getMessage());
       System.exit(1);
     }
+    //print a parsable file representing an airline
     if (fileFlag) {
-      File textFile = new File(fileName);
+      File textFile = new File(textFileName);
       try {
+        //if file already exists first parse into an Airline object
         if (textFile.exists()) {
           parser = new TextParser(new FileReader(textFile));
           airline = parser.parse();
           if (!airline.getName().equals(airlineName)) {
-            System.err.println("Airline can not be updated. Airline Name in " + fileName + " does not match airline name" +
+            System.err.println("Airline can not be updated. Airline Name in " + textFileName + " does not match airline name" +
                     " entered at the command line.");
             System.err.println("Airline name on command line: \"" + airlineName
                     + "\"\nAirline name in file: \"" + airline.getName());
             System.exit(1);
           }
+          //if file does not exist create new Airline from command line and write its contents
         } else {
           airline = new Airline(airlineName);
         }
+        //write Airline to file with textDumper object
         dumper = new TextDumper(new FileWriter(textFile));
         airline.addFlight(flight);
         dumper.dump(airline);
@@ -152,10 +175,12 @@ public class Project2 {
     if (print) {
       System.out.println(flight);
     }
+    //prettyPrint Airline if prettyPrint flag is present
     if (prettyPrint) {
-      Airline aAirline = null;
+      Airline aAirline;
+      //pretty print the airline in the textFile if fileFlag is present
       if (fileFlag) {
-        File parseFile = new File(fileName);
+        File parseFile = new File(textFileName);
         parser = new TextParser(new FileReader(parseFile));
         try {
           aAirline = parser.parse();
@@ -163,21 +188,23 @@ public class Project2 {
           System.err.println(ex.getMessage());
           System.exit(1);
         }
+        //pretty print a new airline on command line
       } else {
         aAirline = new Airline(airlineName);
         aAirline.addFlight(flight);
       }
       PrettyPrinter pPrinter;
+      //print to standard out
       if (prettyFile.equals("-"))
         pPrinter = new PrettyPrinter(new BufferedWriter(new OutputStreamWriter(System.out)));
+      //print to file indicated with -pretty flag
       else {
         File filePretty = new File(prettyFile);
         pPrinter = new PrettyPrinter(new FileWriter(filePretty));
       }
       pPrinter.dump(airline);
     }
-
-
       System.exit(0);
     }
-  }
+
+}

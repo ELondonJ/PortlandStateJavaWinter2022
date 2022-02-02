@@ -23,7 +23,7 @@ public class FlightTest {
    */
   @Test
   void getNumberNeedsToBeImplemented(){
-    Flight flight = new Flight(42,"slc" , "02/12/1989", "09:10","am","slc" ,"02/12/1989",
+    Flight flight = new Flight(42,"pdx" , "02/12/1989", "09:10","am","slc" ,"02/12/1989",
             "09:10","am");
     assertThat(flight.getNumber(), equalTo(42));
   }
@@ -39,13 +39,13 @@ public class FlightTest {
   }
   @Test
   void getArrivalStringNeedsToBeImplemented() {
-    Flight flight = new Flight(42,  "slc" ,"01/24/1989","09:10","am","slc" ,"01/24/1989",
+    Flight flight = new Flight(42,  "pdx" ,"01/24/1989","09:10","am","slc" ,"01/24/1989",
             "09:10","am");
     assertThat(String.valueOf(flight.getArrivalString().equals(("10/24/1989 09:10"))),true);
   }
   @Test
   void getDepartureStringNeedsToBeImplemented() {
-    Flight flight = new Flight(42, "slc" , "01/24/1989","09:10","am","slc" ,"01/24/1989",
+    Flight flight = new Flight(42, "pdx" , "01/24/1989","09:10","am","slc" ,"01/24/1989",
             "09:10","am");
     assertThat(String.valueOf(flight.getDepartureString().equals(("10/24/1989 09:10"))),true);
   }
@@ -85,7 +85,6 @@ public class FlightTest {
     try {
       Flight flight = new Flight(42,"slc" ,  "12/01/19999", "09:10","am","slc" ,"12/01/199",
               "09:10","am");
-      System.out.println(flight.toString());
       fail("Illegal Argument Exception should have been thrown");
     } catch(IllegalArgumentException ex){
       //pass
@@ -141,7 +140,7 @@ public class FlightTest {
   }
   @Test
   void implementGetDestination() {
-    Flight flight = new Flight(42, "pdx", "12/01/1989", "12:10","am", "pdx", "12/01/1989",
+    Flight flight = new Flight(42, "slc", "12/01/1989", "12:10","am", "pdx", "12/01/1989",
             "12:10","am");
     String dest = flight.getDestination();
     assertEquals(dest, "PDX");
@@ -178,7 +177,7 @@ public class FlightTest {
   }
   @Test
   void implementAirlineAddFlight() {
-      Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","pdx" ,"12/01/1989",
+      Flight flight = new Flight(42,"slc" ,  "12/01/1989", "12:10","am","pdx" ,"12/01/1989",
               "12:10","am");
       Airline airline = new Airline("portland");
       airline.addFlight(flight);
@@ -186,7 +185,7 @@ public class FlightTest {
   }
   @Test
   void implementAirlineGetFlight() {
-    Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","pdx" ,"12/01/1989",
+    Flight flight = new Flight(42,"slc" ,  "12/01/1989", "12:10","am","pdx" ,"12/01/1989",
             "12:10","am");
     Airline airline = new Airline("portland");
     airline.addFlight(flight);
@@ -195,12 +194,55 @@ public class FlightTest {
   }
   @Test
   void implementAirlineGetFlightCorrectInfo() {
-    Flight flight = new Flight(42,"pdx" ,  "12/01/1989", "12:10","am","pdx" ,"12/01/1989",
+    Flight flight = new Flight(42,"slc" ,  "12/01/1989", "12:10","am","pdx" ,"12/01/1989",
             "12:10","am");
     Airline airline = new Airline("portland");
     airline.addFlight(flight);
     Collection<Flight> flights = airline.getFlights();
     assertEquals(flights.size(), 1);
   }
+  @Test
+  void flightArrivesBeforeDepartErrorThrown() {
+    try {
+      Flight flight = new Flight(42, "slc", "12/01/1989", "10:00", "am", "pdx", "12/01/1989",
+              "9:00", "am");
+      Airline airline = new Airline("portland");
 
-}
+      airline.addFlight(flight);
+    } catch (IllegalArgumentException e) {
+      assertThat(String.valueOf(e.getMessage().contains("Flights arrival time can not")),true);
+    }
+  }
+    @Test
+    void nullFlightArgThrowsError() {
+      try {
+        Flight flight = new Flight(42, null, "12/01/1989", "10:00", "am", "pdx", "12/01/1989",
+                "11:30", "am");
+        Airline airline = new Airline("portland");
+
+        airline.addFlight(flight);
+      } catch (IllegalArgumentException e) {
+        System.err.println(e.getMessage());
+        //pass
+      }
+  }
+  @Test
+  void flightsOrderedBySource() {
+    Flight flight = new Flight(42, "lax", "12/01/1989", "10:00", "am", "pdx", "12/01/1989",
+            "11:30", "am");
+    Flight flight2 = new Flight(42, "pdx", "12/01/1989", "11:00", "am", "lax", "12/01/1989",
+            "11:30", "am");
+
+    assertThat(String.valueOf(flight.compareTo(flight2) < 0), true);
+  }
+  @Test
+  void flightsWithSameSrcAreOrderedByDate() {
+      Flight flight = new Flight(42, "slc", "12/01/1989", "10:00", "am", "pdx", "12/01/1989",
+              "11:30", "am");
+      Flight flight2 = new Flight(42, "pdx", "12/01/1989", "11:00", "am", "slc", "12/01/1989",
+              "11:30", "am");
+
+      assertThat(String.valueOf(flight.compareTo(flight2)>0), true);
+  }
+
+  }

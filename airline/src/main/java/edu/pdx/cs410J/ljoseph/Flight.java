@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 public class Flight extends AbstractFlight implements Comparable<Flight> {
 
   public static final String INVALID_DATE = "Incorrect Date Format. dd/mm/yyyy";
-  public static final String INVALID_TIME = "Time format must be mm:hh";
   public static final String INVALID_FLIGHT_NUM = "Flight number must be an integer greater than zero";
   private int flightNumber; //unique flight number
   private String src;       //three-letter source code
@@ -45,6 +44,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     this.depart = validDate(depart,dtime,dAmPm);
     this.dest = validSrcDest(dest.trim());
     this.arrive = validDate(arrive, atime,aAmPm);
+    if(this.src.equals(this.dest))
+      throw new IllegalArgumentException("The source code and destination code can not be the same" );
     validDatesDepartBeforeArrive();
 
   }
