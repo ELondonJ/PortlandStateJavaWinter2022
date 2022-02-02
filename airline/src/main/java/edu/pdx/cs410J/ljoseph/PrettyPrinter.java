@@ -22,6 +22,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
     int j = 0x2563;
     int k = 0x255A;
     int l = 0x255D;
+    int airlineNameSpace = 68;
 
     /**
      * Creates PrettyPrinter with writer
@@ -43,7 +44,9 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
         pw.print(((char)c));
         longLine(pw);
         pw.println((char)h);
-        pw.println(fmt2.format("%-35s%-68s%12s",(char)b, airlineName.toUpperCase(),(char)b));
+        getCenteredAirlineName(airlineName);
+        pw.println(fmt2.format("%-20s%-" +airlineNameSpace+ "s%27s",(char)b, getCenteredAirlineName(airlineName),
+                (char)b));
         pw.print((char)d);
         longLine(pw);
         pw.println((char)j);
@@ -54,6 +57,15 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
         longLine(pw);
         pw.println((char)j);
         fmt.flush();
+    }
+
+    private String getCenteredAirlineName(String airlineName) {
+        StringBuilder sb = new StringBuilder();
+        int spacing = (airlineNameSpace - airlineName.length())/2;
+        for(int i = 0; i < spacing; i++)
+            sb.append(" ");
+        sb.append(airlineName);
+        return sb.toString();
     }
 
     /**
