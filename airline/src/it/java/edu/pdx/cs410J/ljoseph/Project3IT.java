@@ -63,7 +63,7 @@ class Project3IT extends InvokeMainTestCase {
     void testReadMeCommandLineArgument() {
         MainMethodResult result = invokeMain("-readme");
         assertThat(result.getExitCode(), equalTo(0));
-        assertThat(result.getTextWrittenToStandardOut(), containsString("410J Project 2: Airline"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("410J Project 3: Airline"));
     }
     @Test
     void testTextFileFlagWithNoFileCommandLineArgument() {
