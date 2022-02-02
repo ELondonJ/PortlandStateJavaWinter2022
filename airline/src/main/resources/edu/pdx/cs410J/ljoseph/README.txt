@@ -1,9 +1,9 @@
 README
 
-CS410J Project 2: Airline
+CS410J Project 3: Airline
 
 Authors: London Joseph, David Whitlock
-Version: 01.19.2022
+Version: 02.02.2022
 
 Description:
 This is the second project for Advanced Java Programing(CS410P) at Portland State University. Project 2 builds
@@ -33,6 +33,8 @@ The TextParser class extends the AbstractTextParser class contained in pdx.edu.c
     and then reads each subsequent line, creating a flight from it contents and adding each flight to the airline. The
     airline object is then returned to calling routine once the end of the file is reached. TextParser requires the same
     text file format described in the TextDumper class.
+The PrettyPrint class extends the AbstractTextDumper contained in pdx.edu.cs410J.  A Pretty print has the same
+    constructor args and public methods as TextDumper but PrettyPrint prints a table version of an airline object.
 
 usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>
     args are (in this order):

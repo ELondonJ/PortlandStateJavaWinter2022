@@ -146,7 +146,7 @@ public class Project3 {
         if (textFile.exists()) {
           parser = new TextParser(new FileReader(textFile));
           airline = parser.parse();
-          if (!airline.getName().equals(airlineName)) {
+          if (!airline.getName().equalsIgnoreCase(airlineName)) {
             System.err.println("Airline can not be updated. Airline Name in " + textFileName + " does not match airline name" +
                     " entered at the command line.");
             System.err.println("Airline name on command line: \"" + airlineName

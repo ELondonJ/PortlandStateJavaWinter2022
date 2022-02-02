@@ -24,7 +24,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
     int l = 0x255D;
 
     /**
-     * Creates PrettPrinter with writer
+     * Creates PrettyPrinter with writer
      * @param writer file writer from calling routine
      */
     public PrettyPrinter(Writer writer) {
@@ -43,11 +43,11 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
         pw.print(((char)c));
         longLine(pw);
         pw.println((char)h);
-        pw.println(fmt2.format("%-35s%-72s%12s",(char)b, airlineName.toUpperCase(),(char)b));
+        pw.println(fmt2.format("%-35s%-68s%12s",(char)b, airlineName.toUpperCase(),(char)b));
         pw.print((char)d);
         longLine(pw);
         pw.println((char)j);
-        pw.println(fmt.format("%s%-13s%-6s%-18s%-21s%-7s%-19s%-21s%-11s%s", (char)b, " FlightNumber ",
+        pw.println(fmt.format("%s%-10s%-6s%-18s%-21s%-7s%-19s%-21s%-11s%s", (char)b, " Flight# ",
                         (char)f+ " SRC ", (char)f + " Departure City", (char)f + " Departure", (char)f + " DEST",
                         (char)f + " Arrival City",(char)f + " Arrival", (char)f + " Duration", (char)b));
         pw.print((char)d);
@@ -71,7 +71,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
      * @param pw PrintWriter
      */
     private void longLine(PrintWriter pw) {
-        for(int i = 0; i < 117; i++)
+        for(int i = 0; i < 113; i++)
             pw.print((char)g);
     }
 
@@ -99,7 +99,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
                     dCity = dCity.substring(0,15);
                 if(aCity.length() > 15)
                     aCity = aCity.substring(0,15);
-                pw.println(fmt.format("%s%-15s%-6s%-18s%-21s%-7s%-19s%-21s%-9s%s", (char)b + " ", flight.getNumber(),
+                pw.println(fmt.format("%s%-11s%-6s%-18s%-21s%-7s%-19s%-21s%-9s%s", (char)b + " ", flight.getNumber(),
                         flight.getSource(), dCity, flight.getDepartureStringPretty(), flight.getDestination(),
                         aCity, flight.getArrivalStringPretty(), flight.getFlightDuration(), (char)b));
             }

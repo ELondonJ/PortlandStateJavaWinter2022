@@ -39,7 +39,7 @@ public class TextParser implements AirlineParser<Airline> {
       if (airlineName == null) {
         throw new ParserException("Missing airline name");
       }
-      Airline airline = new Airline(airlineName);       //Airline name will be the first line in the text file
+      Airline airline = new Airline(airlineName.trim());       //Airline name will be the first line in the text file
       while((line = br.readLine()) != null){            //Each line after will have all info for one flight
         String[] splitLine = line.split("\\s+");  //Splits the string in text file into String[] of
         if(splitLine.length != fArgs.length)            //args for flight
