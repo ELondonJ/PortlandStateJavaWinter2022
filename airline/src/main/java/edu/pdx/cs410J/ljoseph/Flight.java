@@ -26,6 +26,7 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
   private int flightNumber; //unique flight number
   private String src;       //three-letter source code
   private Date arrive;    //arrival date
+
   private Date depart;    //departure date
   private String dest;      //three-letter destination code
 /**
@@ -49,6 +50,15 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
     validDatesDepartBeforeArrive();
 
   }
+
+  public Date getDepart() {
+    return depart;
+  }
+
+  public Date getArrive() {
+    return arrive;
+  }
+
 
   private void validDatesDepartBeforeArrive() {
     if(this.depart.after(this.arrive))

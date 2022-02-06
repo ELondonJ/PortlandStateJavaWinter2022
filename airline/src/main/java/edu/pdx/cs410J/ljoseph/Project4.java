@@ -8,14 +8,14 @@ import java.io.*;
 /**
  * The main class for the CS410J airline Project
  */
-public class Project3 {
+public class Project4 {
 
   /**
    * Print usages from the ReadMe resource file
    * @throws IOException
    */
   private static void getUsage() throws IOException {
-    InputStream readme = Project3.class.getResourceAsStream("README.txt");
+    InputStream readme = Project4.class.getResourceAsStream("README.txt");
     BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
     String line = reader.readLine();
     while(!line.contains("usage"))
@@ -68,7 +68,7 @@ public class Project3 {
         if (args[i].equalsIgnoreCase("-print"))
           print = true;
         else if (args[i].equalsIgnoreCase("-readme")) {
-          InputStream readme = Project3.class.getResourceAsStream("README.txt");
+          InputStream readme = Project4.class.getResourceAsStream("README.txt");
           BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
           String line = reader.readLine();
           do {
