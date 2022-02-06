@@ -16,10 +16,10 @@
   <url>http://www.cs.pdx.edu/~whitlock</url>
   <developers>
     <developer>
-      <id>YOU</id>
-      <name>Your name here</name>
-      <email>you@youremail.com</email>
-      <url>http://www.cs.pdx.edu/~YOU</url>
+      <id>ELondonJ</id>
+      <name>London Joseph</name>
+      <email>ljoseph@pdx.edu</email>
+      <url>http://www.cs.pdx.edu/~ljoseph</url>
       <organization>PSU Department of Computer Science</organization>
       <organizationUrl>http://www.cs.pdx.edu</organizationUrl>
       <roles>
@@ -65,7 +65,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>edu.pdx.cs410J.ljoseph.Project3</mainClass>
+              <mainClass>edu.pdx.cs410J.ljoseph.Project4</mainClass>
             </manifest>
           </archive>
         </configuration>
