@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class XmlDumperTest {
     private Airline testAirline = new Airline("Test International");
-    private Flight testFlight = new Flight(1234, "pdx", "12/12/1212",
-            "12:12","am", "slc", "12/12/1212", "12:12", "am");
+    private Flight testFlight = new Flight(1234, "pdx", "12/12/2020",
+            "12:12","am", "slc", "12/12/2020", "12:12", "am");
 
     private Airline addFlightToTestAirline(int flightsToEnter) {
         for(int i = 0; i < flightsToEnter; i++)
@@ -22,7 +22,7 @@ public class XmlDumperTest {
     void writeAirlineNameToXml() throws ParserConfigurationException, IOException {
         addFlightToTestAirline(1);
         try {
-            XmlDumper dumper = new XmlDumper();
+            XmlDumper dumper = new XmlDumper("newTest.xml");
 
             dumper.dump(testAirline);
         }catch(ParserConfigurationException | IOException ex){
