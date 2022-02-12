@@ -20,7 +20,7 @@ public class XmlDumperTest {
 
     @Test
     void writeAirlineNameToXml() throws ParserConfigurationException, IOException {
-        addFlightToTestAirline(1);
+        addFlightToTestAirline(3);
         try {
             XmlDumper dumper = new XmlDumper("newTest.xml");
 
