@@ -1,9 +1,9 @@
 README
 
-CS410J Project 3: Airline
+CS410J Project 4: Airline
 
 Authors: London Joseph, David Whitlock
-Version: 02.02.2022
+Version: 02.16.2022
 
 Description:
 This is the second project for Advanced Java Programing(CS410P) at Portland State University. Project 2 builds
@@ -45,6 +45,7 @@ usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>
     dest                Three-letter code of arrival airport
     arrive              Arrival date and time (am/pm)
     options are (options may appear in any order):
+    -xmlFile file Where to read/write the airline info
     -pretty file        Pretty print the airline’s flights to
                         a text file or standard out (file -)
     -textFile file      Where to read/write the airline info
