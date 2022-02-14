@@ -5,7 +5,6 @@ import edu.pdx.cs410J.ParserException;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
-import javax.swing.plaf.IconUIResource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,7 +24,6 @@ public class XmlParser implements AirlineParser<Airline> {
     private AirlineXmlHelper helper;
     private File file;
     private Airline airline;
-    private String[] flightArgs;
 
     public XmlParser(String filename) throws ParserConfigurationException {
         helper = new AirlineXmlHelper();
@@ -37,7 +35,6 @@ public class XmlParser implements AirlineParser<Airline> {
         if(filename == null)
             throw new IllegalArgumentException("File is null");
         this.file = new File(filename);
-        flightArgs = new String[9];
     }
     private String[] dateTimeParse(Node flightNode) throws ParserException {
         String day = null;
@@ -123,7 +120,6 @@ public class XmlParser implements AirlineParser<Airline> {
             Flight flight = new Flight(flightNumber, src, departStr[0], departStr[1], departStr[2], dest, arriveStr[0],
                     arriveStr[1], arriveStr[2]);
             airline.addFlight(flight);
-            System.out.println(flight.toString());
         }catch (IllegalArgumentException | NullPointerException e) {
             throw new ParserException("While parsing " + file.getName() + ": " + e.getMessage());
         }
@@ -148,12 +144,11 @@ public class XmlParser implements AirlineParser<Airline> {
                     }
             }
         } catch (SAXException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error occurred while parsing " + file);
+            throw new RuntimeException("Error occurred while parsing " + file + ": malformed xml file");
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error occurred while parsing " + file);
         }
-        return null;
+        return airline;
     }
 }

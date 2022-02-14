@@ -1,8 +1,11 @@
 package edu.pdx.cs410J.ljoseph;
 
+import edu.pdx.cs410J.AirlineDumper;
+import edu.pdx.cs410J.AirlineParser;
 import edu.pdx.cs410J.ParserException;
 //import jdk.incubator.vector.VectorOperators;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 
 /**
@@ -54,12 +57,14 @@ public class Project4 {
     String atime = null;
     String aAmPm = null;
     boolean print = false;
-    boolean fileFlag = false;
+    boolean textFileFlag = false;
     boolean prettyPrint = false;
-    TextDumper dumper;
-    TextParser parser;
-    String textFileName = null;
+    boolean xmlFileFlag = false;
+    AirlineDumper<Airline> dumper;
+    AirlineParser<Airline> parser;
+    String fileName = null;
     String prettyFile = null;
+    String xmlFileName= null;
 
 
     //loop parses saves each arg in appropriate variable, sets option flags as needed
@@ -81,8 +86,8 @@ public class Project4 {
             System.err.println("A file name is required with -textFile flag");
             System.exit(1);
           }
-          fileFlag = true;
-          textFileName = args[i];
+          textFileFlag = true;
+          fileName = args[i];
         } else if (args[i].equalsIgnoreCase("-pretty")) {
           if (++i >= args.length) {
             System.err.println("A file name is required if you'd like to pretty print to a file" +
@@ -92,6 +97,13 @@ public class Project4 {
           prettyPrint = true;
           prettyFile = args[i];
 
+        } else if (args[i].equalsIgnoreCase("-xmlfile")) {
+          if (++i >= args.length) {
+            System.err.println("A file name is required with -xmlFile flag");
+            System.exit(1);
+          }
+          xmlFileFlag = true;
+          fileName = args[i];
         } else {
           System.err.println("Error! Unknown flag ");
           System.exit(1);
@@ -130,6 +142,10 @@ public class Project4 {
         System.exit(1);
       }
     }
+    if(xmlFileFlag && textFileFlag){
+      System.err.println("Error. Can not specify both -textFile and -xmlFile");
+      System.exit(1);
+    }
 
     //creates flight object with parsed arguments
     try {
@@ -138,16 +154,20 @@ public class Project4 {
       System.err.println(ex.getMessage());
       System.exit(1);
     }
-    //print a parsable file representing an airline
-    if (fileFlag) {
-      File textFile = new File(textFileName);
+    //print a parsable xml or text file representing an airline
+    if (textFileFlag || xmlFileFlag) {
+      File textFile;
+      textFile = new File(fileName);
       try {
         //if file already exists first parse into an Airline object
         if (textFile.exists()) {
-          parser = new TextParser(new FileReader(textFile));
+          if(textFileFlag)
+            parser = new TextParser(new FileReader(textFile));
+          else
+            parser = new XmlParser(fileName);
           airline = parser.parse();
           if (!airline.getName().equalsIgnoreCase(airlineName)) {
-            System.err.println("Airline can not be updated. Airline Name in " + textFileName + " does not match airline name" +
+            System.err.println("Airline can not be updated. Airline Name in " + fileName + " does not match airline name" +
                     " entered at the command line.");
             System.err.println("Airline name on command line: \"" + airlineName
                     + "\"\nAirline name in file: \"" + airline.getName());
@@ -158,12 +178,18 @@ public class Project4 {
           airline = new Airline(airlineName);
         }
         //write Airline to file with textDumper object
-        dumper = new TextDumper(new FileWriter(textFile));
+        if(textFileFlag)
+          dumper = new TextDumper(new FileWriter(textFile));
+        else
+          dumper  = new XmlDumper(fileName);
         airline.addFlight(flight);
         dumper.dump(airline);
 
       } catch (IllegalArgumentException | ParserException ex) {
         System.err.println(ex.getMessage());
+        System.exit(1);
+      } catch (ParserConfigurationException e) {
+        System.err.println(e.getMessage());
         System.exit(1);
       }
     } else {
@@ -178,9 +204,9 @@ public class Project4 {
     //prettyPrint Airline if prettyPrint flag is present
     if (prettyPrint) {
       Airline aAirline;
-      //pretty print the airline in the textFile if fileFlag is present
-      if (fileFlag) {
-        File parseFile = new File(textFileName);
+      //pretty print the airline in the textFile if textFileFlag is present
+      if (textFileFlag) {
+        File parseFile = new File(fileName);
         parser = new TextParser(new FileReader(parseFile));
         try {
           aAirline = parser.parse();
