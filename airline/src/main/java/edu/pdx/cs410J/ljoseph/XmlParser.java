@@ -87,7 +87,6 @@ public class XmlParser implements AirlineParser<Airline> {
             throw new ParserException("Incorrect file format while parsing airline text" );
         return new String[] {splitLine[0],splitLine[1],splitLine[2]};
 
-
     }
     private void createFlight(NodeList flightInfo) throws ParserException {
         int flightNumber = -1;
