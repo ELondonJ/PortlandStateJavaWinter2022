@@ -17,6 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+/**
+ * XmlParser creates airline object from xml file
+ */
 public class XmlParser implements AirlineParser<Airline> {
 
     private DocumentBuilderFactory factory;
@@ -25,6 +28,11 @@ public class XmlParser implements AirlineParser<Airline> {
     private File file;
     private Airline airline;
 
+    /**
+     * creates xmlparser object with String name of file to be parsed
+     * @param filename
+     * @throws ParserConfigurationException
+     */
     public XmlParser(String filename) throws ParserConfigurationException {
         helper = new AirlineXmlHelper();
         factory = DocumentBuilderFactory.newInstance();
@@ -36,6 +44,13 @@ public class XmlParser implements AirlineParser<Airline> {
             throw new IllegalArgumentException("File is null");
         this.file = new File(filename);
     }
+
+    /**
+     * parses date and time from Dom tree
+     * @param flightNode depart node or arrive node from flight node parent
+     * @return String[] containing mm/dd/yyyy, hh:mm, am/pm
+     * @throws ParserException
+     */
     private String[] dateTimeParse(Node flightNode) throws ParserException {
         String day = null;
         String month = null;
@@ -76,6 +91,7 @@ public class XmlParser implements AirlineParser<Airline> {
                     }
             }
         }
+        //Calendar to reformat parsed date into correct format for flight object
         Calendar cal = Calendar.getInstance();
         cal.set(Integer.parseInt(year),Integer.parseInt(month),Integer.parseInt(day),Integer.parseInt(hr),
                 Integer.parseInt(min));
@@ -88,6 +104,13 @@ public class XmlParser implements AirlineParser<Airline> {
         return new String[] {splitLine[0],splitLine[1],splitLine[2]};
 
     }
+
+    /**
+     * Parses each flight element from the airline dom tree
+     * creates a flight object and adds it to the airline object
+     * @param flightInfo list of children elements of the current flight being parsed
+     * @throws ParserException
+     */
     private void createFlight(NodeList flightInfo) throws ParserException {
         int flightNumber = -1;
         String src = null;
@@ -123,6 +146,12 @@ public class XmlParser implements AirlineParser<Airline> {
             throw new ParserException("While parsing " + file.getName() + ": " + e.getMessage());
         }
     }
+
+    /**
+     * Parses the xml file the object was created with and creates a new airline object
+     * @return airline object representation of the xml file
+     * @throws ParserException
+     */
     @Override
     public Airline parse() throws ParserException {
         try {
@@ -145,7 +174,6 @@ public class XmlParser implements AirlineParser<Airline> {
         } catch (SAXException e) {
             throw new RuntimeException("Error occurred while parsing " + file + ": malformed xml file");
         } catch (IOException e) {
-            e.printStackTrace();
             throw new RuntimeException("Error occurred while parsing " + file);
         }
         return airline;

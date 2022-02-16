@@ -6,8 +6,8 @@ Authors: London Joseph, David Whitlock
 Version: 02.16.2022
 
 Description:
-This is the second project for Advanced Java Programing(CS410P) at Portland State University. Project 2 builds
-from Project 1 and consists of five classes, Main, Flight, Airline, TextDumper and TextParser.
+This is the fourth project for Advanced Java Programing(CS410P) at Portland State University. Project 4 builds
+from Project 3 and consists of the following classes:
 
 The Main class reads arguments from the command-line, parses them and creates an airline and flight object with
     the arguments. Main will print the flight objects information with the -print flag. Main will print this readme.txt
@@ -35,6 +35,12 @@ The TextParser class extends the AbstractTextParser class contained in pdx.edu.c
     text file format described in the TextDumper class.
 The PrettyPrint class extends the AbstractTextDumper contained in pdx.edu.cs410J.  A Pretty print has the same
     constructor args and public methods as TextDumper but PrettyPrint prints a table version of an airline object.
+The XmlDumper class implements the AirlineDumper interface. XmlDumper dumps a representation of an airline to an XML
+    file that conforms to the given DTD.
+The XmlParser class implements the AirlineParser interface. XmlParser reads the contents of an XML file and creates an
+    Airline from its contents.
+The Converter class converts the representation of an Airline in a text file to an XML file
+    usage: java edu.pdx.cs410J.<login-id>.Converter textFile xmlFile
 
 usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>
     args are (in this order):
@@ -51,4 +57,6 @@ usage: java edu.pdx.cs410J.<login-id>.Project1 [options] <args>
     -textFile file      Where to read/write the airline info
     -print              Prints a description of the new flight
     -README             Prints a README for this project
+
+    It is an error to specify both -textFile and -xmlFile
     (departure/arrive should be in format: 01/02/2022 9:16 pm)
