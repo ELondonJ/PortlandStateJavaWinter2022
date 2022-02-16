@@ -55,7 +55,7 @@ class ConverterIT extends InvokeMainTestCase {
         MainMethodResult result = invokeMain("test.txt", "xmltest.txt");
         assertThat(result.getExitCode(), equalTo(1));
         File xml = new File("xmltest.txt");
-        assertThat(result.getTextWrittenToStandardError(), containsString("cannot find the file"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("test.txt"));
         System.out.println(result.getTextWrittenToStandardError());
 
     }
