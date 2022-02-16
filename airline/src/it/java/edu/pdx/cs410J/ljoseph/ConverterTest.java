@@ -58,6 +58,21 @@ class ConverterTest extends InvokeMainTestCase {
         File xml = new File("xmltest.txt");
         assertThat(result.getTextWrittenToStandardError(), containsString("cannot find the file"));
         System.out.println(result.getTextWrittenToStandardError());
+
+    }
+    @Test
+    void incorrectXmlFileFormat() throws FileNotFoundException {
+        File testFile = new File("test.txt");
+        PrintWriter pw = new PrintWriter(testFile);
+        pw.println("delta");
+        pw.println("2344 pdx 12/12/2022 12:12 slc 12/12/2022 12:33 am");
+        pw.close();
+        MainMethodResult result = invokeMain("test.txt", "xmltest.txt");
+        assertThat(result.getExitCode(), equalTo(1));
+        File xml = new File("xmltest.txt");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Incorrect"));
+        pw.close();
+        testFile.delete();
     }
 
 }

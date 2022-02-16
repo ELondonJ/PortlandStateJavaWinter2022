@@ -121,11 +121,11 @@ public class XmlDumper implements AirlineDumper<Airline> {
             StreamResult result = new StreamResult(output);
             transformer.transform(source, result);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("while dumping " + file + " " + e.getMessage());
         } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
+            throw new RuntimeException("while dumping " + file + " " + e.getMessage());
         } catch (TransformerException e) {
-            e.printStackTrace();
+            throw new RuntimeException("while dumping " + file + " " + e.getMessage());
         }
     }
 }

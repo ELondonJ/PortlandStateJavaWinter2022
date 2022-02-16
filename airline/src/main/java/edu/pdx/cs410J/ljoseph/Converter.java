@@ -36,19 +36,13 @@ public class Converter {
                 //write Airline to file with textDumper object
                 dumper  = new XmlDumper(xmlfile);
                 dumper.dump(airline);
-            } catch (ParserException e) {
-                System.err.println(e.getMessage());
-                System.exit(1);
             } catch (FileNotFoundException e) {
                 System.err.println(e.getMessage());
                 System.exit(1);
-            } catch (ParserConfigurationException e) {
-                System.err.println(e.getMessage());
-                System.exit(1);
-            } catch (IOException e) {
+            } catch (ParserException | ParserConfigurationException | IOException e) {
                 System.err.println(e.getMessage());
                 System.exit(1);
             }
-            System.exit(0);
+        System.exit(0);
     }
 }

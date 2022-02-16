@@ -191,6 +191,10 @@ public class Project4 {
       } catch (ParserConfigurationException e) {
         System.err.println(e.getMessage());
         System.exit(1);
+      } catch (RuntimeException e){
+        System.err.println(e.getMessage());
+        System.exit(1);
+
       }
     } else {
       airline = new Airline(airlineName);
