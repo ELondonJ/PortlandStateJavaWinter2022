@@ -1,8 +1,10 @@
 package edu.pdx.cs410J.ljoseph;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 
 public class XmlDumperTest {
@@ -19,6 +21,7 @@ public class XmlDumperTest {
     }
 
     @Test
+    @Disabled
     void writeAirlineNameToXml() throws ParserConfigurationException, IOException {
         addFlightToTestAirline(3);
         try {
@@ -28,6 +31,8 @@ public class XmlDumperTest {
         }catch(ParserConfigurationException | IOException ex){
             System.out.println(ex);
         }
+        File toDelete = new File("newTest.xml");
+
     }
 
 

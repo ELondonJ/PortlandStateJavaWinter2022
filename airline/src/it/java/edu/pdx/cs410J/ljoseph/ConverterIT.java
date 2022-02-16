@@ -72,6 +72,7 @@ class ConverterIT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString("Incorrect"));
         pw.close();
         testFile.delete();
+        xml.delete();
     }
 
 }
