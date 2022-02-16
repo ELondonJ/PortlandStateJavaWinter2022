@@ -30,7 +30,7 @@ public class XmlParser implements AirlineParser<Airline> {
 
     /**
      * creates xmlparser object with String name of file to be parsed
-     * @param filename
+     * @param filename name of file to be parsed
      * @throws ParserConfigurationException
      */
     public XmlParser(String filename) throws ParserConfigurationException {
@@ -46,9 +46,9 @@ public class XmlParser implements AirlineParser<Airline> {
     }
 
     /**
-     * parses date and time from Dom tree
-     * @param flightNode depart node or arrive node from flight node parent
-     * @return String[] containing mm/dd/yyyy, hh:mm, am/pm
+     * parses date and time from dom tree
+     * @param flightNode depart node or arrive node from flight node parent in dom tree
+     * @return String[] containing [mm/dd/yyyy, hh:mm, am/pm]
      * @throws ParserException
      */
     private String[] dateTimeParse(Node flightNode) throws ParserException {
@@ -107,7 +107,7 @@ public class XmlParser implements AirlineParser<Airline> {
 
     /**
      * Parses each flight element from the airline dom tree
-     * creates a flight object and adds it to the airline object
+     * creates the flight object and adds it to the airline object
      * @param flightInfo list of children elements of the current flight being parsed
      * @throws ParserException
      */
@@ -174,7 +174,7 @@ public class XmlParser implements AirlineParser<Airline> {
         } catch (SAXException e) {
             throw new RuntimeException("Error occurred while parsing " + file + ": malformed xml file");
         } catch (IOException e) {
-            throw new RuntimeException("Error occurred while parsing " + file);
+            throw new RuntimeException("Error occurred while parsing " + file + " : " + e.getMessage());
         }
         return airline;
     }
