@@ -10,9 +10,8 @@ import java.io.PrintWriter;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
-class ConverterTest extends InvokeMainTestCase {
+class ConverterIT extends InvokeMainTestCase {
 
     private MainMethodResult invokeMain(String... args) {
         return invokeMain( Converter.class, args );
