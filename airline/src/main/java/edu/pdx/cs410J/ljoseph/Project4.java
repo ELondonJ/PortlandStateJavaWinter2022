@@ -29,6 +29,7 @@ public class Project4 {
     } while (line != null);
   }
 
+
   /**
    * Main program that parses the command line and creates a flight object
    * and airline object.
