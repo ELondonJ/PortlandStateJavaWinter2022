@@ -2,6 +2,7 @@ package edu.pdx.cs410J.ljoseph;
 
 import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.web.HttpRequestHelper;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer.MethodName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -28,12 +29,14 @@ class AirlineRestClientIT {
   }
 
   @Test
+  @Disabled
   void test0RemoveAllDictionaryEntries() throws IOException {
     AirlineRestClient client = newAirlineRestClient();
     client.removeAllDictionaryEntries();
   }
 
   @Test
+  @Disabled
   void test1EmptyServerContainsNoDictionaryEntries() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
     Map<String, String> dictionary = client.getAllDictionaryEntries();
@@ -41,6 +44,7 @@ class AirlineRestClientIT {
   }
 
   @Test
+  @Disabled
   void test2DefineOneWord() throws IOException, ParserException {
     AirlineRestClient client = newAirlineRestClient();
     String testWord = "TEST WORD";
@@ -52,6 +56,7 @@ class AirlineRestClientIT {
   }
 
   @Test
+  @Disabled
   void test4EmptyWordThrowsException() {
     AirlineRestClient client = newAirlineRestClient();
     String emptyString = "";

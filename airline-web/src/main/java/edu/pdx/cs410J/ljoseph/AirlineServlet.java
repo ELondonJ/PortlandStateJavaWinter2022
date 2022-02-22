@@ -5,6 +5,7 @@ import com.google.common.annotations.VisibleForTesting;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -17,8 +18,12 @@ import java.util.Map;
  * and their definitions.
  */
 public class AirlineServlet extends HttpServlet {
-  static final String AIRLINE_NAME_PARAMETER = "name";
-  static final String DEFINITION_PARAMETER = "definition";
+    public static final String SRC_PARAMETER = "PDX";
+    public static final String DEST_PARAMETER = "SLC";
+    public static final String DEPARTURE_PARAMETER = "12/12/2002 10:00 AM";
+    public static final String ARRIVAL_PARAMETER = "12/12/2002 11:00 AM";
+    static final String AIRLINE_NAME_PARAMETER = "name";
+  static final String FLIGHT_NUMBER_PARAMETER = "definition";
 
   private final Map<String, Airline> airlines = new HashMap<>();
 
@@ -35,7 +40,12 @@ public class AirlineServlet extends HttpServlet {
 
       String name = getParameter( AIRLINE_NAME_PARAMETER, request );
       if (name != null) {
-          dumpAirline(name, response);
+          try {
+              dumpAirline(name, response);
+          } catch (ParserConfigurationException e) {
+              response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED,e.getMessage());
+              return;
+          }
 
       } else {
           missingRequiredParameter(response,AIRLINE_NAME_PARAMETER);
@@ -52,23 +62,53 @@ public class AirlineServlet extends HttpServlet {
   {
       response.setContentType( "text/plain" );
 
-      String word = getParameter(AIRLINE_NAME_PARAMETER, request );
-      if (word == null) {
+      String airlineName = getParameter(AIRLINE_NAME_PARAMETER, request );
+      if (airlineName == null) {
           missingRequiredParameter(response, AIRLINE_NAME_PARAMETER);
           return;
       }
 
-      String definition = getParameter(DEFINITION_PARAMETER, request );
-      if ( definition == null) {
-          missingRequiredParameter( response, DEFINITION_PARAMETER );
+      String flightNumber = getParameter(FLIGHT_NUMBER_PARAMETER, request );
+      if ( flightNumber == null) {
+          missingRequiredParameter( response, FLIGHT_NUMBER_PARAMETER);
+          return;
+      }
+      String src = getParameter(SRC_PARAMETER, request );
+      if (src == null) {
+          missingRequiredParameter(response, SRC_PARAMETER);
+          return;
+      }
+      String dest = getParameter(DEST_PARAMETER, request );
+      if (dest == null) {
+          missingRequiredParameter(response, DEST_PARAMETER);
+          return;
+      }
+      String departure = getParameter(DEPARTURE_PARAMETER, request );
+      if (departure == null) {
+          missingRequiredParameter(response, DEPARTURE_PARAMETER);
+          return;
+      }
+      String arrival = getParameter(ARRIVAL_PARAMETER, request );
+      if (arrival == null) {
+          missingRequiredParameter(response, ARRIVAL_PARAMETER);
+          return;
+      }
+      String[] departureArgs = departure.split(" ");
+      String[] arrivalArgs = arrival.split(" ");
+      Airline airline = getOrCreateAirline(airlineName);
+      try {
+          airline.addFlight(new Flight(Integer.parseInt(flightNumber), src, departureArgs[0], departureArgs[1], departureArgs[2],
+                  dest, arrivalArgs[0], arrivalArgs[1], arrivalArgs[2]));
+      }catch (IllegalArgumentException e){
+          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED,e.getMessage());
           return;
       }
 
-     // this.airlines.put(word, definition);
+      this.airlines.put(airlineName, airline);
 
-      PrintWriter pw = response.getWriter();
-      pw.println(Messages.definedWordAs(word, definition));
-      pw.flush();
+     // PrintWriter pw = response.getWriter();
+     // pw.println(Messages.definedWordAs(word, definition));
+     // pw.flush();
 
       response.setStatus( HttpServletResponse.SC_OK);
   }
@@ -107,21 +147,18 @@ public class AirlineServlet extends HttpServlet {
   /**
    * Writes the definition of the given word to the HTTP response.
    *
-   * The text of the message is formatted with {@link TextDumper}
+   * The text of the message is formatted with {@link XmlDumper}
    */
-  private void dumpAirline(String word, HttpServletResponse response) throws IOException {
-    Airline airline = this.airlines.get(word);
+  private void dumpAirline(String airlineName, HttpServletResponse response) throws IOException, ParserConfigurationException {
+    Airline airline = this.airlines.get(airlineName);
 
     if (airline == null) {
       response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
     } else {
       PrintWriter pw = response.getWriter();
-
-      Map<String, Airline> wordDefinition = Map.of(word, airline);
-      TextDumper dumper = new TextDumper(pw);
-      ///dumper.dump(wordDefinition);
-
+      XmlDumper dumper = new XmlDumper(pw);
+      dumper.dump(airline);
       response.setStatus(HttpServletResponse.SC_OK);
     }
   }
@@ -157,7 +194,12 @@ public class AirlineServlet extends HttpServlet {
   }
 
   @VisibleForTesting
-  Airline getDefinition(String word) {
-      return this.airlines.get(word);
+  Airline getOrCreateAirline(String airlineName) {
+      if(this.airlines.get(airlineName) == null){
+          Airline airline = new Airline(airlineName);
+          airlines.put(airlineName,airline);
+          return airline;
+      }
+      return this.airlines.get(airlineName);
   }
 }

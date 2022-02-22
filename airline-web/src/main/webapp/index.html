@@ -28,23 +28,22 @@
 </h2>
 
 
-<div>
-    <form method="get" action="flights">
-        List all word/definition pairs <input type="submit" definition="Submit"/>
-    </form>
-</div>
 
 <div>
     <form method="get" action="flights">
-        List definition for word <input name="word" type="text" size="10" title="word"/>
+        Get flights for airline <input name="airline" type="text" size="10" title="word"/>
         <input type="submit" definition="Submit"/>
     </form>
 </div>
 
 <div>
     <form method="post" action="flights">
-        Create a new word/definition pair <input name="word" type="text" size="10" title="word"/> /
-        <input name="definition" type="text" size="10" title="definition"/>
+        Add flight to airline: <input name="airline" type="text" size="10" title="airline"/>
+        flight number: <input name="flightNumber" type="text" size="3" title="flightNumber"/>
+        Source Airport: <input name="source" type="text" size="10" title="source"/>
+        Departure date(dd/mm/yyyy hh:mm am/pm): <input name="departure" type="text" size="15" title="departure"/>
+        Destination: <input name="destination" type="text" size="3" title="destination"/>
+        Arrival date(dd/mm/yyyy hh:mm am/pm): <input name="arrival" type="text" size="15" title="arrival"/>
         <input type="submit" definition="Submit"/>
     </form>
 </div>
