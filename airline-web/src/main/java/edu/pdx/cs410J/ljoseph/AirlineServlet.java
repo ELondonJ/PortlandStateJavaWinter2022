@@ -18,12 +18,12 @@ import java.util.Map;
  * and their definitions.
  */
 public class AirlineServlet extends HttpServlet {
-    public static final String SRC_PARAMETER = "PDX";
-    public static final String DEST_PARAMETER = "SLC";
-    public static final String DEPARTURE_PARAMETER = "12/12/2002 10:00 AM";
-    public static final String ARRIVAL_PARAMETER = "12/12/2002 11:00 AM";
-    static final String AIRLINE_NAME_PARAMETER = "name";
-  static final String FLIGHT_NUMBER_PARAMETER = "definition";
+    public static final String SRC_PARAMETER = "src";
+    public static final String DEST_PARAMETER = "dest";
+    public static final String DEPARTURE_PARAMETER = "departure";
+    public static final String ARRIVAL_PARAMETER = "arrival";
+    static final String AIRLINE_NAME_PARAMETER = "airline";
+  static final String FLIGHT_NUMBER_PARAMETER = "flightNumber";
 
   private final Map<String, Airline> airlines = new HashMap<>();
 
@@ -38,21 +38,51 @@ public class AirlineServlet extends HttpServlet {
   {
       response.setContentType( "text/plain" );
 
-      String name = getParameter( AIRLINE_NAME_PARAMETER, request );
-      if (name != null) {
-          try {
-              dumpAirline(name, response);
-          } catch (ParserConfigurationException e) {
-              response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED,e.getMessage());
-              return;
-          }
+      String airlineName = getParameter( AIRLINE_NAME_PARAMETER, request );
+      String src = getParameter(SRC_PARAMETER , request );
+      String dest = getParameter(DEST_PARAMETER, request );
+      if (airlineName != null) {
+          if(src == null && dest == null) {
+              try {
+                  dumpAirline(airlineName, response);
+              } catch (ParserConfigurationException e) {
+                  response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, e.getMessage());
+                  return;
+              }
+          } else if(src != null && dest != null){
+              Airline temp = findFlights(airlineName, src, dest);
+              try {
+                  dumpAirline(temp, response);
+              } catch (ParserConfigurationException e) {
+                  response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, e.getMessage());
+                  return;
+              }
+
+          }else if(src == null)
+              missingRequiredParameter(response,SRC_PARAMETER);
+          else
+              missingRequiredParameter(response,DEST_PARAMETER);
+
 
       } else {
           missingRequiredParameter(response,AIRLINE_NAME_PARAMETER);
       }
   }
 
-  /**
+    private Airline findFlights(String airlineName, String src, String dest) {
+        Airline airline = this.airlines.get(airlineName);
+        if(airline == null)
+            return null;
+        Airline temp = new Airline(airlineName);
+        for(Flight flight: airline.getFlights()){
+            if(flight.getSource().equals(src) && flight.getDestination().equals(dest)){
+                temp.addFlight(flight);
+            }
+        }
+        return temp;
+    }
+
+    /**
    * Handles an HTTP POST request by storing the dictionary entry for the
    * "word" and "definition" request parameters.  It writes the dictionary
    * entry to the HTTP response.
@@ -100,8 +130,9 @@ public class AirlineServlet extends HttpServlet {
           airline.addFlight(new Flight(Integer.parseInt(flightNumber), src, departureArgs[0], departureArgs[1], departureArgs[2],
                   dest, arrivalArgs[0], arrivalArgs[1], arrivalArgs[2]));
       }catch (IllegalArgumentException e){
-          response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED,e.getMessage());
-          return;
+          throw new IOException(e.getMessage());
+         // response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED,e.getMessage());
+         // return;
       }
 
       this.airlines.put(airlineName, airline);
@@ -143,6 +174,18 @@ public class AirlineServlet extends HttpServlet {
       String message = Messages.missingRequiredParameter(parameterName);
       response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
   }
+    private void dumpAirline(Airline airline, HttpServletResponse response) throws IOException, ParserConfigurationException {
+
+        if (airline == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+
+        } else {
+            PrintWriter pw = response.getWriter();
+            XmlDumper dumper = new XmlDumper(pw);
+            dumper.dump(airline);
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+    }
 
   /**
    * Writes the definition of the given word to the HTTP response.
@@ -161,20 +204,6 @@ public class AirlineServlet extends HttpServlet {
       dumper.dump(airline);
       response.setStatus(HttpServletResponse.SC_OK);
     }
-  }
-
-  /**
-   * Writes all of the dictionary entries to the HTTP response.
-   *
-   * The text of the message is formatted with {@link TextDumper}
-   */
-  private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
-  {
-      PrintWriter pw = response.getWriter();
-      TextDumper dumper = new TextDumper(pw);
-     // dumper.dump(airlines);
-
-      response.setStatus( HttpServletResponse.SC_OK );
   }
 
   /**
