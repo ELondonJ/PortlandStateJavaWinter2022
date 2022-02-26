@@ -3,6 +3,7 @@ package edu.pdx.cs410J.ljoseph;
 import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Map;
@@ -31,45 +32,47 @@ public class AirlineRestClient extends HttpRequestHelper
     {
         this.url = String.format( "http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET );
     }
+    /**
+     * Returns the definition for the given word
+     */
+    public Airline getAirline(String airlineName) throws IOException, ParserException, ParserConfigurationException {
+        Response response = get(this.url, Map.of("airline", airlineName));
+        throwExceptionIfNotOkayHttpStatus(response);
+        String content = response.getContent();
 
-  /**
-   * Returns all dictionary entries from the server
-   */
-  public Map<String, String> getAllDictionaryEntries() throws IOException, ParserException {
-    Response response = get(this.url, Map.of());
-
-    TextParser parser = new TextParser(new StringReader(response.getContent()));
-    return parser.parse();
-  }
-
-  /**
-   * Returns the definition for the given word
-   */
-  public String getDefinition(String word) throws IOException, ParserException {
-    Response response = get(this.url, Map.of("word", word));
-    throwExceptionIfNotOkayHttpStatus(response);
-    String content = response.getContent();
-
-    TextParser parser = new TextParser(new StringReader(content));
-    return parser.parse().get(word);
-  }
-
-  public void addDictionaryEntry(String word, String definition) throws IOException {
-    Response response = post(this.url, Map.of("word", word, "definition", definition));
-    throwExceptionIfNotOkayHttpStatus(response);
-  }
-
-  public void removeAllDictionaryEntries() throws IOException {
-    Response response = delete(this.url, Map.of());
-    throwExceptionIfNotOkayHttpStatus(response);
-  }
-
-  private void throwExceptionIfNotOkayHttpStatus(Response response) {
-    int code = response.getCode();
-    if (code != HTTP_OK) {
-      String message = response.getContent();
-      throw new RestException(code, message);
+        XmlParser parser = new XmlParser(new StringReader(content));
+        return parser.parse();
     }
-  }
+
+    public Airline searchAirline(String airlineName, String src, String dest) throws IOException, ParserException,
+            ParserConfigurationException {
+        Response response = get(this.url, Map.of("airline", airlineName,"src", src,"dest",dest));
+        throwExceptionIfNotOkayHttpStatus(response);
+        String content = response.getContent();
+
+        XmlParser parser = new XmlParser(new StringReader(content));
+        return parser.parse();
+    }
+    public void addFlight(String airlineName, Flight fl) throws IOException {
+        Response response = post(this.url, Map.of("airline",airlineName, "flightNumber", String.valueOf(fl.getNumber()),
+                "src", fl.getSource(),"departure", fl.getDepartureString(),"dest",fl.getDestination(),
+                "arrival", fl.getArrivalString()));
+        throwExceptionIfNotOkayHttpStatus(response);
+    }
+
+    public void removeAllDictionaryEntries() throws IOException {
+        Response response = delete(this.url, Map.of());
+        throwExceptionIfNotOkayHttpStatus(response);
+    }
+
+    private void throwExceptionIfNotOkayHttpStatus(Response response) {
+        int code = response.getCode();
+        if (code != HTTP_OK) {
+            String message = response.getContent();
+            if(message.equals(""))
+                message = "Airline does not exist";
+            throw new RestException(code, message);
+        }
+    }
 
 }

@@ -1,10 +1,13 @@
 package edu.pdx.cs410J.ljoseph;
 
+import edu.pdx.cs410J.AirlineDumper;
+import edu.pdx.cs410J.AirlineParser;
+import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
+import edu.pdx.cs410J.web.HttpRequestHelper;
 
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.StringWriter;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -16,26 +19,101 @@ public class Project5 {
     public static final String MISSING_ARGS = "Missing command line arguments";
 
     public static void main(String... args) {
+
         String hostName = null;
         String portString = null;
-        String word = null;
-        String definition = null;
+        Airline airline = null;
+        Flight flight = null;
+        String airlineName = null;
+        int flightNumber = -1;
+        String src = null;
+        String depart = null;
+        String dtime = null;
+        String dAmPm = null;
+        String dest = null;
+        String arrive = null;
+        String atime = null;
+        String aAmPm = null;
+        boolean print = false;
+        boolean search = false;
+        boolean listAirline = false;
 
-        for (String arg : args) {
-            if (hostName == null) {
-                hostName = arg;
 
-            } else if ( portString == null) {
-                portString = arg;
-
-            } else if (word == null) {
-                word = arg;
-
-            } else if (definition == null) {
-                definition = arg;
-
-            } else {
-                usage("Extraneous command line argument: " + arg);
+        //loop parses saves each arg in appropriate variable, sets option flags as needed
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].charAt(0) == '-') {
+                if (args[i].equalsIgnoreCase("-print"))
+                    print = true;
+                else if (args[i].equalsIgnoreCase("-readme")) {
+                    System.out.println("readme");
+                    System.exit(0);
+                } else if (args[i].equalsIgnoreCase("-search")) {
+                    if (i+3!=args.length) {
+                        System.err.println("Error! Search flag usage: -search <airline name> <source code> <destination code>");
+                        System.exit(1);
+                    }
+                    airlineName = args[++i];
+                    src = args[++i];
+                    dest = args[++i];
+                } else if (args[i].equalsIgnoreCase("-host")) {
+                    if (++i >= args.length) {
+                        System.err.println("A host name must be provided with -host flag");
+                        System.exit(1);
+                    }
+                    hostName = args[i];
+                } else if (args[i].equalsIgnoreCase("-port")) {
+                    if (++i >= args.length) {
+                        System.err.println("A port number must be provided with -port flag");
+                        System.exit(1);
+                    }
+                    portString = args[i];
+                } else {
+                    System.err.println("Error! Unknown flag ");
+                    System.exit(1);
+                }
+            } else if (airlineName == null) {
+                airlineName = args[i];
+                if(args.length == 5){
+                    listAirline = true;
+                }
+            } else if (flightNumber == -1) {
+                try {
+                    flightNumber = Integer.parseInt(args[i]);
+                } catch (NumberFormatException e) {
+                    System.err.println(e.getMessage() + " Incorrect flight number format");
+                    System.exit(1);
+                }
+            } else if (src == null)
+                src = args[i];
+            else if (depart == null)
+                depart = args[i];
+            else if (dtime == null)
+                dtime = args[i];
+            else if (dAmPm == null)
+                dAmPm = args[i];
+            else if (dest == null)
+                dest = args[i];
+            else if (arrive == null)
+                arrive = args[i];
+            else if (atime == null)
+                atime = args[i];
+            else if (aAmPm == null)
+                aAmPm = args[i];
+            else {
+                usage("Extraneous command line argument: " + args[i]);
+            }
+        }
+        if((hostName == null && portString != null) || (hostName != null && portString == null)){
+            usage("-host flag and port flag must be used together");
+        }
+        if(search) {
+            String[] threeCode = {src, dest};
+            for (int i = 0; i < threeCode.length; i++) {
+                if (!threeCode[i].matches("^[a-zA-Z]{3}$"))
+                    usage("Source and Destination represented by three-letter code. ie pdx;");
+                String ValidName = AirportNames.getName(threeCode[i].toUpperCase());
+                if (ValidName == null)
+                    usage("The code " + threeCode[i] + " does not represent a valid airport");
             }
         }
 
@@ -58,33 +136,51 @@ public class Project5 {
         }
 
         AirlineRestClient client = new AirlineRestClient(hostName, port);
-
-        String message;
+        PrettyPrinter pPrinter = new PrettyPrinter(new BufferedWriter(new OutputStreamWriter(System.out)));
         try {
-            if (word == null) {
-                // Print all word/definition pairs
-                Map<String, String> dictionary = client.getAllDictionaryEntries();
-                StringWriter sw = new StringWriter();
-                PrettyPrinter pretty = new PrettyPrinter(sw);
-                pretty.dump(dictionary);
-                message = sw.toString();
-
-            } else if (definition == null) {
-                // Print all dictionary entries
-                message = PrettyPrinter.formatDictionaryEntry(word, client.getDefinition(word));
-
+            if(search){
+                Airline air = client.searchAirline(airlineName,src,dest);
+                if(air == null){
+                    System.out.println("Airline: " + airlineName + " does not exist on the server");
+                }
+                else if(air.getFlights().isEmpty()){
+                    System.out.println(airlineName +" has no direct flights from " + src + " to " + dest);
+                }
+                else
+                    pPrinter.dump(client.searchAirline(airlineName,src,dest));
+            }
+            else if (listAirline) {
+                Airline air = null;
+                try {
+                    air = client.getAirline(airlineName);
+                }catch (HttpRequestHelper.RestException e){
+                    System.out.println("caught");
+                }
+                if(air == null){
+                    System.out.println("The airline: " + airlineName + " does not exist on the server");
+                }
+                else
+                    pPrinter.dump(client.searchAirline(airlineName,src,dest));
             } else {
-                // Post the word/definition pair
-                client.addDictionaryEntry(word, definition);
-                message = Messages.definedWordAs(word, definition);
+                try {
+                    flight = new Flight(flightNumber, src, depart, dtime, dAmPm, dest, arrive, atime, aAmPm);
+                    client.addFlight(airlineName, flight);
+                }catch(IllegalArgumentException ex){
+                    usage(ex.getMessage());
+                }
             }
 
         } catch (IOException | ParserException ex ) {
             error("While contacting server: " + ex);
             return;
+        } catch (ParserConfigurationException ex) {
+            error("While contacting server: " + ex);
+            return;
+        } catch (HttpRequestHelper.RestException ex) {
+            error("While contacting server: " + ex);
+            return;
         }
 
-        System.out.println(message);
 
         System.exit(0);
     }
