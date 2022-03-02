@@ -45,6 +45,109 @@ class Project5IT extends InvokeMainTestCase {
         String out = result.getTextWrittenToStandardOut();
         assertThat(out, out, containsString(""));
     }
+    @Test
+    void test3AddToAirline() {
+        MainMethodResult result = invokeMain( Project5.class,"-host", HOSTNAME, "-port", PORT,"test", "123"," PDX",
+                        "07/19/2022","1:02","pm","ORD","07/19/2022","6:22","pm" );
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+        String out = result.getTextWrittenToStandardOut();
+        assertThat(out, out, containsString(""));
+    }
+    @Test
+    void test4BadFlightArgsThrowsExecption() {
+        MainMethodResult result = invokeMain( Project5.class,"-host", HOSTNAME, "-port", PORT,"test", "123"," PDX",
+                "07/19/2022","1:02","pm","LLL","07/19/2022","6:22","pm" );
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("usage"));
+    }
+    @Test
+    void test5SearchFlagsNoArgs() {
+        MainMethodResult result = invokeMain( Project5.class,"-host", HOSTNAME, "-port", PORT, "-search");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Error"));
+    }
+    @Test
+    void test6HostFlagsNoArgs() {
+        MainMethodResult result = invokeMain( Project5.class,"-host");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Error"));
+    }
+    @Test
+    void test7PortFlagsNoArgs() {
+        MainMethodResult result = invokeMain( Project5.class,"-port");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Error"));
+    }
+    @Test
+    void test7UnknownFlag() {
+        MainMethodResult result = invokeMain( Project5.class,"-fred");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Error"));
+    }
+    @Test
+    void test8TooManyArgsError() {
+        MainMethodResult result = invokeMain( Project5.class,"-host", HOSTNAME, "-port", PORT,"test", "123"," PDX",
+                "07/19/2022","1:02","pm","LLL","07/19/2022","6:22","pm", "fred" );
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Extraneous"));
+    }
+    @Test
+    void test9SearchFlagsInvalidAirportCode() {
+        MainMethodResult result = invokeMain( Project5.class,"-host", HOSTNAME, "-port", PORT, "-search","delta"
+        ,"LLL", "slc");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("usage"));
+    }
+    @Test
+    void test10SearchAirportNotOnServer() {
+        MainMethodResult result = invokeMain( Project5.class,"-host", HOSTNAME, "-port", PORT, "-search","delta"
+                ,"pdx", "slc");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+        String out = result.getTextWrittenToStandardOut();
+        assertThat(out, out, containsString("server"));
+    }
+    @Test
+    void test11AirportNotOnServer() {
+        MainMethodResult result = invokeMain( Project5.class,"-host", HOSTNAME, "-port", PORT, "test");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+        String out = result.getTextWrittenToStandardOut();
+        assertThat(out, out, containsString("server"));
+    }
+    @Test
+    void test12PortNoHost() {
+        MainMethodResult result = invokeMain( Project5.class,"-port",PORT);
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("usage"));
+    }
+    @Test
+    void test13HostNoPort() {
+        MainMethodResult result = invokeMain( Project5.class,"-host",HOSTNAME);
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("usage"));
+    }
+    @Test
+    void test14PortNotInteger() {
+        MainMethodResult result = invokeMain( Project5.class,"-host",HOSTNAME, "-port", "abc");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("usage"));
+    }
+    @Test
+    void test15ReadMe() {
+        MainMethodResult result = invokeMain( Project5.class,"-host",HOSTNAME, "-port", PORT,"-readme");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+        String out = result.getTextWrittenToStandardOut();
+        assertThat(out, out, containsString("README"));
+    }
 
     @Test
     @Disabled

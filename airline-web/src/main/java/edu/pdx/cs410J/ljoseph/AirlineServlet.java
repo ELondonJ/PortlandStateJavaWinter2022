@@ -223,7 +223,7 @@ public class AirlineServlet extends HttpServlet {
             return null;
 
         } else {
-            return value;
+            return value.toUpperCase();
         }
     }
 

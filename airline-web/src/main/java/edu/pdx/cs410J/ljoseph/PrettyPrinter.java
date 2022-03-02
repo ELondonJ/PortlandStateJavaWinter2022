@@ -40,21 +40,21 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
         Formatter fmt = new Formatter();
         Formatter fmt2 = new Formatter();
         pw.println();
-        pw.print(((char)c));
+        pw.print("|");
         longLine(pw);
-        pw.println((char)h);
+        pw.println("|");
         getCenteredAirlineName(airlineName);
-        pw.println(fmt2.format("%-20s%-" +airlineNameSpace+ "s%27s",(char)b, getCenteredAirlineName(airlineName),
-                (char)b));
-        pw.print((char)d);
+        pw.println(fmt2.format("%-20s%-" +airlineNameSpace+ "s%27s","|", getCenteredAirlineName(airlineName),
+                "|"));
+        pw.print("|");
         longLine(pw);
-        pw.println((char)j);
-        pw.println(fmt.format("%s%-10s%-6s%-18s%-21s%-7s%-19s%-21s%-11s%s", (char)b, " Flight# ",
-                        (char)f+ " SRC ", (char)f + " Departure City", (char)f + " Departure", (char)f + " DEST",
-                        (char)f + " Arrival City",(char)f + " Arrival", (char)f + " Duration", (char)b));
-        pw.print((char)d);
+        pw.println("|");
+        pw.println(fmt.format("%s%-10s%-6s%-18s%-21s%-7s%-19s%-21s%-11s%s", "|", " Flight# ",
+                "|"+ " SRC ", "|" + " Departure City", "|" + " Departure", "|"+ " DEST",
+                        "|" + " Arrival City","|" + " Arrival", "|" + " Duration", "|"));
+        pw.print("|");
         longLine(pw);
-        pw.println((char)j);
+        pw.println("|");
         fmt.flush();
     }
 
@@ -72,9 +72,9 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
      * @param pw PrintWriter
      */
     public void footing(PrintWriter pw) {
-        pw.print((char)k);
+        pw.print("|");
         longLine(pw);
-        pw.println((char)l);
+        pw.println("|");
     }
 
     /**
@@ -83,7 +83,7 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
      */
     private void longLine(PrintWriter pw) {
         for(int i = 0; i < 113; i++)
-            pw.print((char)g);
+            pw.print("=");
     }
 
     /**
@@ -110,9 +110,9 @@ public class PrettyPrinter implements AirlineDumper<Airline> {
                     dCity = dCity.substring(0,15);
                 if(aCity.length() > 15)
                     aCity = aCity.substring(0,15);
-                pw.println(fmt.format("%s%-11s%-6s%-18s%-21s%-7s%-19s%-21s%-9s%s", (char)b + " ", flight.getNumber(),
+                pw.println(fmt.format("%s%-11s%-6s%-18s%-21s%-7s%-19s%-21s%-9s%s", "|" + " ", flight.getNumber(),
                         flight.getSource(), dCity, flight.getDepartureStringPretty(), flight.getDestination(),
-                        aCity, flight.getArrivalStringPretty(), flight.getFlightDuration(), (char)b));
+                        aCity, flight.getArrivalStringPretty(), flight.getFlightDuration(), "|"));
             }
             footing(pw);
             pw.flush();

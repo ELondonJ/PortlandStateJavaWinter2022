@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -47,7 +48,7 @@ class AirlineRestClientIT {
     client.addFlight(airlineName, flight);
 
     Airline airline = client.getAirline(airlineName);
-    assertThat(airline.getName(), equalTo(airlineName));
+    assertThat(airline.getName(), equalToIgnoringCase(airlineName));
   }
 
   @Test

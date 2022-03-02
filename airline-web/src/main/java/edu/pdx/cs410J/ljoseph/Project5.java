@@ -5,9 +5,11 @@ import edu.pdx.cs410J.AirlineParser;
 import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.web.HttpRequestHelper;
+import jdk.jshell.spi.ExecutionControl;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.rmi.ServerError;
 import java.util.Map;
 
 /**
@@ -45,25 +47,37 @@ public class Project5 {
                 if (args[i].equalsIgnoreCase("-print"))
                     print = true;
                 else if (args[i].equalsIgnoreCase("-readme")) {
-                    System.out.println("readme");
+                    try {
+                    InputStream readme = Project5.class.getResourceAsStream("README.txt");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
+                    String line = null;
+                        line = reader.readLine();
+                    do {
+                        System.out.println(line);
+                        line = reader.readLine();
+                    } while (line != null);
+                    } catch (IOException | NullPointerException e) {
+                        error("While accessing README.txt: " + e);
+                    }
                     System.exit(0);
                 } else if (args[i].equalsIgnoreCase("-search")) {
-                    if (i+3!=args.length) {
+                    if (args.length < i+2) {
                         System.err.println("Error! Search flag usage: -search <airline name> <source code> <destination code>");
                         System.exit(1);
                     }
+                    search =true;
                     airlineName = args[++i];
                     src = args[++i];
                     dest = args[++i];
                 } else if (args[i].equalsIgnoreCase("-host")) {
                     if (++i >= args.length) {
-                        System.err.println("A host name must be provided with -host flag");
+                        System.err.println("Error! A host name must be provided with -host flag");
                         System.exit(1);
                     }
                     hostName = args[i];
                 } else if (args[i].equalsIgnoreCase("-port")) {
                     if (++i >= args.length) {
-                        System.err.println("A port number must be provided with -port flag");
+                        System.err.println("Error! A port number must be provided with -port flag");
                         System.exit(1);
                     }
                     portString = args[i];
@@ -138,10 +152,15 @@ public class Project5 {
         AirlineRestClient client = new AirlineRestClient(hostName, port);
         PrettyPrinter pPrinter = new PrettyPrinter(new BufferedWriter(new OutputStreamWriter(System.out)));
         try {
+            Airline air = null;
             if(search){
-                Airline air = client.searchAirline(airlineName,src,dest);
-                if(air == null){
+                try {
+                    air = client.getAirline(airlineName);
+                }catch (HttpRequestHelper.RestException e){
                     System.out.println("Airline: " + airlineName + " does not exist on the server");
+                    System.exit(0);
+                }
+                if(air == null){
                 }
                 else if(air.getFlights().isEmpty()){
                     System.out.println(airlineName +" has no direct flights from " + src + " to " + dest);
@@ -150,17 +169,17 @@ public class Project5 {
                     pPrinter.dump(client.searchAirline(airlineName,src,dest));
             }
             else if (listAirline) {
-                Airline air = null;
                 try {
                     air = client.getAirline(airlineName);
                 }catch (HttpRequestHelper.RestException e){
-                    System.out.println("caught");
+                    System.out.println("Airline: " + airlineName + " does not exist on the server");
+                    System.exit(0);
                 }
                 if(air == null){
                     System.out.println("The airline: " + airlineName + " does not exist on the server");
                 }
                 else
-                    pPrinter.dump(client.searchAirline(airlineName,src,dest));
+                    pPrinter.dump(air);
             } else {
                 try {
                     flight = new Flight(flightNumber, src, depart, dtime, dAmPm, dest, arrive, atime, aAmPm);
@@ -170,18 +189,9 @@ public class Project5 {
                 }
             }
 
-        } catch (IOException | ParserException ex ) {
-            error("While contacting server: " + ex);
-            return;
-        } catch (ParserConfigurationException ex) {
-            error("While contacting server: " + ex);
-            return;
-        } catch (HttpRequestHelper.RestException ex) {
-            error("While contacting server: " + ex);
-            return;
+        } catch (IOException | ParserException | ParserConfigurationException | HttpRequestHelper.RestException ex) {
+            error("While contacting server: " + ex.getMessage());
         }
-
-
         System.exit(0);
     }
 
@@ -201,20 +211,26 @@ public class Project5 {
     {
         PrintStream err = System.err;
         err.println("** " + message);
-        err.println();
-        err.println("usage: java Project5 host port [word] [definition]");
-        err.println("  host         Host of web server");
-        err.println("  port         Port of web server");
-        err.println("  word         Word in dictionary");
-        err.println("  definition   Definition of word");
-        err.println();
-        err.println("This simple program posts words and their definitions");
-        err.println("to the server.");
-        err.println("If no definition is specified, then the word's definition");
-        err.println("is printed.");
-        err.println("If no word is specified, all dictionary entries are printed");
-        err.println();
+        try {getUsage();}
+        catch (IOException e) {
+            System.err.println("While reading usage from readme file: " + e.getMessage());
+        }
 
         System.exit(1);
+    }  /**
+     * Print usages from the ReadMe resource file
+     * @throws IOException
+     */
+    private static void getUsage() throws IOException {
+        InputStream readme = Project5.class.getResourceAsStream("README.txt");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
+        String line = reader.readLine();
+        while(!line.contains("usage"))
+            line = reader.readLine();
+        do {
+            System.err.println(line);
+            line = reader.readLine();
+        } while (line != null);
     }
+
 }
