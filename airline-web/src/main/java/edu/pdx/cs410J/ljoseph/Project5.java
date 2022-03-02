@@ -62,7 +62,7 @@ public class Project5 {
                     }
                     System.exit(0);
                 } else if (args[i].equalsIgnoreCase("-search")) {
-                    if (args.length < i+2) {
+                    if (args.length != i+4) {
                         usage("Error! Search flag usage: -search <airline name> <source code> <destination code>");
                     }
                     search =true;
@@ -156,12 +156,13 @@ public class Project5 {
             Airline air = null;
             if(search){
                 try {
-                    air = client.getAirline(airlineName);
+                    air = client.searchAirline(airlineName,src,dest);
                 }catch (HttpRequestHelper.RestException e){
                     System.out.println("Airline: " + airlineName + " does not exist on the server");
                     System.exit(0);
                 }
                 if(air == null){
+                    System.out.println(airlineName +" has no direct flights from " + src + " to " + dest);
                 }
                 else if(air.getFlights().isEmpty()){
                     System.out.println(airlineName +" has no direct flights from " + src + " to " + dest);
