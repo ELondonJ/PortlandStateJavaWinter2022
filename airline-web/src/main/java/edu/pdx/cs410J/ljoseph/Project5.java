@@ -94,8 +94,7 @@ public class Project5 {
                 try {
                     flightNumber = Integer.parseInt(args[i]);
                 } catch (NumberFormatException e) {
-                    System.err.println(e.getMessage() + " Incorrect flight number format");
-                    System.exit(1);
+                    usage(e.getMessage() + " Incorrect flight number format");
                 }
             } else if (src == null)
                 src = args[i];
