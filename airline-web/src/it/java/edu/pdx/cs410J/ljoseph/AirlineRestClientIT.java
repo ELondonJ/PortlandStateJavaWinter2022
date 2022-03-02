@@ -2,7 +2,6 @@ package edu.pdx.cs410J.ljoseph;
 
 import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.web.HttpRequestHelper;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer.MethodName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -37,7 +36,7 @@ class AirlineRestClientIT {
   @Test
   void test0RemoveAllDictionaryEntries() throws IOException {
     AirlineRestClient client = newAirlineRestClient();
-    client.removeAllDictionaryEntries();
+    client.removeAllAirlineEntries();
   }
 
   @Test

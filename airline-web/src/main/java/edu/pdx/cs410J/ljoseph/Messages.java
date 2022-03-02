@@ -16,8 +16,8 @@ public class Messages
         return String.format( "Defined %s as %s", word, definition );
     }
 
-    public static String allDictionaryEntriesDeleted() {
-        return "All dictionary entries have been deleted";
+    public static String allAirlineEntriesDeleted() {
+        return "All airline entries have been deleted";
     }
 
 }

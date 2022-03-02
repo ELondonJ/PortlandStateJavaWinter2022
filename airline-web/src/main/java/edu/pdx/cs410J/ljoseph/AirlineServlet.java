@@ -14,9 +14,7 @@ import java.util.Map;
 
 /**
  * This servlet ultimately provides a REST API for working with an
- * <code>Airline</code>.  However, in its current state, it is an example
- * of how to use HTTP and Java servlets to store simple dictionary of words
- * and their definitions.
+ * <code>Airline</code>.
  */
 public class AirlineServlet extends HttpServlet {
     public static final String SRC_PARAMETER = "src";
@@ -29,10 +27,10 @@ public class AirlineServlet extends HttpServlet {
     private final Map<String, Airline> airlines = new HashMap<>();
 
     /**
-     * Handles an HTTP GET request from a client by writing the definition of the
-     * word specified in the "word" HTTP parameter to the HTTP response.  If the
-     * "word" parameter is not specified, all of the entries in the dictionary
-     * are written to the HTTP response.
+     * Handles an HTTP GET request from a client by writing the contents of the
+     * airline specified in the "airline" HTTP parameter to the HTTP response. Or
+     * writes the contents of a temp airline with specified src and dest codes if
+     * src and dest parameters are present
      */
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
@@ -69,6 +67,10 @@ public class AirlineServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Populates an Airline with the airlineName and all flights that have the
+     * required src and dest airport codes
+     */
     private Airline findFlights(String airlineName, String src, String dest) {
         Airline airline = this.airlines.get(airlineName);
         if(airline == null)
@@ -83,8 +85,8 @@ public class AirlineServlet extends HttpServlet {
     }
 
     /**
-     * Handles an HTTP POST request by storing the dictionary entry for the
-     * "word" and "definition" request parameters.  It writes the dictionary
+     * Handles an HTTP POST request by storing the airline entry for the
+     * "Airline" and flight request parameters.  It writes the airline
      * entry to the HTTP response.
      */
     @Override
@@ -150,7 +152,7 @@ public class AirlineServlet extends HttpServlet {
     }
 
     /**
-     * Handles an HTTP DELETE request by removing all dictionary entries.  This
+     * Handles an HTTP DELETE request by removing all Airline entries.  This
      * behavior is exposed for testing purposes only.  It's probably not
      * something that you'd want a real application to expose.
      */
@@ -161,7 +163,7 @@ public class AirlineServlet extends HttpServlet {
         this.airlines.clear();
 
         PrintWriter pw = response.getWriter();
-        pw.println(Messages.allDictionaryEntriesDeleted());
+        pw.println(Messages.allAirlineEntriesDeleted());
         pw.flush();
 
         response.setStatus(HttpServletResponse.SC_OK);
@@ -179,6 +181,12 @@ public class AirlineServlet extends HttpServlet {
         String message = Messages.missingRequiredParameter(parameterName);
         response.sendError(HttpServletResponse.SC_PRECONDITION_FAILED, message);
     }
+    /**
+     * Writes the contents of the given airline to the HTTP response.
+     * This overloaded dumpAirline takes a temp airline containing only flights with
+     * specific src and dest airport codes
+     * The text of the message is formatted with {@link XmlDumper}
+     */
     private void dumpAirline(Airline airline, HttpServletResponse response) throws IOException, ParserConfigurationException {
 
         if (airline == null) {
@@ -193,7 +201,7 @@ public class AirlineServlet extends HttpServlet {
     }
 
     /**
-     * Writes the definition of the given word to the HTTP response.
+     * Writes the contents of the given airline to the HTTP response.
      *
      * The text of the message is formatted with {@link XmlDumper}
      */

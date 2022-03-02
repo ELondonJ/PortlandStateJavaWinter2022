@@ -19,6 +19,7 @@ import java.util.Map;
 public class Project5 {
 
     public static final String MISSING_ARGS = "Missing command line arguments";
+    public static final int LIST_AIRLINE_ARG_LENGTH = 5;
 
     public static void main(String... args) {
 
@@ -62,8 +63,7 @@ public class Project5 {
                     System.exit(0);
                 } else if (args[i].equalsIgnoreCase("-search")) {
                     if (args.length < i+2) {
-                        System.err.println("Error! Search flag usage: -search <airline name> <source code> <destination code>");
-                        System.exit(1);
+                        usage("Error! Search flag usage: -search <airline name> <source code> <destination code>");
                     }
                     search =true;
                     airlineName = args[++i];
@@ -87,7 +87,7 @@ public class Project5 {
                 }
             } else if (airlineName == null) {
                 airlineName = args[i];
-                if(args.length == 5){
+                if(args.length == LIST_AIRLINE_ARG_LENGTH){
                     listAirline = true;
                 }
             } else if (flightNumber == -1) {
@@ -120,6 +120,7 @@ public class Project5 {
         if((hostName == null && portString != null) || (hostName != null && portString == null)){
             usage("-host flag and port flag must be used together");
         }
+        //checks src and dest are formatted correctly and valid airports
         if(search) {
             String[] threeCode = {src, dest};
             for (int i = 0; i < threeCode.length; i++) {
@@ -132,11 +133,11 @@ public class Project5 {
         }
 
         if (hostName == null) {
-            usage( MISSING_ARGS );
+            usage(MISSING_ARGS + ": host ");
             return;
-
-        } else if ( portString == null) {
-            usage( "Missing port" );
+        }
+        if ( portString == null) {
+            usage(MISSING_ARGS  + ": port" );
             return;
         }
 
@@ -184,13 +185,15 @@ public class Project5 {
                 try {
                     flight = new Flight(flightNumber, src, depart, dtime, dAmPm, dest, arrive, atime, aAmPm);
                     client.addFlight(airlineName, flight);
+                    if(print)
+                        System.out.println(airlineName + " " + flight.toString().toLowerCase());
                 }catch(IllegalArgumentException ex){
                     usage(ex.getMessage());
                 }
             }
 
         } catch (IOException | ParserException | ParserConfigurationException | HttpRequestHelper.RestException ex) {
-            error("While contacting server: " + ex.getMessage());
+            error("While contacting server: " +  ex.getMessage());
         }
         System.exit(0);
     }
@@ -217,7 +220,8 @@ public class Project5 {
         }
 
         System.exit(1);
-    }  /**
+    }
+    /**
      * Print usages from the ReadMe resource file
      * @throws IOException
      */

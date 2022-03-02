@@ -33,7 +33,7 @@ public class AirlineRestClient extends HttpRequestHelper
         this.url = String.format( "http://%s:%d/%s/%s", hostName, port, WEB_APP, SERVLET );
     }
     /**
-     * Returns the definition for the given word
+     * Returns the Airline with given airline name
      */
     public Airline getAirline(String airlineName) throws IOException, ParserException, ParserConfigurationException {
         Response response = get(this.url, Map.of("airline", airlineName));
@@ -44,6 +44,9 @@ public class AirlineRestClient extends HttpRequestHelper
         return parser.parse();
     }
 
+    /**
+     * Returns an Airline with given airline name contains all flights from src airport to dest airport
+     */
     public Airline searchAirline(String airlineName, String src, String dest) throws IOException, ParserException,
             ParserConfigurationException {
         Response response = get(this.url, Map.of("airline", airlineName,"src", src,"dest",dest));
@@ -53,6 +56,9 @@ public class AirlineRestClient extends HttpRequestHelper
         XmlParser parser = new XmlParser(new StringReader(content));
         return parser.parse();
     }
+    /**
+     * Adds new flight to airline with given name
+     */
     public void addFlight(String airlineName, Flight fl) throws IOException {
         Response response = post(this.url, Map.of("airline",airlineName, "flightNumber", String.valueOf(fl.getNumber()),
                 "src", fl.getSource(),"departure", fl.getDepartureString(),"dest",fl.getDestination(),
@@ -60,11 +66,17 @@ public class AirlineRestClient extends HttpRequestHelper
         throwExceptionIfNotOkayHttpStatus(response);
     }
 
-    public void removeAllDictionaryEntries() throws IOException {
+    /**
+     * Deletes all airline entries
+     */
+    public void removeAllAirlineEntries() throws IOException {
         Response response = delete(this.url, Map.of());
         throwExceptionIfNotOkayHttpStatus(response);
     }
 
+    /**
+     * Checks if request is successful
+     */
     private void throwExceptionIfNotOkayHttpStatus(Response response) {
         int code = response.getCode();
         if (code != HTTP_OK) {

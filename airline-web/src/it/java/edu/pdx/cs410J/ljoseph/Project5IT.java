@@ -28,7 +28,7 @@ class Project5IT extends InvokeMainTestCase {
     @Test
     void test0RemoveAllMappings() throws IOException {
         AirlineRestClient client = new AirlineRestClient(HOSTNAME, Integer.parseInt(PORT));
-        client.removeAllDictionaryEntries();
+        client.removeAllAirlineEntries();
     }
 
     @Test
@@ -147,6 +147,22 @@ class Project5IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
         String out = result.getTextWrittenToStandardOut();
         assertThat(out, out, containsString("README"));
+    }
+    @Test
+    void test16PrintFlagPrintsFlight() {
+        MainMethodResult result = invokeMain( Project5.class,"-host", HOSTNAME, "-port", PORT, "-print","test",
+                "123"," PDX", "07/19/2022","1:02","pm","SLC","07/19/2022","6:22","pm");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(0));
+        String out = result.getTextWrittenToStandardOut();
+        assertThat(out, out, containsString("flight 123 departs"));
+    }
+    @Test
+    void test17PortConnectionFail() {
+        MainMethodResult result = invokeMain( Project5.class,"-host", HOSTNAME, "-port", "1234", "-print","test",
+                "123"," PDX", "07/19/2022","1:02","pm","SLC","07/19/2022","6:22","pm");
+        assertThat(result.getTextWrittenToStandardError(), result.getExitCode(), equalTo(1));
+        String out = result.getTextWrittenToStandardError();
+        assertThat(out, out, containsString("Connection refused"));
     }
 
     @Test
