@@ -62,13 +62,10 @@ public class Project5 {
                     }
                     System.exit(0);
                 } else if (args[i].equalsIgnoreCase("-search")) {
-                    if (args.length != i+4) {
+                    if (args.length != 8) {
                         usage("Error! Search flag usage: -search <airline name> <source code> <destination code>");
                     }
                     search =true;
-                    airlineName = args[++i];
-                    src = args[++i];
-                    dest = args[++i];
                 } else if (args[i].equalsIgnoreCase("-host")) {
                     if (++i >= args.length) {
                         System.err.println("Error! A host name must be provided with -host flag");
@@ -90,7 +87,7 @@ public class Project5 {
                 if(args.length == LIST_AIRLINE_ARG_LENGTH){
                     listAirline = true;
                 }
-            } else if (flightNumber == -1) {
+            } else if (flightNumber == -1 && !search) {
                 try {
                     flightNumber = Integer.parseInt(args[i]);
                 } catch (NumberFormatException e) {
@@ -98,19 +95,19 @@ public class Project5 {
                 }
             } else if (src == null)
                 src = args[i];
-            else if (depart == null)
+            else if (depart == null && !search)
                 depart = args[i];
-            else if (dtime == null)
+            else if (dtime == null && !search)
                 dtime = args[i];
-            else if (dAmPm == null)
+            else if (dAmPm == null && !search)
                 dAmPm = args[i];
             else if (dest == null)
                 dest = args[i];
-            else if (arrive == null)
+            else if (arrive == null && !search)
                 arrive = args[i];
-            else if (atime == null)
+            else if (atime == null && !search)
                 atime = args[i];
-            else if (aAmPm == null)
+            else if (aAmPm == null && !search)
                 aAmPm = args[i];
             else {
                 usage("Extraneous command line argument: " + args[i]);
