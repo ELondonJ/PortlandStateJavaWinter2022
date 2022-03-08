@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddFlights">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/grad_bk2" />
+
+    <LinearLayout
+        android:layout_width="374dp"
+        android:layout_height="708dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/textViewAirName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:fontFamily="@font/lato_bold"
+            android:inputType="none"
+            android:text="Airline Name"
+            android:textColor="@color/AirDButtonBlu"
+            android:textSize="22dp" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/air_txtfill"
+            android:ems="10"
+            android:hint=" Delta" />
+
+        <TextView
+            android:id="@+id/editTextAirNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:fontFamily="@font/lato_bold"
+            android:inputType="none"
+            android:text="Flight Number"
+            android:textColor="@color/AirDButtonBlu"
+            android:textSize="22dp" />
+
+        <EditText
+            android:id="@+id/editTextNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="@drawable/air_txtfill"
+            android:ems="10"
+            android:hint=" 12345"
+            android:inputType="number" />
+
+        <TextView
+            android:id="@+id/textViewAirSrc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:fontFamily="@font/lato_bold"
+            android:inputType="none"
+            android:text="Source Airport"
+            android:textColor="@color/AirDButtonBlu"
+            android:textSize="22dp" />
+
+        <EditText
+            android:layout_width="88dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/air_txtfill"
+            android:ems="3"
+            android:hint=" PDX"
+            android:maxLength="3" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewAirSrcDate"
+                android:layout_width="227dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/lato_bold"
+                android:inputType="none"
+                android:text="Date"
+                android:textColor="@color/AirDButtonBlu"
+                android:textSize="22dp" />
+
+            <TextView
+                android:id="@+id/textViewAirSrcTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/lato_bold"
+                android:inputType="none"
+                android:text="Time"
+                android:textColor="@color/AirDButtonBlu"
+                android:textSize="22dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editTextDate3"
+                android:layout_width="189dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/air_txtfill"
+                android:ems="10"
+                android:hint="dd/mm/yyyy"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/editTextTime2"
+                android:layout_width="109dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/air_txtfill"
+                android:ems="10"
+                android:hint="hh:mm"
+                android:inputType="time" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewAirDest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:fontFamily="@font/lato_bold"
+            android:inputType="none"
+            android:text="Destination Airport"
+            android:textColor="@color/AirDButtonBlu"
+            android:textSize="22dp" />
+
+        <EditText
+            android:layout_width="88dp"
+            android:layout_height="48dp"
+            android:background="@drawable/air_txtfill"
+            android:ems="3"
+            android:hint=" LAX"
+            android:maxLength="3"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewAirDestDate"
+                android:layout_width="227dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/lato_bold"
+                android:inputType="none"
+                android:text="Date"
+                android:textColor="@color/AirDButtonBlu"
+                android:textSize="22dp" />
+
+            <TextView
+                android:id="@+id/textViewAirDestTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/lato_bold"
+                android:inputType="none"
+                android:text="Time"
+                android:textColor="@color/AirDButtonBlu"
+                android:textSize="22dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editTextDate4"
+                android:layout_width="189dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/air_txtfill"
+                android:ems="10"
+                android:hint="dd/mm/yyyy"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/editTextTime3"
+                android:layout_width="109dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/air_txtfill"
+                android:ems="10"
+                android:hint="mm:hh"
+                android:inputType="time" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/air_btn1"
+            android:text="Add Flight" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

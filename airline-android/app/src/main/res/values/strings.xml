@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AirlineActivity</string>
+    <string name="airline">Airline</string>
+    <string name="find_flights">Find Flights</string>
 </resources>

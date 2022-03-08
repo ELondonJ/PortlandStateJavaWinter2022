@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="AirlineHunterGreen">#004D40</color>
+    <color name="AirlineDarkTeal">#037263</color>
+    <color name="AirlineBlueTeal">#038594</color>
+    <color name="AirlineButtonBlue">#004C69</color>
+    <color name="AirDButtonBlu">#003549</color>
+    <color name="tan11">#88716F</color>
+    <color name="airLYellow">#C0AD8C</color>
+    <color name="airMYellow">#A9FFEE58</color>
+    <color name="airLYellowTran">#86C0AD8C</color>
+    <color name="teal700tran">#DD018786</color>
+    <color name="mGrey">#76787A</color>
+    <color name="Lgrey">#BBBEBE</color>
 </resources>
