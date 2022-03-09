@@ -2,24 +2,41 @@ package edu.pdx.cs410j.ljoseph;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class AddFlights extends AppCompatActivity {
+import java.util.Calendar;
+
+public class AddFlights extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
     private Flight flight;
     private Airline airline;
+    private EditText departDateBtn;
+    private Button arriveDateBtn;
+    private DatePickerDialog datePickerDialogD;
+    private DatePickerDialog datePickerDialogA;
+    private String dDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_flights);
 
-        Button addFlight = findViewById(R.id.add_flight_btn);
+        departDateBtn = findViewById(R.id.departDate);
+        departDateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePickerPopUp(departDateBtn);
+            }
+        });
 
+
+        Button addFlight = findViewById(R.id.add_flight_btn);
         addFlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -27,6 +44,24 @@ public class AddFlights extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void datePickerPopUp(EditText text) {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+                String temp = String.valueOf(i1 + 1) + "/" + String.valueOf(i2) +"/" + String.valueOf(i);
+                text.setText(temp);
+            }
+        };
+        datePickerDialogD = new DatePickerDialog(this,dateSetListener,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        datePickerDialogD.show();
+        departDateBtn.setText(dDate);
+
     }
 
     private void createFlight() {
@@ -56,6 +91,11 @@ public class AddFlights extends AppCompatActivity {
 
 
 
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
 
     }
 }

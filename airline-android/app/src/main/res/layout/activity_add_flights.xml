@@ -134,8 +134,8 @@
                 android:background="@drawable/air_txtfill"
                 android:ems="10"
                 android:maxLines="1"
-                android:hint="dd/mm/yyyy"
-                android:inputType="date" />
+                android:inputType="none"
+                android:editable="false"/>
 
             <EditText
                 android:id="@+id/departTime"
