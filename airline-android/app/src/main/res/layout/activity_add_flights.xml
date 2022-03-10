@@ -135,7 +135,9 @@
                 android:ems="10"
                 android:maxLines="1"
                 android:inputType="none"
-                android:editable="false"/>
+                android:focusableInTouchMode="false"
+                android:editable="false"
+                />
 
             <EditText
                 android:id="@+id/departTime"
@@ -146,7 +148,9 @@
                 android:maxLines="1"
                 android:ems="10"
                 android:hint="hh:mm"
-                android:inputType="time" />
+                android:focusableInTouchMode="false"
+                android:editable="false"
+                android:inputType="none" />
         </LinearLayout>
 
         <TextView
@@ -214,8 +218,9 @@
                 android:background="@drawable/air_txtfill"
                 android:ems="10"
                 android:maxLines="1"
-                android:hint="dd/mm/yyyy"
-                android:inputType="date" />
+                android:editable="false"
+                android:focusableInTouchMode="false"
+                android:inputType="none" />
 
             <EditText
                 android:id="@+id/arriveTime"
@@ -226,6 +231,8 @@
                 android:ems="10"
                 android:maxLines="1"
                 android:hint="mm:hh"
+                android:focusableInTouchMode="false"
+                android:editable="false"
                 android:inputType="time" />
         </LinearLayout>
 

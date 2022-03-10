@@ -91,8 +91,8 @@ public class Flight extends AbstractFlight implements Comparable<Flight> {
    * Invalid inputs throw exception
    */
   private Date validDate(String date, String time, String amPm) throws IllegalArgumentException{
-    if(date.trim().length() != 10)
-      throw new IllegalArgumentException(INVALID_DATE);
+    //if(date.trim().length() != 10)
+//      throw new IllegalArgumentException(INVALID_DATE);
     StringJoiner sj = new StringJoiner(" ");
     sj.add(date);
     sj.add(time);
