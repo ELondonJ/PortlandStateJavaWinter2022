@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.View;
@@ -21,6 +22,8 @@ import java.util.Locale;
 
 public class AddFlights extends AppCompatActivity{
 
+    private static final String FLIGHT = "FLIGHT";
+    public static final String AIRLINE = "AIRLINE";
     private Flight flight;
     private Airline airline;
     private EditText departDateBtn;
@@ -70,7 +73,7 @@ public class AddFlights extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 createFlight();
-                if(flight != null){
+                if(flight != null && airline != null){
                     sendFlightToMain();
                 }
 
@@ -100,6 +103,10 @@ public class AddFlights extends AppCompatActivity{
     }
 
     private void sendFlightToMain() {
+        Intent intent = new Intent();
+        intent.putExtra(AIRLINE,this.airline);
+        setResult(RESULT_OK,intent);
+        finish();
     }
 
     private void datePickerPopUp(EditText text) {

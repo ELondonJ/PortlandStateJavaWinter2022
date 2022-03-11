@@ -15,9 +15,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.563">
+        app:layout_constraintVertical_bias="0.944">
 
         <Button
             android:id="@+id/button11"
@@ -50,6 +51,18 @@
             app:backgroundTint="@color/AirlineButtonBlue" />
 
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/airlineList"
+        android:layout_width="332dp"
+        android:layout_height="292dp"
+        android:background="@drawable/air_txtfill"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.512" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
