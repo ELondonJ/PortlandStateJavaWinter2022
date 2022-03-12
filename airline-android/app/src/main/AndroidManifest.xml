@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AirlineActivity">
         <activity
+            android:name=".PrintAirline"
+            android:exported="false" />
+        <activity
             android:name=".AddFlights"
             android:exported="false" />
         <activity

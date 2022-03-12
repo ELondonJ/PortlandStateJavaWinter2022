@@ -62,4 +62,47 @@ public class TextParser implements AirlineParser<Airline> {
       throw new ParserException("While parsing airline text", e);
     }
   }
+  public ArrayList<Airline> parseMultiple() throws ParserException {
+    ArrayList<Airline> list = new ArrayList<>();
+    try (BufferedReader br = new BufferedReader(this.reader)) {
+      String[] fArgs = new String[9];       //Holds the parsed args to create a flight
+      String airlineName = br.readLine();
+      String line;
+      Flight flight = null;
+      if (airlineName == null) {
+        throw new ParserException("Missing airline name");
+      }
+      Airline airline = new Airline(airlineName.trim());       //Airline name will be the first line in the text file
+      while((line = br.readLine()) != null){
+        if(line.contains(";")){
+          list.add(airline);
+          line = br.readLine();
+          if(line != null)
+            airline = new Airline(line.trim());
+          else
+            break;
+          continue;
+        }
+        String[] splitLine = line.split("\\s+");  //Splits the string in text file into String[] of
+        if(splitLine.length != fArgs.length)            //args for flight
+          throw new ParserException("Incorrect file format while parsing airline text" );
+        for(int i = 0; i < fArgs.length; i++){
+          fArgs[i] = splitLine[i];
+        }
+        try {
+          flight = new Flight(Integer.parseInt(fArgs[0]), fArgs[1], fArgs[2], fArgs[3], fArgs[4], fArgs[5],
+                  fArgs[6], fArgs[7], fArgs[8]);
+          airline.addFlight(flight);
+        }catch(IllegalArgumentException e){
+          throw new ParserException("Illegal FLight argument while parsing airline text: " + e.getMessage());
+        }
+      }
+      br.close();
+      return list;
+
+    } catch (IOException e) {
+      throw new ParserException("While parsing airline text", e);
+    }
+  }
 }
+

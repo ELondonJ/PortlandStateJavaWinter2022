@@ -40,8 +40,8 @@ public class Airline extends AbstractAirline<Flight> {
     Collections.sort(flights);
   }
 
-  private void sortFlights() {
-
+  public int getFlightCount(){
+    return flights.size();
   }
 
   /**
@@ -52,3 +52,4 @@ public class Airline extends AbstractAirline<Flight> {
     return flights;
   }
 }
+

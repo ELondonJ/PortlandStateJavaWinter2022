@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -68,5 +69,39 @@ public class TextParserTest {
       //pass
 
     };
+  }
+  public ArrayList<Airline> getList(){
+    ArrayList<Airline> airlines = new ArrayList<>();
+    for(int i = 0; i < 5; i++){
+      Airline airline = new Airline("Air" + i);
+      for(int j = 0; j < 3; j++){
+        airline.addFlight(new Flight(i, "pdx", "12/12/2002", "11:11", "am",
+                "slc", "12/12/2002", "11:11", "pm"));
+      }
+      airlines.add(airline);
+    }
+    return airlines;
+  }
+  @Test
+  public void TextParserTest1() throws IOException {
+    try{
+      File file = new File("Airlinetest.txt");
+      ArrayList<Airline> airlines = getList();
+
+      PrintWriter pw = new PrintWriter(new FileWriter(file));
+      TextDumper dumper = new TextDumper(pw);
+      dumper.dumpMultiple(airlines);
+      BufferedReader bf = new BufferedReader(new FileReader(file));
+      TextParser parser = new TextParser(bf);
+      dumper.dumpMultiple(airlines);
+      ArrayList<Airline> temp = parser.parseMultiple();
+      assertEquals(temp.size(),5);
+
+
+    }catch(
+            IOException | ParserException e) {
+      String mess = e.getMessage();
+
+    }
   }
 }

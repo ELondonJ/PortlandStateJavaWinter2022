@@ -19,4 +19,6 @@
     <color name="teal700tran">#DD018786</color>
     <color name="mGrey">#76787A</color>
     <color name="Lgrey">#BBBEBE</color>
+    <color name="B200_trans">@color/B200_trans</color>
+    <color name="B100_trans">#4F004C69</color>
 </resources>
