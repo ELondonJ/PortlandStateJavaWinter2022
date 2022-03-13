@@ -4,6 +4,6 @@
         android:radius="200dp"
         />
     <solid
-        android:color="@color/design_default_color_secondary"
+        android:color="@color/design_default_color_primary"
         />
 </shape>

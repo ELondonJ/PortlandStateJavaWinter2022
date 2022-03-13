@@ -4,25 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/black_background1"
     tools:context=".AddFlights">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/airplane_background3a" />
 
     <LinearLayout
         android:layout_width="374dp"
         android:layout_height="708dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.432"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textViewAirName"
@@ -33,18 +25,18 @@
             android:fontFamily="@font/lato_bold"
             android:inputType="none"
             android:text="Airline Name"
-            android:textColor="@color/AirDButtonBlu"
+            android:textColor="@color/white"
             android:textSize="22dp" />
 
         <EditText
             android:id="@+id/airlineName"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
-            android:inputType="text"
-            android:maxLines="1"
             android:background="@drawable/air_txtfill"
             android:ems="10"
-            android:hint=" Delta" />
+            android:hint=" Delta"
+            android:inputType="text"
+            android:maxLines="1" />
 
         <TextView
             android:id="@+id/editTextAirNum"
@@ -55,7 +47,7 @@
             android:fontFamily="@font/lato_bold"
             android:inputType="none"
             android:text="Flight Number"
-            android:textColor="@color/AirDButtonBlu"
+            android:textColor="@color/white"
             android:textSize="22dp" />
 
         <EditText
@@ -63,10 +55,10 @@
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:background="@drawable/air_txtfill"
-            android:maxLines="1"
             android:ems="10"
             android:hint=" 12345"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLines="1" />
 
         <TextView
             android:id="@+id/textViewAirSrc"
@@ -77,7 +69,7 @@
             android:fontFamily="@font/lato_bold"
             android:inputType="none"
             android:text="Source Airport"
-            android:textColor="@color/AirDButtonBlu"
+            android:textColor="@color/white"
             android:textSize="22dp" />
 
         <EditText
@@ -87,10 +79,10 @@
             android:layout_marginTop="2dp"
             android:background="@drawable/air_txtfill"
             android:ems="3"
-            android:maxLines="1"
             android:hint=" PDX"
             android:maxLength="3"
-            android:textSize="20dp"/>
+            android:maxLines="1"
+            android:textSize="20dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -106,7 +98,7 @@
                 android:fontFamily="@font/lato_bold"
                 android:inputType="none"
                 android:text="Date"
-                android:textColor="@color/AirDButtonBlu"
+                android:textColor="@color/white"
                 android:textSize="22dp" />
 
             <TextView
@@ -117,7 +109,7 @@
                 android:fontFamily="@font/lato_bold"
                 android:inputType="none"
                 android:text="Time"
-                android:textColor="@color/AirDButtonBlu"
+                android:textColor="@color/white"
                 android:textSize="22dp" />
         </LinearLayout>
 
@@ -132,12 +124,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/air_txtfill"
-                android:ems="10"
-                android:maxLines="1"
-                android:inputType="none"
-                android:focusableInTouchMode="false"
                 android:editable="false"
-                />
+                android:ems="10"
+                android:hint="Departure date"
+                android:focusableInTouchMode="false"
+                android:inputType="none"
+                android:maxLines="1" />
 
             <EditText
                 android:id="@+id/departTime"
@@ -145,12 +137,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/air_txtfill"
-                android:maxLines="1"
-                android:ems="10"
-                android:hint="hh:mm"
-                android:focusableInTouchMode="false"
                 android:editable="false"
-                android:inputType="none" />
+                android:ems="10"
+                android:focusableInTouchMode="false"
+                android:hint="Departure time"
+                android:inputType="none"
+                android:maxLines="1" />
         </LinearLayout>
 
         <TextView
@@ -162,7 +154,7 @@
             android:fontFamily="@font/lato_bold"
             android:inputType="none"
             android:text="Destination Airport"
-            android:textColor="@color/AirDButtonBlu"
+            android:textColor="@color/white"
             android:textSize="22dp" />
 
         <EditText
@@ -171,9 +163,9 @@
             android:layout_height="48dp"
             android:background="@drawable/air_txtfill"
             android:ems="3"
-            android:maxLines="1"
             android:hint=" LAX"
             android:maxLength="3"
+            android:maxLines="1"
             android:textSize="20dp" />
 
         <LinearLayout
@@ -190,7 +182,7 @@
                 android:fontFamily="@font/lato_bold"
                 android:inputType="none"
                 android:text="Date"
-                android:textColor="@color/AirDButtonBlu"
+                android:textColor="@color/white"
                 android:textSize="22dp" />
 
             <TextView
@@ -201,7 +193,7 @@
                 android:fontFamily="@font/lato_bold"
                 android:inputType="none"
                 android:text="Time"
-                android:textColor="@color/AirDButtonBlu"
+                android:textColor="@color/white"
                 android:textSize="22dp" />
         </LinearLayout>
 
@@ -216,11 +208,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/air_txtfill"
-                android:ems="10"
-                android:maxLines="1"
                 android:editable="false"
+                android:ems="10"
+                android:hint="Arrival Date"
                 android:focusableInTouchMode="false"
-                android:inputType="none" />
+                android:inputType="none"
+                android:maxLines="1" />
 
             <EditText
                 android:id="@+id/arriveTime"
@@ -228,22 +221,22 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/air_txtfill"
-                android:ems="10"
-                android:maxLines="1"
-                android:hint="mm:hh"
-                android:focusableInTouchMode="false"
                 android:editable="false"
-                android:inputType="time" />
+                android:ems="10"
+                android:focusableInTouchMode="false"
+                android:hint="Arrival Date"
+                android:inputType="time"
+                android:maxLines="1" />
         </LinearLayout>
 
         <Button
             android:id="@+id/add_flight_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/air_add_button"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/air_btn1"
             android:text="Add Flight" />
 
     </LinearLayout>

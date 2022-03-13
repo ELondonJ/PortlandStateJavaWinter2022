@@ -21,4 +21,13 @@
     <color name="Lgrey">#BBBEBE</color>
     <color name="B200_trans">@color/B200_trans</color>
     <color name="B100_trans">#4F004C69</color>
+    <color name="teal500_tran">#9008C8B8</color>
+    <color name="grey400_tran">#411E1E1F</color>
+    <color name="grey300_tran">#F05C5C5C</color>
+    <color name="grey200_tran">#955C5C5C</color>
+    <color name="black28">#282829</color>
+    <color name="white001tan">#ADCED5D6</color>
+    <color name="white002tran">#1BF5F3F3</color>
+    <color name="white003tran">#97FDFDFD</color>
+    <color name="white004tran">#41FDFCFC</color>
 </resources>

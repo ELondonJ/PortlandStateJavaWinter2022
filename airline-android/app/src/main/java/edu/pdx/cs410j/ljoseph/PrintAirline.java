@@ -8,11 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class PrintAirline extends AppCompatActivity {
 
     public static final String AIRLINE_MAIN = "AIRLINE_MAIN";
     Airline airline;
-    ArrayAdapter<Flight> flightsList;
+    FlightListAdapter flightsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,10 @@ public class PrintAirline extends AppCompatActivity {
         TextView textView = findViewById(R.id.tv_printFlight_AirHead);
         textView.setText(airline.getName());
 
-        flightsList = new ArrayAdapter<>(this, android.R.layout.simple_selectable_list_item);
-        listView = findViewById(R.id.airlineList);
+        flightsList = new FlightListAdapter(this, android.R.layout.simple_selectable_list_item,
+                (ArrayList<Flight>) airline.getFlights());
+        flightsList.addAll(airline.getFlights());
+        listView = findViewById(R.id.lv_printFlights);
         listView.setAdapter(flightsList);
     }
 }

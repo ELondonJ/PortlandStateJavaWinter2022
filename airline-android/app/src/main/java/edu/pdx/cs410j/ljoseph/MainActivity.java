@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.DragEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -43,17 +44,29 @@ public class MainActivity extends AppCompatActivity {
         try(BufferedReader bf = new BufferedReader(new FileReader(file))){
             TextParser parser = new TextParser(bf);
             ArrayList<Airline> airlines = parser.parseMultiple();
-            airlinesList = new ArrayAdapter<>(this, android.R.layout.simple_selectable_list_item);
-            airlinesList.addAll(airlines);
-            listView = findViewById(R.id.airlineList);
-            listView.setAdapter(airlinesList);
+            this.airlinesList = new ArrayAdapter<>(this, android.R.layout.simple_selectable_list_item);
+            this.airlinesList.addAll(airlines);
         }catch(IOException e){
             String mess = e.getMessage();
 
         }catch (ParserException | IllegalArgumentException e){
             Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
-            airlinesList = new ArrayAdapter<>(this, android.R.layout.simple_selectable_list_item);
+            this.airlinesList = new ArrayAdapter<>(this, android.R.layout.simple_selectable_list_item);
         }
+        listView = findViewById(R.id.airlineList);
+        listView.setAdapter(this.airlinesList);
+        listView.setDividerHeight(10);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+                Airline airline = (Airline)MainActivity.this.airlinesList.getItem(index);
+                Intent intent = new Intent(MainActivity.this,PrintAirline.class);
+                intent.putExtra(AIRLINE_MAIN,airline);
+                startActivity(intent);
+
+            }
+        });
+
 
 
 
@@ -76,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
               if(airlinesList.getItem(i).getName().equalsIgnoreCase(airlineName)){
                   airline = airlinesList.getItem(i);
                   findFlights(airline,src,dest);
-                  return;
               }
           }
           if(airline == null)

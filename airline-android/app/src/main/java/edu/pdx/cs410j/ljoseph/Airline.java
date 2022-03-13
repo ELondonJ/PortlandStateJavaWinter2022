@@ -19,7 +19,7 @@ public class Airline extends AbstractAirline<Flight> {
    * Creates a new airline
    */
   public Airline(String name) {
-    this.name = name;
+    this.name = name.toUpperCase();
     flights = new ArrayList<>();
   }
 
