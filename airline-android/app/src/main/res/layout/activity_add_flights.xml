@@ -37,7 +37,8 @@
             android:hint=" Delta"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/LgreyT" />
 
         <TextView
             android:id="@+id/editTextAirNum"
@@ -60,7 +61,8 @@
             android:hint=" 12345"
             android:inputType="number"
             android:maxLines="1"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/LgreyT" />
 
         <TextView
             android:id="@+id/textViewAirSrc"
@@ -85,7 +87,8 @@
             android:maxLength="3"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="20dp" />
+            android:textColorHint="@color/LgreyT"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -133,7 +136,8 @@
                 android:hint="Departure date"
                 android:inputType="none"
                 android:maxLines="1"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textColorHint="@color/LgreyT" />
 
             <EditText
                 android:id="@+id/departTime"
@@ -146,8 +150,9 @@
                 android:focusableInTouchMode="false"
                 android:hint="Departure time"
                 android:inputType="none"
+                android:maxLines="1"
                 android:textColor="@color/white"
-                android:maxLines="1" />
+                android:textColorHint="@color/LgreyT" />
         </LinearLayout>
 
         <TextView
@@ -171,7 +176,9 @@
             android:hint=" LAX"
             android:maxLength="3"
             android:maxLines="1"
-            android:textSize="20dp" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/LgreyT"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -215,10 +222,12 @@
                 android:background="@drawable/air_txtfill"
                 android:editable="false"
                 android:ems="10"
-                android:hint="Arrival Date"
                 android:focusableInTouchMode="false"
+                android:hint="Arrival Date"
                 android:inputType="none"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/LgreyT" />
 
             <EditText
                 android:id="@+id/arriveTime"
@@ -229,20 +238,27 @@
                 android:editable="false"
                 android:ems="10"
                 android:focusableInTouchMode="false"
-                android:hint="Arrival Date"
+                android:hint="Arrival Time"
                 android:inputType="time"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/LgreyT"
+                android:textSize="18sp" />
         </LinearLayout>
 
-        <Button
+        <TextView
             android:id="@+id/add_flight_btn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/air_add_button"
+            android:layout_height="44dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:text="Add Flight" />
+            android:background="@drawable/air_add_button"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:text="Add Flight"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

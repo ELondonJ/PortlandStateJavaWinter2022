@@ -30,4 +30,6 @@
     <color name="white002tran">#1BF5F3F3</color>
     <color name="white003tran">#97FDFDFD</color>
     <color name="white004tran">#41FDFCFC</color>
+    <color name="grWhite">#DDECEA</color>
+    <color name="LgreyT">#75BBBEBE</color>
 </resources>

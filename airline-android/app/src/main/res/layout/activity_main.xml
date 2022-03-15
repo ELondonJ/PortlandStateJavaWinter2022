@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.579"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.438" />
+        app:layout_constraintVertical_bias="0.377" />
 
     <TextView
         android:id="@+id/textView"
@@ -79,26 +79,26 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:fontFamily="@font/lato_bold"
-        android:paddingStart="6dp"
+        android:paddingStart="4dp"
         android:text="Search Flights . . . "
         android:textColor="@color/Lgrey"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="364dp"
-        android:layout_height="40dp"
+        android:layout_width="385dp"
+        android:layout_height="43dp"
         android:background="@drawable/air_search"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13999999">
+        app:layout_constraintVertical_bias="0.060000002">
 
         <EditText
             android:id="@+id/airlineSearch"
@@ -148,17 +148,5 @@
             android:onClick="launchFindFlights"
             app:srcCompat="@android:drawable/ic_menu_search" />
     </LinearLayout>
-
-    <Spinner
-        android:id="@+id/spinner3"
-        android:layout_width="49dp"
-        android:layout_height="40dp"
-        android:background="@drawable/hamburger_menu"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.103" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

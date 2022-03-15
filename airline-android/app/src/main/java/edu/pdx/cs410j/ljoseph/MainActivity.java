@@ -1,12 +1,17 @@
 package edu.pdx.cs410j.ljoseph;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -25,6 +30,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import edu.pdx.cs410J.AirportNames;
 import edu.pdx.cs410J.ParserException;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +46,22 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<String> menuAd;
     private ImageView searchBtn;
     private LinearLayout addButton;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.help_icon){
+            printReadme();
+            return true;
+        }
+        else
+            return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,40 +98,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*
-        spinner = (Spinner)findViewById(R.id.spinner3);
-        menuAd = new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item,
-                getResources().getStringArray(R.array.menu));
-        menuAd.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        spinner.setAdapter(this.menuAd);*/
-        Spinner spinner = (Spinner) findViewById(R.id.spinner3);
-// Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.menu, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String temp = (String) spinner.getItemAtPosition(i);
-                if(temp.equalsIgnoreCase("readme"))
-                    printReadme(view);
-                spinner.setSelection(0);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-
     }
 
 
-    public void printReadme(View view) {
+    public void printReadme() {
         Intent intent = new Intent(MainActivity.this,PrintReadme.class);
         startActivity(intent);
     }
@@ -120,15 +112,32 @@ public class MainActivity extends AppCompatActivity {
         String src = ((EditText)findViewById(R.id.srcSearch)).getText().toString();
         String dest = ((EditText)findViewById(R.id.destSearch)).getText().toString();
         if(src != null && dest != null && airlineName != null && !src.equals("")
-                && dest != "" && airlineName != ""){
-          for(int i = 0; i < airlinesList.getCount() && airline == null; i++){
-              if(airlinesList.getItem(i).getName().equalsIgnoreCase(airlineName)){
-                  airline = airlinesList.getItem(i);
-                  findFlights(airline,src,dest);
-              }
-          }
-          if(airline == null)
-            Toast.makeText(this, "No airline named " + airlineName,Toast.LENGTH_LONG).show();
+                && dest != "" && airlineName != "") {
+            String srcCheck = AirportNames.getName(src.toUpperCase());
+            String destCheck = AirportNames.getName(dest.toUpperCase());
+            if (srcCheck == null) {
+                Toast toast = Toast.makeText(this, src + " is not a valid airport",
+                        Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.TOP,0,350);
+                toast.show();
+            } else if (destCheck == null) {
+                Toast.makeText(this, dest + " is not a valid airport", Toast.LENGTH_LONG).show();
+            } else {
+                for (int i = 0; i < airlinesList.getCount() && airline == null; i++) {
+                    if (airlinesList.getItem(i).getName().equalsIgnoreCase(airlineName)) {
+                        airline = airlinesList.getItem(i);
+                        findFlights(airline, src, dest);
+                        EditText edScr = findViewById(R.id.srcSearch);
+                        edScr.setText("");
+                        EditText edDest = findViewById(R.id.destSearch);
+                        edDest.setText("");
+                        EditText edAir = findViewById(R.id.airlineSearch);
+                        edAir.setText("");
+                    }
+                }
+                if (airline == null)
+                    Toast.makeText(this, "No airline named " + airlineName, Toast.LENGTH_LONG).show();
+            }
         }
         else
             Toast.makeText(this, "All search fields are required",Toast.LENGTH_LONG).show();
@@ -144,16 +153,16 @@ public class MainActivity extends AppCompatActivity {
                 temp.addFlight(flight);
             }
         }
-        if(temp.getFlightCount() != 0){
+      //  if(temp.getFlightCount() != 0){
             Intent intent = new Intent(MainActivity.this,PrintAirline.class);
             intent.putExtra(AIRLINE_MAIN,temp);
             intent.putExtra(SOURCE,src);
             intent.putExtra(DEST,dest);
             startActivity(intent);
-        }
-        else
-            Toast.makeText(this, "No direct flights from " + src + " to " + dest,
-                    Toast.LENGTH_LONG).show();
+       // }
+       // else
+       //     Toast.makeText(this, "No direct flights from " + src + " to " + dest,
+      //              Toast.LENGTH_LONG).show();
     }
 
     public void launchAddFlights(View view) {

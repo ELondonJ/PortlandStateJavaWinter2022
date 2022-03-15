@@ -6,15 +6,13 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,7 +28,7 @@ public class AddFlights extends AppCompatActivity{
     private EditText arriveDateBtn;
     private EditText departTimeBtn;
     private EditText arriveTimeBtn;
-    private Button addFlight;
+    private TextView addFlight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,14 +142,22 @@ public class AddFlights extends AppCompatActivity{
         String  arriveDate = ((EditText)findViewById(R.id.arriveDate)).getText().toString();
         String  arriveTime = ((EditText)findViewById(R.id.arriveTime)).getText().toString();
         String[] arriveSplit = arriveTime.split(" ");
-        try {
-            airline = new Airline(airlineName);
-            flight = new Flight(flightNumber,src,departDate,departSplit[0],departSplit[1],dest,
-                    arriveDate,arriveSplit[0], arriveSplit[1]);
-            airline.addFlight(flight);
-            Toast.makeText(this, airline.toString(),Toast.LENGTH_LONG).show();
-        }catch(IllegalArgumentException e){
-          Toast.makeText(this, e.getMessage(),Toast.LENGTH_LONG).show();
+        if(src.equals("") || departDate.equals("") || departTime.equals("") || dest.equals("")
+                || arriveDate.equals("") || arriveTime.equals("") || airlineName.equals("") ||
+                flightNumber == -1){
+
+            Toast.makeText(this, "All fields are required",Toast.LENGTH_LONG).show();
+        }
+        else {
+            try {
+                airline = new Airline(airlineName);
+                flight = new Flight(flightNumber, src, departDate, departSplit[0], departSplit[1], dest,
+                        arriveDate, arriveSplit[0], arriveSplit[1]);
+                airline.addFlight(flight);
+                Toast.makeText(this, airline.toString(), Toast.LENGTH_LONG).show();
+            } catch (IllegalArgumentException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
 
 

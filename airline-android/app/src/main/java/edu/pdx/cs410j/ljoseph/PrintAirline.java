@@ -29,6 +29,7 @@ public class PrintAirline extends AppCompatActivity {
         setContentView(R.layout.activity_print_airline);
         Intent intent = getIntent();
         ListView listView;
+        Boolean flights = true;
 
         if(intent.hasExtra(AIRLINE_MAIN) && intent.hasExtra(SOURCE)
                 && intent.hasExtra(DEST)){
@@ -48,13 +49,19 @@ public class PrintAirline extends AppCompatActivity {
         }
         else
             return;
-        TextView textView = findViewById(R.id.tv_printFlight_AirHead);
-        textView.setText(airline.getName());
+            TextView textView = findViewById(R.id.tv_printFlight_AirHead);
+            textView.setText(airline.getName());
 
-        flightsList = new FlightListAdapter(this, android.R.layout.simple_selectable_list_item,
-                (ArrayList<Flight>) airline.getFlights());
-        flightsList.addAll(airline.getFlights());
-        listView = findViewById(R.id.lv_printFlights);
-        listView.setAdapter(flightsList);
+        if(airline.getFlightCount() == 0){
+            TextView noFlights = findViewById(R.id.tv_noFlights);
+            noFlights.setVisibility(View.VISIBLE);
+        }
+        else {
+            flightsList = new FlightListAdapter(this, android.R.layout.simple_selectable_list_item,
+                    (ArrayList<Flight>) airline.getFlights());
+            flightsList.addAll(airline.getFlights());
+            listView = findViewById(R.id.lv_printFlights);
+            listView.setAdapter(flightsList);
+        }
     }
 }
