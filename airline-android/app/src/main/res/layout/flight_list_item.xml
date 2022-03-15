@@ -23,7 +23,7 @@
                     android:layout_height="44dp"
                     android:fontFamily="@font/lato_bold"
                     android:gravity="center"
-                    android:text="Flight#"
+                    android:text="@string/flight_num"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
             </TableRow>
@@ -61,8 +61,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="2sp"
                     android:paddingStart="4dp"
-                    android:paddingRight="2dp"
-                    android:text="Src"
+                    android:paddingEnd="2dp"
+                    android:text="@string/src"
                     android:textColor="@color/Lgrey"
                     android:textSize="10sp" />
 
@@ -71,7 +71,7 @@
                     android:layout_width="89dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="2dp"
-                    android:text="City"
+                    android:text="@string/city"
                     android:textColor="@color/Lgrey"
                     android:textSize="10sp" />
 
@@ -79,7 +79,7 @@
                     android:id="@+id/textView40"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="Date"
+                    android:text="@string/date"
                     android:textColor="@color/Lgrey"
                     android:textSize="10sp" />
 
@@ -88,7 +88,7 @@
                     android:layout_width="71dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="2dp"
-                    android:text="Time"
+                    android:text="@string/time"
                     android:textColor="@color/Lgrey"
                     android:textSize="10sp" />
 
@@ -145,7 +145,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="2sp"
                     android:paddingStart="4dp"
-                    android:text="Dest"
+                    android:text="@string/dest"
                     android:textColor="@color/Lgrey"
                     android:textSize="10sp" />
 
@@ -154,7 +154,7 @@
                     android:layout_width="89dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="2dp"
-                    android:text="City"
+                    android:text="@string/city"
                     android:textColor="@color/Lgrey"
                     android:textSize="10sp" />
 
@@ -162,7 +162,7 @@
                     android:id="@+id/textView50"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:text="Date"
+                    android:text="@string/date"
                     android:textColor="@color/Lgrey"
                     android:textSize="10sp" />
 
@@ -171,7 +171,7 @@
                     android:layout_width="77dp"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="2dp"
-                    android:text="Time"
+                    android:text="@string/time"
                     android:textColor="@color/Lgrey"
                     android:textSize="10sp" />
 

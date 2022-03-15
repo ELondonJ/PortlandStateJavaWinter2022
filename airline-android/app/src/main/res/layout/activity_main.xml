@@ -5,58 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/black_background1"
+    android:windowSoftInputMode="adjustResize"
     tools:context=".MainActivity">
 
 
     <ListView
         android:id="@+id/airlineList"
-        android:layout_width="336dp"
-        android:layout_height="186dp"
-        android:background="@drawable/airlist_background"
+        android:layout_width="342dp"
+        android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.579"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.473" />
-
-    <LinearLayout
-        android:layout_width="148dp"
-        android:layout_height="65dp"
-        android:background="@drawable/air_add_button"
-        android:onClick="launchAddFlights"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.882"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/airlineList"
-        app:layout_constraintVertical_bias="0.721">
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="67dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_add" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="122dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="19dp"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/lato_bold"
-            android:text="Add Flight"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.438" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
+        android:paddingStart="4dp"
         android:text="Airlines"
         android:textColor="@color/white"
         android:textSize="30sp"
@@ -65,59 +34,131 @@
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.96" />
 
     <LinearLayout
-        android:layout_width="387dp"
-        android:layout_height="45dp"
+        android:id="@+id/linearLayout3"
+        android:layout_width="121dp"
+        android:layout_height="59dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/air_add_button"
+        android:isScrollContainer="false"
+        android:onClick="launchAddFlights"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/airlineList"
+        app:layout_constraintVertical_bias="0.8">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_add" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center_vertical"
+            android:paddingEnd="4dp"
+            android:text="Add Flight"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="@font/lato_bold"
+        android:paddingStart="6dp"
+        android:text="Search Flights . . . "
+        android:textColor="@color/Lgrey"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="364dp"
+        android:layout_height="40dp"
         android:background="@drawable/air_search"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/airlineList"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.42000002">
+        app:layout_constraintVertical_bias="0.13999999">
 
         <EditText
             android:id="@+id/airlineSearch"
             android:layout_width="121dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="4dp"
-            android:background="@null"
-            android:maxLines="1"
             android:layout_weight="1"
+            android:background="@null"
+            android:fontFamily="@font/lato_bold"
+            android:hint="Airline"
             android:inputType="text"
-            android:hint="Airline" />
+            android:maxLines="1"
+            android:textColorHint="@color/Lgrey" />
 
         <EditText
             android:id="@+id/srcSearch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="4dp"
-            android:background="@null"
-            android:maxLines="1"
-            android:maxLength="3"
             android:layout_weight="1"
-            android:hint="Source" />
+            android:background="@null"
+            android:fontFamily="@font/lato_bold"
+            android:hint="Source"
+            android:maxLength="3"
+            android:maxLines="1"
+            android:textColorHint="@color/Lgrey" />
 
         <EditText
             android:id="@+id/destSearch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="4dp"
-            android:background="@null"
-            android:maxLines="1"
-            android:maxLength="3"
             android:layout_weight="1"
-            android:hint="Destination" />
+            android:background="@null"
+            android:fontFamily="@font/lato_bold"
+            android:hint="Destination"
+            android:maxLength="3"
+            android:maxLines="1"
+            android:textColorHint="@color/Lgrey" />
 
         <ImageView
             android:id="@+id/iv_search"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:foregroundTint="@color/Lgrey"
             android:onClick="launchFindFlights"
             app:srcCompat="@android:drawable/ic_menu_search" />
     </LinearLayout>
+
+    <Spinner
+        android:id="@+id/spinner3"
+        android:layout_width="49dp"
+        android:layout_height="40dp"
+        android:background="@drawable/hamburger_menu"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.103" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

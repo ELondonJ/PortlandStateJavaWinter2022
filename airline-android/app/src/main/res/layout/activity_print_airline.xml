@@ -19,10 +19,11 @@
         app:layout_constraintVertical_bias="0.565" />
 
     <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
-        android:text="Flights"
+        android:text="@string/flights"
         android:textColor="@color/white"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/lv_printFlights"
@@ -45,4 +46,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.263" />
+
+    <LinearLayout
+        android:id="@+id/lo_src_dest"
+        android:layout_width="278dp"
+        android:layout_height="41dp"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/lv_printFlights"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/tv_printFlight_AirHead"
+        app:layout_constraintVertical_bias="0.75">
+
+        <TextView
+            android:id="@+id/lo_src"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:text="text"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="22dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/white_arrow1" />
+
+        <TextView
+            android:id="@+id/lo_dest"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:text="text"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

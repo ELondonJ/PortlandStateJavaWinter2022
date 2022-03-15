@@ -1,23 +1,21 @@
 package edu.pdx.cs410j.ljoseph;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -33,26 +31,39 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int ADD_FLIGHT_CODE = 88;
     public static final String AIRLINE_MAIN = "AIRLINE_MAIN";
-    private ArrayAdapter<Airline> airlinesList;
+    public static final String AIRLINES_FILE_TXT = "AirlinesFile.txt";
+    public static final String SOURCE = "source";
+    public static final String DEST = "destination";
+    private AirlineListAdapter airlinesList;
     private ListView listView;
+    private Spinner spinner;
+    ArrayAdapter<String> menuAd;
+    private ImageView searchBtn;
+    private LinearLayout addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        File file = new File(getFilesDir(), "AirlinesFile.txt");
-        try(BufferedReader bf = new BufferedReader(new FileReader(file))){
-            TextParser parser = new TextParser(bf);
-            ArrayList<Airline> airlines = parser.parseMultiple();
-            this.airlinesList = new ArrayAdapter<>(this, android.R.layout.simple_selectable_list_item);
-            this.airlinesList.addAll(airlines);
-        }catch(IOException e){
-            String mess = e.getMessage();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        File file = new File(getFilesDir(), AIRLINES_FILE_TXT);
+        if(file.exists()) {
+            try (BufferedReader bf = new BufferedReader(new FileReader(file))) {
+                TextParser parser = new TextParser(bf);
+                ArrayList<Airline> airlines = parser.parseMultiple();
+                this.airlinesList = new AirlineListAdapter(this, android.R.layout.simple_selectable_list_item, airlines);
+            } catch (IOException e) {
+                String mess = e.getMessage();
 
-        }catch (ParserException | IllegalArgumentException e){
-            Toast.makeText(this,e.getMessage(),Toast.LENGTH_LONG).show();
-            this.airlinesList = new ArrayAdapter<>(this, android.R.layout.simple_selectable_list_item);
+            } catch (ParserException | IllegalArgumentException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+                this.airlinesList = new AirlineListAdapter(this, android.R.layout.simple_selectable_list_item,
+                        new ArrayList<Airline>());
+            }
         }
+        else
+            this.airlinesList = new AirlineListAdapter(this, android.R.layout.simple_selectable_list_item,
+                    new ArrayList<Airline>());
         listView = findViewById(R.id.airlineList);
         listView.setAdapter(this.airlinesList);
         listView.setDividerHeight(10);
@@ -63,18 +74,43 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,PrintAirline.class);
                 intent.putExtra(AIRLINE_MAIN,airline);
                 startActivity(intent);
+            }
+        });
+        /*
+        spinner = (Spinner)findViewById(R.id.spinner3);
+        menuAd = new ArrayAdapter<String>(this, android.R.layout.simple_selectable_list_item,
+                getResources().getStringArray(R.array.menu));
+        menuAd.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner.setAdapter(this.menuAd);*/
+        Spinner spinner = (Spinner) findViewById(R.id.spinner3);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.menu, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String temp = (String) spinner.getItemAtPosition(i);
+                if(temp.equalsIgnoreCase("readme"))
+                    printReadme(view);
+                spinner.setSelection(0);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
 
 
-
-
     }
 
 
-    public void launchViewAirline(View view) {
-        Intent intent = new Intent(MainActivity.this,FindAirline.class);
+    public void printReadme(View view) {
+        Intent intent = new Intent(MainActivity.this,PrintReadme.class);
         startActivity(intent);
     }
 
@@ -111,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
         if(temp.getFlightCount() != 0){
             Intent intent = new Intent(MainActivity.this,PrintAirline.class);
             intent.putExtra(AIRLINE_MAIN,temp);
+            intent.putExtra(SOURCE,src);
+            intent.putExtra(DEST,dest);
             startActivity(intent);
         }
         else
@@ -137,13 +175,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void addAirlineToList(Airline airline) {
         boolean found = false;
-        for(int i = 0; i < airlinesList.getCount(); i++){
+        for(int i = 0; i < airlinesList.getCount() && !found; i++){
             Airline air = airlinesList.getItem(i);
             if(air.getName().equals(airline.getName())){
                 Collection<Flight> flight = airline.getFlights();
                 air.addFlight(flight.iterator().next());
+                airlinesList.notifyDataSetChanged();
                 found = true;
-                break;
             }
         }
         if(!found)
@@ -152,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void writeAirlinesToDisk(){
-        File file = new File(this.getFilesDir(),"AirlinesFile.txt");
+        File file = new File(this.getFilesDir(),AIRLINES_FILE_TXT);
         try(PrintWriter pw = new PrintWriter(new FileWriter(file))){
             TextDumper dumper = new TextDumper(pw);
             for(int i = 0; i < airlinesList.getCount(); i++){

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <View
+        android:id="@+id/textView2"
+        android:layout_width="141dp"
+        android:layout_height="47dp"
+        android:background="@drawable/airlist_background"
+        android:text="TextView" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="336dp"
+        android:layout_height="81dp"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/textView2"
+        android:background="@drawable/flight_item_bkgrnd" />
+
+    <TextView
+        android:id="@+id/list_item_airline"
+        android:layout_width="124dp"
+        android:layout_height="41dp"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="9dp"
+        android:fontFamily="@font/lato_bold"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/view2"
+        android:layout_marginStart="26dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@+id/textView2"
+        android:fontFamily="@font/lato_bold"
+        android:text="Flights:"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/list_item_flightNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView8"
+        android:layout_marginStart="3dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/textView8"
+        android:fontFamily="@font/lato_bold"
+        android:text="TextView"
+        android:textColor="@color/white" />
+
+</RelativeLayout>
