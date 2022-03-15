@@ -1,8 +1,10 @@
 package edu.pdx.cs410j.ljoseph;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,11 +18,23 @@ import java.io.InputStreamReader;
 public class PrintReadme extends AppCompatActivity {
 
     TextView readme;
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        else
+            return super.onOptionsItemSelected(item);
 
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print_readme);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         readme = findViewById(R.id.readme_tv);
 
         readme.setText("CS410J Project 5: Airline\n" +

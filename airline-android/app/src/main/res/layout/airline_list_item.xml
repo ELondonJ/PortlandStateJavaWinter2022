@@ -45,8 +45,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/view2"
-        android:layout_marginStart="26dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginBottom="6dp"
         android:layout_toEndOf="@+id/textView2"
         android:fontFamily="@font/lato_bold"
         android:text="Flights:"
@@ -62,7 +62,9 @@
         android:layout_marginBottom="0dp"
         android:layout_toEndOf="@+id/textView8"
         android:fontFamily="@font/lato_bold"
+        android:paddingStart="4dp"
         android:text="TextView"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 
 </RelativeLayout>

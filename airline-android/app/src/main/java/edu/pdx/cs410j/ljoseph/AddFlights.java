@@ -1,11 +1,10 @@
 package edu.pdx.cs410j.ljoseph;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -13,14 +12,17 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
 
 public class AddFlights extends AppCompatActivity{
 
-    private static final String FLIGHT = "FLIGHT";
     public static final String AIRLINE = "AIRLINE";
     private Flight flight;
     private Airline airline;
@@ -28,12 +30,24 @@ public class AddFlights extends AppCompatActivity{
     private EditText arriveDateBtn;
     private EditText departTimeBtn;
     private EditText arriveTimeBtn;
-    private TextView addFlight;
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        else
+            return super.onOptionsItemSelected(item);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_flights);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         departDateBtn = findViewById(R.id.departDate);
         arriveDateBtn = findViewById(R.id.arriveDate);
@@ -66,7 +80,7 @@ public class AddFlights extends AppCompatActivity{
         });
 
 
-        addFlight = findViewById(R.id.add_flight_btn);
+        TextView addFlight = findViewById(R.id.add_flight_btn);
         addFlight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
