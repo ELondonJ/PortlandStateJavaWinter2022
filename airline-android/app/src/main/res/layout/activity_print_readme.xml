@@ -21,7 +21,7 @@
             android:id="@+id/readme_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fontFamily="@font/lato_bold"
+            android:fontFamily="sans-serif"
             android:text="TextView"
             android:textColor="@color/Lgrey" />
     </ScrollView>

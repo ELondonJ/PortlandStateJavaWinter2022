@@ -37,6 +37,17 @@ public class AirlineListAdapter extends ArrayAdapter<Airline> {
        // airlines.add(object);
     }
 
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        Collections.sort(airlines, new Comparator<Airline>() {
+            @Override
+            public int compare(Airline airline, Airline t1) {
+                return airline.getName().compareTo(t1.getName());
+            }
+        });
+    }
+
     @NonNull
     @Override
     public View getView(int i, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -53,12 +64,6 @@ public class AirlineListAdapter extends ArrayAdapter<Airline> {
         if(airline.getName().length() > 10){
             airlineName.setTextSize(TypedValue.COMPLEX_UNIT_SP,14);
         }
-        Collections.sort(airlines, new Comparator<Airline>() {
-            @Override
-            public int compare(Airline airline, Airline t1) {
-                return airline.getName().compareTo(t1.getName());
-            }
-        });
 
 
 

@@ -41,8 +41,8 @@ public class FlightListAdapter extends ArrayAdapter<Flight> {
         TextView atime = convertView.findViewById(R.id.flyitem_dest_time);
         TextView dCity = convertView.findViewById(R.id.flyitem_src_city);
         TextView aCity = convertView.findViewById(R.id.flyitem_dest_city);
-        String[] ddateSplit = flightList.get(i).getDepartureString().split(" ");
-        String[] adateSplit = flightList.get(i).getArrivalString().split(" ");
+        String[] ddateSplit = flightList.get(i).getDepartureStringPretty().split(" ");
+        String[] adateSplit = flightList.get(i).getArrivalStringPretty().split(" ");
         String srcCity = AirportNames.getName(flight.getSource().toUpperCase());
         String destCity = AirportNames.getName(flight.getDestination().toUpperCase());
         if(srcCity.length() > 9){

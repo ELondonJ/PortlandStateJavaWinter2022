@@ -59,6 +59,7 @@
             android:layout_height="48dp"
             android:background="@drawable/air_txtfill"
             android:ems="10"
+            android:maxLength="6"
             android:hint="@string/flight_num_hint"
             android:inputType="number"
             android:maxLines="1"
